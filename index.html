@@ -75,51 +75,51 @@ tr:hover td { background: #fafbfc; }
 <div class="header">
   <div class="header-left">
     <h1>📊 抖音投流 BI 看板<span class="brand-tag">澳诺</span></h1>
-    <div class="subtitle">999澳诺钙锌口服液 10ml×30支 · 千川投放分析 · 06-22 ~ 07-16</div>
+    <div class="subtitle">999澳诺钙锌口服液 10ml×30支 · 千川投放分析 · 06-22 ~ 07-19</div>
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-07-17 13:32</span>
+    <span class="update-time">● 已更新 2026-07-20 12:23</span>
   </div>
 </div>
 
 <div class="container">
 
 <div class="alert-banner">
-<div class="alert-item alert-danger"><span class="alert-icon">⚠️</span><div><strong>净ROI下滑预警</strong><br>07/16 净ROI 降至 <b>1.56</b>（前日 1.67），环比下滑 0.11。建议收紧投放。</div></div>
+<div class="alert-item alert-info"><span class="alert-icon">💡</span><div><strong>数据正常</strong><br>当前各指标未触发预警阈值。</div></div>
 
 </div>
 
 <div class="kpi-row">
   <div class="kpi-card card-spend">
     <div class="kpi-label">📌 期间总花费</div>
-    <div class="kpi-value">¥251,414</div>
-    <div class="kpi-sub">近3日 ¥68,111（27.1%）</div>
-    <div class="kpi-change up">07/16 环比 +0.4%</div>
+    <div class="kpi-value">¥341,345</div>
+    <div class="kpi-sub">近3日 ¥89,930（26.3%）</div>
+    <div class="kpi-change up">07/19 环比 +5.5%</div>
   </div>
   <div class="kpi-card card-gmv">
     <div class="kpi-label">📌 期间总GMV（净）</div>
-    <div class="kpi-value">¥366,561</div>
-    <div class="kpi-sub">总GMV ¥397,627 · 净率 92.2%</div>
-    <div class="kpi-change up">07/16 净GMV ¥30,386</div>
+    <div class="kpi-value">¥513,783</div>
+    <div class="kpi-sub">总GMV ¥556,474 · 净率 92.3%</div>
+    <div class="kpi-change up">07/19 净GMV ¥56,285</div>
   </div>
   <div class="kpi-card card-roi">
     <div class="kpi-label">📌 整体净ROI</div>
-    <div class="kpi-value">1.46</div>
-    <div class="kpi-sub">总ROI 1.58 · 近3日均 1.60</div>
-    <div class="kpi-change down">07/16 ↓ -0.11</div>
+    <div class="kpi-value">1.51</div>
+    <div class="kpi-sub">总ROI 1.63 · 近3日均 1.64</div>
+    <div class="kpi-change up">07/19 +0.18</div>
   </div>
   <div class="kpi-card card-cost">
     <div class="kpi-label">📌 转化成本</div>
-    <div class="kpi-value">¥59.33</div>
-    <div class="kpi-sub">07/16 当日 · 前日 ¥55.08</div>
-    <div class="kpi-change down">上升 7.7%</div>
+    <div class="kpi-value">¥57.54</div>
+    <div class="kpi-sub">07/19 当日 · 前日 ¥62.90</div>
+    <div class="kpi-change up">降低 8.5%</div>
   </div>
   <div class="kpi-card card-order">
     <div class="kpi-label">📌 净成交订单</div>
-    <div class="kpi-value">3739</div>
-    <div class="kpi-sub">07/16 当日 · 客单价 ¥100.13</div>
-    <div class="kpi-change down">环比 -5.7%</div>
+    <div class="kpi-value">5110</div>
+    <div class="kpi-sub">07/19 当日 · 客单价 ¥107.11</div>
+    <div class="kpi-change up">环比 +15.1%</div>
   </div>
 </div>
 
@@ -420,6 +420,42 @@ const rawData = [
     "netGmv": 30386.0,
     "netRoi": 1.56,
     "asp": 100.13
+  },
+  {
+    "date": "2026-07-17",
+    "spend": 26600.58,
+    "conv": 436,
+    "convCost": 61.01,
+    "gmv": 46513.0,
+    "orders": 436,
+    "totalRoi": 1.75,
+    "netGmv": 43302.0,
+    "netRoi": 1.63,
+    "asp": 106.68
+  },
+  {
+    "date": "2026-07-18",
+    "spend": 30819.69,
+    "conv": 490,
+    "convCost": 62.9,
+    "gmv": 51819.0,
+    "orders": 490,
+    "totalRoi": 1.68,
+    "netGmv": 47635.0,
+    "netRoi": 1.55,
+    "asp": 105.75
+  },
+  {
+    "date": "2026-07-19",
+    "spend": 32510.14,
+    "conv": 565,
+    "convCost": 57.54,
+    "gmv": 60515.0,
+    "orders": 565,
+    "totalRoi": 1.86,
+    "netGmv": 56285.0,
+    "netRoi": 1.73,
+    "asp": 107.11
   }
 ];
 const activeStart = 4;
