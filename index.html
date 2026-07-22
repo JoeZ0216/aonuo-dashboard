@@ -79,7 +79,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-07-22 12:18</span>
+    <span class="update-time">● 已更新 2026-07-22 12:23</span>
   </div>
 </div>
 
@@ -505,8 +505,8 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   var c = echarts.init(document.getElementById('chart-spend-gmv'));
   c.setOption({
     tooltip: { trigger: 'axis' },
-    legend: { data: ['总花费','总GMV','净GMV'], bottom: 0, textStyle: {fontSize:11} },
-    grid: { left: 60, right: 60, top: 20, bottom: 30 },
+    legend: { data: ['总花费','总GMV','净GMV'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 60, right: 60, top: 40, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
     yAxis: [{ type: 'value', name: '金额(¥)', axisLabel: {formatter: v => v>=1000 ? (v/1000).toFixed(0)+'k' : v } }],
     series: [
@@ -534,8 +534,8 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   }
   c.setOption({
     tooltip: { trigger: 'axis', formatter: function(params) { var d = rawData[params[0].dataIndex]; return d.date + '<br/>总ROI: ' + d.totalRoi.toFixed(2) + '<br/>净ROI: ' + d.netRoi.toFixed(2); } },
-    legend: { data: ['总ROI','净ROI','盈亏线(1.0)'], bottom: 0, textStyle: {fontSize:11} },
-    grid: { left: 50, right: 30, top: 20, bottom: 30 },
+    legend: { data: ['总ROI','净ROI','盈亏线(1.0)'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 30, top: 40, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
     yAxis: { type: 'value', name: 'ROI', min: 0, max: 5 },
     series: [
@@ -554,8 +554,8 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   var convCostVis = convCost.map(v => v === null ? null : v);
   c.setOption({
     tooltip: { trigger: 'axis' },
-    legend: { data: ['转化成本','成交订单数'], bottom: 0, textStyle: {fontSize:11} },
-    grid: { left: 50, right: 50, top: 20, bottom: 30 },
+    legend: { data: ['转化成本','成交订单数'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 50, top: 40, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
     yAxis: [
       { type: 'value', name: '成本(¥)', axisLabel: {formatter: '¥{value}'} },
@@ -572,8 +572,8 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   var c = echarts.init(document.getElementById('chart-cumulative'));
   c.setOption({
     tooltip: { trigger: 'axis' },
-    legend: { data: ['累计花费','累计净GMV'], bottom: 0, textStyle: {fontSize:11} },
-    grid: { left: 60, right: 30, top: 20, bottom: 30 },
+    legend: { data: ['累计花费','累计净GMV'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 60, right: 30, top: 40, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
     yAxis: { type: 'value', name: '金额(¥)', axisLabel: {formatter: v => (v/1000).toFixed(0)+'k'} },
     series: [
