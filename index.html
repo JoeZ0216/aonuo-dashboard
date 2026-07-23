@@ -79,7 +79,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-07-23 11:55</span>
+    <span class="update-time">● 已更新 2026-07-23 13:45</span>
   </div>
 </div>
 
@@ -132,6 +132,28 @@ tr:hover td { background: #fafbfc; }
   <div class="chart-panel"><div class="panel-title">🎯 转化成本 & 成交订单趋势</div><div id="chart-cost-order" style="height:300px;"></div></div>
   <div class="chart-panel"><div class="panel-title">📊 累计花费 vs 累计净GMV 增长曲线</div><div id="chart-cumulative" style="height:300px;"></div></div>
 </div>
+
+<div class="charts-row">
+  <div class="chart-panel"><div class="panel-title">🗓️ 7月旬周期 ROI 变化趋势（每10天）</div><div id="chart-period" style="height:300px;"></div></div>
+  <div class="chart-panel">
+    <div class="panel-title">📅 7月旬周期 ROI 对比明细</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr>
+        <th style="text-align:left;">周期</th><th>日期区间</th><th>投放天数</th>
+        <th>花费(¥)</th><th>净GMV(¥)</th><th>总ROI</th><th>净ROI</th><th>净ROI环比</th>
+      </tr></thead>
+      <tbody>
+<tr><td style="text-align:left;font-weight:600;">7月上旬</td><td>07-01~07-10</td><td>8</td><td>¥122,000</td><td>¥164,474</td><td class="roi-warn">1.47</td><td class="roi-warn">1.35</td><td><span style="color:#aaa;">基准</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">7月中旬</td><td>07-11~07-20</td><td>10</td><td>¥244,531</td><td>¥388,780</td><td class="roi-good">1.72</td><td class="roi-good">1.59</td><td><span style="color:#CF3A36;font-weight:700;">▲ +18.0%</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">7月下旬</td><td>07-21~07-31</td><td>2</td><td>¥67,237</td><td>¥109,168</td><td class="roi-good">1.75</td><td class="roi-good">1.62</td><td><span style="color:#CF3A36;font-weight:700;">▲ +2.1%</span></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
+      说明：周期ROI = 周期净GMV / 周期花费（花费加权）；环比涨跌幅 = 本旬净ROI 较上一旬变化百分比。涨红跌绿。
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -496,6 +518,7 @@ const rawData = [
 ];
 const activeStart = 4;
 const accounts = [];
+const periodData = [{"label": "7月上旬", "range": "07-01~07-10", "days": 8, "spend": 122000.21, "netGmv": 164474.0, "gmv": 179574.0, "orders": 1742, "netRoi": 1.348, "totalRoi": 1.472, "avgNetRoi": 1.35, "netRoiChg": null, "totalRoiChg": null}, {"label": "7月中旬", "range": "07-11~07-20", "days": 10, "spend": 244530.92, "netGmv": 388780.14, "gmv": 420031.0, "orders": 3738, "netRoi": 1.59, "totalRoi": 1.718, "avgNetRoi": 1.576, "netRoiChg": 18.0, "totalRoiChg": 16.7}, {"label": "7月下旬", "range": "07-21~07-31", "days": 2, "spend": 67236.79, "netGmv": 109168.0, "gmv": 117920.0, "orders": 1021, "netRoi": 1.624, "totalRoi": 1.754, "avgNetRoi": 1.63, "netRoiChg": 2.1, "totalRoiChg": 2.1}];
 
 
 const dates = rawData.map(d => d.date.slice(5));
@@ -596,6 +619,54 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 (function(){
+  var dom = document.getElementById('chart-period');
+  if (!dom || typeof periodData === 'undefined') return;
+  var pd = periodData.filter(function(p){ return p.days > 0; });
+  if (pd.length === 0) return;
+  var labels = pd.map(function(p){ return p.label; });
+  var netRoiArr = pd.map(function(p){ return p.netRoi; });
+  var totalRoiArr = pd.map(function(p){ return p.totalRoi; });
+  // 环比标签（涨红跌绿）
+  var chgLabels = pd.map(function(p){
+    if (p.netRoiChg === null || p.netRoiChg === undefined) return { value: '基准', color: GRAY };
+    var up = p.netRoiChg >= 0;
+    return { value: (up ? '▲ +' : '▼ ') + p.netRoiChg.toFixed(1) + '%', color: up ? RED : GREEN };
+  });
+  var c = echarts.init(dom);
+  c.setOption({
+    tooltip: { trigger: 'axis', formatter: function(params){
+      var i = params[0].dataIndex; var p = pd[i];
+      var chg = (p.netRoiChg === null || p.netRoiChg === undefined) ? '基准' : (p.netRoiChg >= 0 ? '+' : '') + p.netRoiChg.toFixed(1) + '%';
+      return p.label + ' (' + p.range + ')<br/>投放 ' + p.days + ' 天<br/>花费 ¥' + p.spend.toLocaleString() +
+             '<br/>净GMV ¥' + p.netGmv.toLocaleString() + '<br/>总ROI ' + p.totalRoi.toFixed(2) +
+             '<br/>净ROI ' + p.netRoi.toFixed(2) + '<br/>净ROI环比 ' + chg;
+    } },
+    legend: { data: ['净ROI','总ROI'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 30, top: 40, bottom: 30 },
+    xAxis: { type: 'category', data: labels, axisLabel: {fontSize:12} },
+    yAxis: { type: 'value', name: 'ROI', min: 0 },
+    series: [
+      { name: '净ROI', type: 'bar', data: netRoiArr, barWidth: '38%',
+         itemStyle: { color: BLUE, borderRadius: [4,4,0,0] },
+         label: { show: true, position: 'top', fontSize: 12, fontWeight: 'bold',
+           formatter: function(pm){ return netRoiArr[pm.dataIndex].toFixed(2); } },
+         markLine: { silent: true, symbol: 'none', lineStyle: { color: GREEN, type: 'dashed', width: 1 },
+           data: [{ yAxis: 1.0, label: { formatter: 'ROI=1.0', fontSize: 10, color: GREEN } }] }
+      },
+      { name: '总ROI', type: 'line', data: totalRoiArr, smooth: true, symbol: 'diamond', symbolSize: 8,
+         lineStyle: { color: RED, width: 2.5 }, itemStyle: { color: RED } }
+    ]
+  });
+  // 环比涨跌幅标注（置于图表中部，避免与图例/柱顶数值重叠）
+  c.setOption({ graphic: chgLabels.map(function(cl, i){
+    var total = labels.length;
+    var xPct = ((i + 0.5) / total) * 100;
+    return { type: 'text', left: xPct + '%', top: '55%',
+      style: { text: cl.value, fill: cl.color, fontSize: 12, fontWeight: 'bold', textAlign: 'center' } };
+  }) });
+})();
+
+(function(){
   var tbody = document.getElementById('table-body');
   rawData.forEach(function(d, i) {
     var isActive = i >= activeStart;
@@ -617,7 +688,7 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 window.addEventListener('resize', function() {
-  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative'].forEach(function(id) {
+  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative','chart-period'].forEach(function(id) {
     var dom = document.getElementById(id); if (dom) { var inst = echarts.getInstanceByDom(dom); if (inst) inst.resize(); }
   });
 });
