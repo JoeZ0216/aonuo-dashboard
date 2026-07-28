@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>30支PVC - 抖音投流 BI 看板</title>
+<title>投流相互干扰分析 - 30支PVC vs 36袋条袋</title>
 <script>
 /*
 * Licensed to the Apache Software Foundation (ASF) under one
@@ -61,73 +61,52 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .header-right .update-time { color: #22A446; font-weight: 600; }
 .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
-.alert-banner { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-.alert-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border-radius: 6px; font-size: 13px; line-height: 1.6; }
-.alert-danger { background: #FFF1F0; border-left: 3px solid #CF3A36; }
-.alert-warn { background: #FFF7E6; border-left: 3px solid #FFA940; }
-.alert-info { background: #E6F7FF; border-left: 3px solid #1890FF; }
-.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-
-.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
-.kpi-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
-.kpi-card::after { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-.kpi-card.card-spend::after { background: #FF6B35; }
-.kpi-card.card-gmv::after { background: #CF3A36; }
-.kpi-card.card-roi::after { background: #1890FF; }
-.kpi-card.card-cost::after { background: #FFA940; }
-.kpi-card.card-order::after { background: #22A446; }
-.kpi-label { font-size: 12px; color: #888; margin-bottom: 6px; }
-.kpi-value { font-size: 24px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
-.kpi-sub { font-size: 11px; color: #aaa; margin-bottom: 4px; }
-.kpi-change { font-size: 11px; font-weight: 600; }
-.kpi-change.up { color: #CF3A36; }
-.kpi-change.down { color: #22A446; }
-
-.charts-row, .account-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.chart-panel { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.panel-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1a1a2e; }
-
-.account-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.acct-name { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.acct-tag { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 500; }
-.acct-tag.good { background: #FFF1F0; color: #CF3A36; }
-.acct-tag.bad { background: #F6FFED; color: #22A446; }
-.account-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.metric-item { text-align: center; }
-.metric-item .m-label { font-size: 11px; color: #999; margin-bottom: 2px; }
-.metric-item .m-value { font-size: 18px; font-weight: 700; color: #1a1a2e; }
-.metric-item .m-sub { font-size: 10px; color: #aaa; }
-
-.data-table-wrap { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow-x: auto; }
-.data-table-wrap .panel-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th { background: #fafafa; padding: 8px 10px; text-align: right; font-weight: 600; color: #666; border-bottom: 2px solid #e8e8e8; white-space: nowrap; }
-th:first-child { text-align: center; }
-td { padding: 7px 10px; text-align: right; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
-td:first-child { text-align: center; font-weight: 500; color: #555; }
-tr:hover td { background: #fafbfc; }
-.roi-good { color: #CF3A36; font-weight: 700; }
-.roi-warn { color: #FFA940; font-weight: 700; }
-.roi-bad  { color: #22A446; font-weight: 700; }
-.highlight-row td { background: #FFFBE6 !important; }
-
-.dim { color: #ccc; }
-
 .nav-bar { background: #fff; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .nav-bar a { color: #1890FF; text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 4px; }
 .nav-bar a:hover { background: #E6F7FF; }
 .nav-bar a.active { background: #1890FF; color: #fff; }
 
-@media (max-width: 1024px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } .charts-row, .account-row { grid-template-columns: 1fr; } }
-@media (max-width: 640px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+.overall-banner { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; line-height: 1.7; }
+.overall-banner.overall-good { background: linear-gradient(135deg, #FFF1F0 0%, #FFE7E5 100%); border-left: 4px solid #CF3A36; }
+.overall-banner.overall-warn { background: linear-gradient(135deg, #FFF7E6 0%, #FFEFD0 100%); border-left: 4px solid #FFA940; }
+.overall-banner.overall-neutral { background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%); border-left: 4px solid #888780; }
+.overall-icon { font-size: 28px; flex-shrink: 0; }
+.overall-content { flex: 1; }
+.overall-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e; }
+.overall-body { color: #444; }
+
+.corr-table { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.corr-table .panel-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+.corr-table table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.corr-table th { background: #fafafa; padding: 8px; text-align: center; font-weight: 600; color: #666; border-bottom: 2px solid #e8e8e8; }
+.corr-table td { padding: 10px 8px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.chart-panel { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.panel-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1a1a2e; }
+
+.conclusions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.conclusion-card { background: #fff; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.conclusion-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.conclusion-tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; color: #fff; font-weight: 600; }
+.conclusion-body { font-size: 12px; color: #555; line-height: 1.6; }
+
+.time-window { background: #fff; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; display: flex; justify-content: space-around; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 12px; }
+.tw-block { text-align: center; }
+.tw-label { color: #888; margin-bottom: 4px; }
+.tw-value { font-weight: 600; color: #1a1a2e; font-size: 14px; }
+.tw-product { color: #FF6B35; font-weight: 700; }
+.tw-product2 { color: #1890FF; font-weight: 700; }
+
+@media (max-width: 1024px) { .charts-row { grid-template-columns: 1fr; } .conclusions { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-left">
-    <h1>📊 30支PVC · 抖音投流 BI 看板<span class="brand-tag">澳诺</span></h1>
-    <div class="subtitle">999澳诺钙锌口服液 10ml×30支 · 千川投放分析 · 06-22 ~ 07-27</div>
+    <h1>🔄 投流相互干扰分析<span class="brand-tag">澳诺</span></h1>
+    <div class="subtitle">30支PVC vs 36袋条袋 · 同期相关性 + 滞后效应分析</div>
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
@@ -138,734 +117,235 @@ tr:hover td { background: #fafbfc; }
 <div class="container">
 
 <div class="nav-bar">
-  <a href="index.html" class="active">30支PVC</a>
-  <a href="36dt.html" class="">36袋条袋</a>
-  <a href="comparison.html" class="">📊 对比分析</a>
+  <a href="index.html">30支PVC</a>
+  <a href="daiktiao36.html">36袋条袋</a>
+  <a href="comparison.html" class="active">📊 对比分析</a>
 </div>
 
-<div class="alert-banner">
-<div class="alert-item alert-info"><span class="alert-icon">💡</span><div><strong>数据正常</strong><br>当前各指标未触发预警阈值。</div></div>
-
+<div class="time-window">
+  <div class="tw-block">
+    <div class="tw-label"><span class="tw-product">30支PVC</span> 数据范围</div>
+    <div class="tw-value">2026-06-22 ~ 2026-07-27</div>
+  </div>
+  <div class="tw-block">
+    <div class="tw-label"><span class="tw-product2">36袋条袋</span> 数据范围</div>
+    <div class="tw-value">2025-02-28 ~ 2026-07-27</div>
+  </div>
+  <div class="tw-block">
+    <div class="tw-label">📅 同时间对齐窗口</div>
+    <div class="tw-value">34 天</div>
+  </div>
 </div>
 
-<div class="kpi-row">
-  <div class="kpi-card card-spend">
-    <div class="kpi-label">📌 期间总花费</div>
-    <div class="kpi-value">¥653,238</div>
-    <div class="kpi-sub">近3日 ¥145,737（22.3%）</div>
-    <div class="kpi-change up">07/27 环比 +21.9%</div>
-  </div>
-  <div class="kpi-card card-gmv">
-    <div class="kpi-label">📌 期间总GMV（净）</div>
-    <div class="kpi-value">¥1,031,622</div>
-    <div class="kpi-sub">总GMV ¥1,126,717 · 净率 91.6%</div>
-    <div class="kpi-change up">07/27 净GMV ¥93,290</div>
-  </div>
-  <div class="kpi-card card-roi">
-    <div class="kpi-label">📌 整体净ROI</div>
-    <div class="kpi-value">1.58</div>
-    <div class="kpi-sub">总ROI 1.72 · 近3日均 1.68</div>
-    <div class="kpi-change up">07/27 +0.00</div>
-  </div>
-  <div class="kpi-card card-cost">
-    <div class="kpi-label">📌 转化成本</div>
-    <div class="kpi-value">¥58.59</div>
-    <div class="kpi-sub">07/27 当日 · 前日 ¥58.69</div>
-    <div class="kpi-change up">降低 0.2%</div>
-  </div>
-  <div class="kpi-card card-order">
-    <div class="kpi-label">📌 成交订单（净）</div>
-    <div class="kpi-value">9945</div>
-    <div class="kpi-sub">07/27 当日 · 客单价 ¥108.86</div>
-    <div class="kpi-change up">环比 +22.4%</div>
-  </div>
+<div class="overall-banner overall-neutral"><div class="overall-icon">➖</div><div class="overall-content"><div class="overall-title">综合判断：互不干扰</div><div class="overall-body">两个品种的总ROI同期相关系数为 -0.16，极弱不相关。说明两个品种的投放表现基本独立，一方的好坏不会显著影响另一方。可独立制定投放策略，无需特别协同。</div></div></div>
+
+<div class="charts-row">
+  <div class="chart-panel"><div class="panel-title">📈 ROI 趋势对比（双Y轴）</div><div id="chart-roi-compare" style="height:320px;"></div></div>
+  <div class="chart-panel"><div class="panel-title">💰 花费趋势对比（双Y轴）</div><div id="chart-spend-compare" style="height:320px;"></div></div>
 </div>
 
 <div class="charts-row">
-  <div class="chart-panel"><div class="panel-title">💰 花费 & GMV 趋势</div><div id="chart-spend-gmv" style="height:300px;"></div></div>
-  <div class="chart-panel"><div class="panel-title">📈 ROI 趋势（总ROI vs 净ROI）</div><div id="chart-roi" style="height:300px;"></div></div>
+  <div class="chart-panel"><div class="panel-title">🎯 转化成本对比（双Y轴）</div><div id="chart-cost-compare" style="height:320px;"></div></div>
+  <div class="chart-panel"><div class="panel-title">📊 散点图矩阵（同期日数据）</div><div id="chart-scatter" style="height:320px;"></div></div>
 </div>
 
-<div class="charts-row">
-  <div class="chart-panel"><div class="panel-title">🎯 转化成本 & 成交订单趋势</div><div id="chart-cost-order" style="height:300px;"></div></div>
-  <div class="chart-panel"><div class="panel-title">📊 累计花费 vs 累计GMV 增长曲线</div><div id="chart-cumulative" style="height:300px;"></div></div>
+<div class="chart-panel" style="margin-bottom: 16px;">
+  <div class="panel-title">⏱️ 滞后相关性分析（横轴：天数，正值表示 p1 领先 p2）</div>
+  <div id="chart-lag" style="height:300px;"></div>
 </div>
 
-<div class="charts-row">
-  <div class="chart-panel"><div class="panel-title">🗓️ 7月旬周期 ROI 变化趋势（每10天）</div><div id="chart-period" style="height:300px;"></div></div>
-  <div class="chart-panel">
-    <div class="panel-title">📅 7月旬周期 ROI 对比明细</div>
-    <table style="width:100%;border-collapse:collapse;font-size:12px;">
-      <thead><tr>
-        <th style="text-align:left;">周期</th><th>日期区间</th><th>投放天数</th>
-        <th>花费(¥)</th><th>净GMV(¥)</th><th>总ROI</th><th>净ROI</th><th>净ROI环比</th>
-      </tr></thead>
-      <tbody>
-<tr><td style="text-align:left;font-weight:600;">7月上旬</td><td>07-01~07-10</td><td>8</td><td>¥122,000</td><td>¥164,474</td><td class="roi-warn">1.47</td><td class="roi-warn">1.35</td><td><span style="color:#aaa;">基准</span></td></tr>
-<tr><td style="text-align:left;font-weight:600;">7月中旬</td><td>07-11~07-20</td><td>10</td><td>¥244,531</td><td>¥388,780</td><td class="roi-good">1.72</td><td class="roi-good">1.59</td><td><span style="color:#CF3A36;font-weight:700;">▲ +18.0%</span></td></tr>
-<tr><td style="text-align:left;font-weight:600;">7月下旬</td><td>07-21~07-31</td><td>7</td><td>¥286,504</td><td>¥478,148</td><td class="roi-good">1.84</td><td class="roi-good">1.67</td><td><span style="color:#CF3A36;font-weight:700;">▲ +5.0%</span></td></tr>
-      </tbody>
-    </table>
-    <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
-      说明：周期ROI = 周期净GMV / 周期花费（花费加权）；环比涨跌幅 = 本旬净ROI 较上一旬变化百分比。涨红跌绿。36袋条袋无"净"概念时，净ROI列与净GMV列显示「—」。
-    </div>
+<div class="corr-table">
+  <div class="panel-title">📐 同期 Pearson 相关系数矩阵</div>
+  <table>
+    <thead><tr><th style="text-align:left;width:140px;">指标</th><th>30支PVC vs 36袋条袋</th></tr></thead>
+    <tbody><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总花费</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.14</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">转化成本</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.05</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总ROI</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">-0.16</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总GMV</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.19</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">订单数</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.05</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr></tbody>
+  </table>
+  <div style="font-size:11px;color:#999;margin-top:10px;line-height:1.7;">
+    解读：r &gt; 0.2 → 同向变动（协同）；r &lt; -0.2 → 反向变动（替代/干扰）；|r| &le; 0.2 → 无明显关联。<br/>
+    强度：|r| &ge; 0.7 强，0.4~0.7 中等，0.2~0.4 弱，&lt; 0.2 极弱。
   </div>
 </div>
 
-
-
-
-<div class="data-table-wrap">
-  <div class="panel-title">📋 每日投放明细</div>
-  <table><thead><tr><th>日期</th><th>总花费(¥)</th><th>转化数</th><th>转化成本(¥)</th><th>总GMV(¥)</th><th>订单数</th><th>总ROI</th><th>净成交金额(¥)</th><th>净ROI</th><th>成交客单价(¥)</th></tr></thead>
-  <tbody id="table-body"></tbody></table>
+<div class="panel-title" style="margin: 0 0 10px 0;font-size:14px;">📋 各指标结论</div>
+<div class="conclusions">
+<div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总花费 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.14，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">转化成本 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.05，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总ROI 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = -0.16，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总GMV 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.19，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">订单数 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.05，极弱不相关。➖ 双方此指标无明显关联。</div></div>
 </div>
 
 </div>
 
 <script>
-const rawData = [
-  {
-    "date": "2026-06-22",
-    "spend": 0.47,
-    "conv": 0,
-    "convCost": 0.0,
-    "gmv": 0.0,
-    "orders": 0,
-    "totalRoi": 0.0,
-    "netGmv": 0.0,
-    "netOrders": 0,
-    "netRoi": 0.0,
-    "asp": 0.0
-  },
-  {
-    "date": "2026-06-23",
-    "spend": 28.69,
-    "conv": 5,
-    "convCost": 5.74,
-    "gmv": 319.0,
-    "orders": 5,
-    "totalRoi": 11.12,
-    "netGmv": 319.0,
-    "netOrders": 5,
-    "netRoi": 11.12,
-    "asp": 63.8
-  },
-  {
-    "date": "2026-06-24",
-    "spend": 12.13,
-    "conv": 6,
-    "convCost": 2.02,
-    "gmv": 374.0,
-    "orders": 6,
-    "totalRoi": 30.83,
-    "netGmv": 374.0,
-    "netOrders": 6,
-    "netRoi": 30.83,
-    "asp": 62.33
-  },
-  {
-    "date": "2026-06-25",
-    "spend": 1.08,
-    "conv": 5,
-    "convCost": 0.22,
-    "gmv": 319.0,
-    "orders": 5,
-    "totalRoi": 295.37,
-    "netGmv": 319.0,
-    "netOrders": 5,
-    "netRoi": 295.37,
-    "asp": 63.8
-  },
-  {
-    "date": "2026-06-26",
-    "spend": 202.91,
-    "conv": 4,
-    "convCost": 50.73,
-    "gmv": 220.0,
-    "orders": 4,
-    "totalRoi": 1.08,
-    "netGmv": 220.0,
-    "netOrders": 4,
-    "netRoi": 1.08,
-    "asp": 55.0
-  },
-  {
-    "date": "2026-06-27",
-    "spend": 5.8,
-    "conv": 1,
-    "convCost": 5.8,
-    "gmv": 65.8,
-    "orders": 1,
-    "totalRoi": 11.34,
-    "netGmv": 65.8,
-    "netOrders": 1,
-    "netRoi": 11.34,
-    "asp": 65.8
-  },
-  {
-    "date": "2026-06-28",
-    "spend": 0.14,
-    "conv": 5,
-    "convCost": 0.03,
-    "gmv": 275.0,
-    "orders": 5,
-    "totalRoi": 1964.29,
-    "netGmv": 275.0,
-    "netOrders": 5,
-    "netRoi": 1964.29,
-    "asp": 55.0
-  },
-  {
-    "date": "2026-06-29",
-    "spend": 0.01,
-    "conv": 1,
-    "convCost": 0.01,
-    "gmv": 139.0,
-    "orders": 1,
-    "totalRoi": 13900.0,
-    "netGmv": 139.0,
-    "netOrders": 1,
-    "netRoi": 13900.0,
-    "asp": 139.0
-  },
-  {
-    "date": "2026-07-02",
-    "spend": 1.45,
-    "conv": 0,
-    "convCost": 0.0,
-    "gmv": 0.0,
-    "orders": 0,
-    "totalRoi": 0.0,
-    "netGmv": 0.0,
-    "netOrders": 0,
-    "netRoi": 0.0,
-    "asp": 0.0
-  },
-  {
-    "date": "2026-07-03",
-    "spend": 18000.21,
-    "conv": 291,
-    "convCost": 61.86,
-    "gmv": 25649.0,
-    "orders": 291,
-    "totalRoi": 1.42,
-    "netGmv": 23557.0,
-    "netOrders": 263,
-    "netRoi": 1.31,
-    "asp": 89.57
-  },
-  {
-    "date": "2026-07-04",
-    "spend": 13000.0,
-    "conv": 201,
-    "convCost": 64.68,
-    "gmv": 19518.0,
-    "orders": 201,
-    "totalRoi": 1.5,
-    "netGmv": 17668.0,
-    "netOrders": 179,
-    "netRoi": 1.36,
-    "asp": 98.7
-  },
-  {
-    "date": "2026-07-05",
-    "spend": 15000.0,
-    "conv": 252,
-    "convCost": 59.52,
-    "gmv": 22008.0,
-    "orders": 252,
-    "totalRoi": 1.47,
-    "netGmv": 19649.0,
-    "netOrders": 223,
-    "netRoi": 1.31,
-    "asp": 88.11
-  },
-  {
-    "date": "2026-07-06",
-    "spend": 16000.0,
-    "conv": 252,
-    "convCost": 63.49,
-    "gmv": 23707.0,
-    "orders": 252,
-    "totalRoi": 1.48,
-    "netGmv": 21078.0,
-    "netOrders": 226,
-    "netRoi": 1.32,
-    "asp": 93.27
-  },
-  {
-    "date": "2026-07-07",
-    "spend": 15000.0,
-    "conv": 218,
-    "convCost": 68.81,
-    "gmv": 21098.0,
-    "orders": 218,
-    "totalRoi": 1.41,
-    "netGmv": 19624.0,
-    "netOrders": 200,
-    "netRoi": 1.31,
-    "asp": 98.12
-  },
-  {
-    "date": "2026-07-08",
-    "spend": 15000.0,
-    "conv": 222,
-    "convCost": 67.57,
-    "gmv": 21629.0,
-    "orders": 222,
-    "totalRoi": 1.44,
-    "netGmv": 19711.0,
-    "netOrders": 201,
-    "netRoi": 1.31,
-    "asp": 98.06
-  },
-  {
-    "date": "2026-07-09",
-    "spend": 15000.0,
-    "conv": 246,
-    "convCost": 60.98,
-    "gmv": 23503.0,
-    "orders": 246,
-    "totalRoi": 1.57,
-    "netGmv": 22081.0,
-    "netOrders": 232,
-    "netRoi": 1.47,
-    "asp": 95.18
-  },
-  {
-    "date": "2026-07-10",
-    "spend": 15000.0,
-    "conv": 236,
-    "convCost": 63.56,
-    "gmv": 22462.0,
-    "orders": 236,
-    "totalRoi": 1.5,
-    "netGmv": 21106.0,
-    "netOrders": 218,
-    "netRoi": 1.41,
-    "asp": 96.82
-  },
-  {
-    "date": "2026-07-11",
-    "spend": 15000.0,
-    "conv": 240,
-    "convCost": 62.5,
-    "gmv": 22715.0,
-    "orders": 240,
-    "totalRoi": 1.51,
-    "netGmv": 20732.0,
-    "netOrders": 217,
-    "netRoi": 1.38,
-    "asp": 95.54
-  },
-  {
-    "date": "2026-07-12",
-    "spend": 19000.0,
-    "conv": 313,
-    "convCost": 60.7,
-    "gmv": 30576.0,
-    "orders": 313,
-    "totalRoi": 1.61,
-    "netGmv": 28148.0,
-    "netOrders": 285,
-    "netRoi": 1.48,
-    "asp": 98.76
-  },
-  {
-    "date": "2026-07-13",
-    "spend": 27100.0,
-    "conv": 462,
-    "convCost": 58.66,
-    "gmv": 47063.0,
-    "orders": 462,
-    "totalRoi": 1.74,
-    "netGmv": 43967.0,
-    "netOrders": 428,
-    "netRoi": 1.62,
-    "asp": 102.73
-  },
-  {
-    "date": "2026-07-14",
-    "spend": 29265.63,
-    "conv": 480,
-    "convCost": 60.97,
-    "gmv": 49046.0,
-    "orders": 480,
-    "totalRoi": 1.68,
-    "netGmv": 46244.0,
-    "netOrders": 449,
-    "netRoi": 1.58,
-    "asp": 102.99
-  },
-  {
-    "date": "2026-07-15",
-    "spend": 19386.87,
-    "conv": 352,
-    "convCost": 55.08,
-    "gmv": 35592.0,
-    "orders": 352,
-    "totalRoi": 1.84,
-    "netGmv": 32390.0,
-    "netOrders": 316,
-    "netRoi": 1.67,
-    "asp": 102.5
-  },
-  {
-    "date": "2026-07-16",
-    "spend": 19458.64,
-    "conv": 328,
-    "convCost": 59.33,
-    "gmv": 32841.0,
-    "orders": 328,
-    "totalRoi": 1.69,
-    "netGmv": 30386.0,
-    "netOrders": 298,
-    "netRoi": 1.56,
-    "asp": 101.97
-  },
-  {
-    "date": "2026-07-17",
-    "spend": 26600.58,
-    "conv": 436,
-    "convCost": 61.01,
-    "gmv": 46513.0,
-    "orders": 436,
-    "totalRoi": 1.75,
-    "netGmv": 43302.0,
-    "netOrders": 403,
-    "netRoi": 1.63,
-    "asp": 107.45
-  },
-  {
-    "date": "2026-07-18",
-    "spend": 30819.69,
-    "conv": 490,
-    "convCost": 62.9,
-    "gmv": 51819.0,
-    "orders": 490,
-    "totalRoi": 1.68,
-    "netGmv": 47635.0,
-    "netOrders": 450,
-    "netRoi": 1.55,
-    "asp": 105.86
-  },
-  {
-    "date": "2026-07-19",
-    "spend": 32510.14,
-    "conv": 565,
-    "convCost": 57.54,
-    "gmv": 60515.0,
-    "orders": 565,
-    "totalRoi": 1.86,
-    "netGmv": 56285.0,
-    "netOrders": 518,
-    "netRoi": 1.73,
-    "asp": 108.66
-  },
-  {
-    "date": "2026-07-20",
-    "spend": 25389.37,
-    "conv": 410,
-    "convCost": 61.93,
-    "gmv": 43351.0,
-    "orders": 410,
-    "totalRoi": 1.71,
-    "netGmv": 39691.14,
-    "netOrders": 374,
-    "netRoi": 1.56,
-    "asp": 106.13
-  },
-  {
-    "date": "2026-07-21",
-    "spend": 35312.64,
-    "conv": 574,
-    "convCost": 61.52,
-    "gmv": 60409.0,
-    "orders": 574,
-    "totalRoi": 1.71,
-    "netGmv": 55283.0,
-    "netOrders": 520,
-    "netRoi": 1.57,
-    "asp": 106.31
-  },
-  {
-    "date": "2026-07-22",
-    "spend": 31924.15,
-    "conv": 540,
-    "convCost": 59.12,
-    "gmv": 57511.0,
-    "orders": 540,
-    "totalRoi": 1.8,
-    "netGmv": 53885.0,
-    "netOrders": 501,
-    "netRoi": 1.69,
-    "asp": 107.55
-  },
-  {
-    "date": "2026-07-23",
-    "spend": 32916.84,
-    "conv": 594,
-    "convCost": 55.42,
-    "gmv": 62701.0,
-    "orders": 594,
-    "totalRoi": 1.9,
-    "netGmv": 54197.0,
-    "netOrders": 517,
-    "netRoi": 1.65,
-    "asp": 104.83
-  },
-  {
-    "date": "2026-07-24",
-    "spend": 40613.34,
-    "conv": 727,
-    "convCost": 55.86,
-    "gmv": 77469.0,
-    "orders": 727,
-    "totalRoi": 1.91,
-    "netGmv": 69929.97,
-    "netOrders": 659,
-    "netRoi": 1.72,
-    "asp": 106.12
-  },
-  {
-    "date": "2026-07-25",
-    "spend": 44828.79,
-    "conv": 768,
-    "convCost": 58.37,
-    "gmv": 81978.4,
-    "orders": 768,
-    "totalRoi": 1.83,
-    "netGmv": 75365.4,
-    "netOrders": 707,
-    "netRoi": 1.68,
-    "asp": 106.6
-  },
-  {
-    "date": "2026-07-26",
-    "spend": 45483.32,
-    "conv": 775,
-    "convCost": 58.69,
-    "gmv": 84117.65,
-    "orders": 775,
-    "totalRoi": 1.85,
-    "netGmv": 76197.65,
-    "netOrders": 700,
-    "netRoi": 1.68,
-    "asp": 108.85
-  },
-  {
-    "date": "2026-07-27",
-    "spend": 55425.13,
-    "conv": 946,
-    "convCost": 58.59,
-    "gmv": 102706.0,
-    "orders": 946,
-    "totalRoi": 1.85,
-    "netGmv": 93290.0,
-    "netOrders": 857,
-    "netRoi": 1.68,
-    "asp": 108.86
-  }
-];
-const activeStart = 4;
-const accounts = [];
-const periodData = [{"label": "7月上旬", "range": "07-01~07-10", "days": 8, "spend": 122000.21, "netGmv": 164474.0, "gmv": 179574.0, "orders": 1742, "netRoi": 1.348, "totalRoi": 1.472, "avgNetRoi": 1.35, "netRoiChg": null, "totalRoiChg": null}, {"label": "7月中旬", "range": "07-11~07-20", "days": 10, "spend": 244530.92, "netGmv": 388780.14, "gmv": 420031.0, "orders": 3738, "netRoi": 1.59, "totalRoi": 1.718, "avgNetRoi": 1.576, "netRoiChg": 18.0, "totalRoiChg": 16.7}, {"label": "7月下旬", "range": "07-21~07-31", "days": 7, "spend": 286504.21, "netGmv": 478148.02, "gmv": 526892.05, "orders": 4461, "netRoi": 1.669, "totalRoi": 1.839, "avgNetRoi": 1.667, "netRoiChg": 5.0, "totalRoiChg": 7.0}];
-const hasNetData = true;
+const aligned = {"dates": ["06-22", "06-23", "06-24", "06-25", "06-26", "06-27", "06-28", "06-29", "07-02", "07-03", "07-04", "07-05", "07-06", "07-07", "07-08", "07-09", "07-10", "07-11", "07-12", "07-13", "07-14", "07-15", "07-16", "07-17", "07-18", "07-19", "07-20", "07-21", "07-22", "07-23", "07-24", "07-25", "07-26", "07-27"], "p1": {"name": "30支PVC", "spend": [0.47, 28.69, 12.13, 1.08, 202.91, 5.8, 0.14, 0.01, 1.45, 18000.21, 13000.0, 15000.0, 16000.0, 15000.0, 15000.0, 15000.0, 15000.0, 15000.0, 19000.0, 27100.0, 29265.63, 19386.87, 19458.64, 26600.58, 30819.69, 32510.14, 25389.37, 35312.64, 31924.15, 32916.84, 40613.34, 44828.79, 45483.32, 55425.13], "totalRoi": [0.0, 11.12, 30.83, 295.37, 1.08, 11.34, 1964.29, 13900.0, 0.0, 1.42, 1.5, 1.47, 1.48, 1.41, 1.44, 1.57, 1.5, 1.51, 1.61, 1.74, 1.68, 1.84, 1.69, 1.75, 1.68, 1.86, 1.71, 1.71, 1.8, 1.9, 1.91, 1.83, 1.85, 1.85], "netRoi": [0.0, 11.12, 30.83, 295.37, 1.08, 11.34, 1964.29, 13900.0, 0.0, 1.31, 1.36, 1.31, 1.32, 1.31, 1.31, 1.47, 1.41, 1.38, 1.48, 1.62, 1.58, 1.67, 1.56, 1.63, 1.55, 1.73, 1.56, 1.57, 1.69, 1.65, 1.72, 1.68, 1.68, 1.68], "convCost": [0.0, 5.74, 2.02, 0.22, 50.73, 5.8, 0.03, 0.01, 0.0, 61.86, 64.68, 59.52, 63.49, 68.81, 67.57, 60.98, 63.56, 62.5, 60.7, 58.66, 60.97, 55.08, 59.33, 61.01, 62.9, 57.54, 61.93, 61.52, 59.12, 55.42, 55.86, 58.37, 58.69, 58.59], "gmv": [0.0, 319.0, 374.0, 319.0, 220.0, 65.8, 275.0, 139.0, 0.0, 25649.0, 19518.0, 22008.0, 23707.0, 21098.0, 21629.0, 23503.0, 22462.0, 22715.0, 30576.0, 47063.0, 49046.0, 35592.0, 32841.0, 46513.0, 51819.0, 60515.0, 43351.0, 60409.0, 57511.0, 62701.0, 77469.0, 81978.4, 84117.65, 102706.0], "orders": [0, 5, 6, 5, 4, 1, 5, 1, 0, 291, 201, 252, 252, 218, 222, 246, 236, 240, 313, 462, 480, 352, 328, 436, 490, 565, 410, 574, 540, 594, 727, 768, 775, 946], "color": "#FF6B35"}, "p2": {"name": "36袋条袋", "spend": [58147.05, 35567.11, 54000.86, 36705.52, 38553.97, 44753.79, 38451.68, 51235.87, 43998.22, 39644.95, 36235.2, 52995.7, 45397.8, 40381.65, 46252.19, 40999.26, 44977.74, 39895.99, 40393.39, 41101.92, 59821.73, 54946.74, 37968.15, 69710.77, 56739.01, 36700.66, 55639.18, 46735.01, 50810.36, 31800.86, 50508.6, 33280.26, 47244.34, 52558.04], "totalRoi": [1.68, 1.68, 1.62, 1.66, 1.7, 1.62, 1.58, 1.63, 1.69, 1.73, 1.56, 1.6, 1.69, 1.68, 1.57, 1.62, 1.62, 1.67, 1.63, 1.72, 1.68, 1.69, 1.67, 1.68, 1.68, 1.61, 1.64, 1.66, 1.67, 1.71, 1.68, 1.75, 1.71, 1.69], "netRoi": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "convCost": [53.54, 52.23, 56.02, 54.06, 52.67, 56.58, 58.62, 54.51, 53.99, 51.29, 56.44, 56.14, 51.65, 52.92, 56.75, 53.59, 54.58, 52.98, 55.64, 51.12, 51.93, 51.98, 52.01, 58.43, 58.19, 61.79, 60.74, 59.84, 56.27, 59.55, 59.92, 52.66, 56.04, 54.63], "gmv": [97859.6, 59718.6, 87255.5, 61010.8, 65349.59, 72545.2, 60695.9, 83656.9, 74159.6, 68751.89, 56587.7, 84767.8, 76908.8, 68000.7, 72538.0, 66307.7, 72910.8, 66618.7, 65652.8, 70567.0, 100545.8, 92587.7, 63467.5, 117229.9, 95445.9, 59223.9, 91442.9, 77763.7, 85066.9, 54407.7, 84809.0, 58108.0, 80853.9, 89042.0], "orders": [1086, 681, 964, 679, 732, 791, 656, 940, 815, 773, 642, 944, 879, 763, 815, 765, 824, 753, 726, 804, 1152, 1057, 730, 1193, 975, 594, 916, 781, 903, 534, 843, 632, 843, 962], "color": "#1890FF"}};
+const scatter = {"spend": [[0.47, 58147.05], [28.69, 35567.11], [12.13, 54000.86], [1.08, 36705.52], [202.91, 38553.97], [5.8, 44753.79], [0.14, 38451.68], [0.01, 51235.87], [1.45, 43998.22], [18000.21, 39644.95], [13000.0, 36235.2], [15000.0, 52995.7], [16000.0, 45397.8], [15000.0, 40381.65], [15000.0, 46252.19], [15000.0, 40999.26], [15000.0, 44977.74], [15000.0, 39895.99], [19000.0, 40393.39], [27100.0, 41101.92], [29265.63, 59821.73], [19386.87, 54946.74], [19458.64, 37968.15], [26600.58, 69710.77], [30819.69, 56739.01], [32510.14, 36700.66], [25389.37, 55639.18], [35312.64, 46735.01], [31924.15, 50810.36], [32916.84, 31800.86], [40613.34, 50508.6], [44828.79, 33280.26], [45483.32, 47244.34], [55425.13, 52558.04]], "total_roi": [[0.0, 1.68], [11.12, 1.68], [30.83, 1.62], [295.37, 1.66], [1.08, 1.7], [11.34, 1.62], [1964.29, 1.58], [13900.0, 1.63], [0.0, 1.69], [1.42, 1.73], [1.5, 1.56], [1.47, 1.6], [1.48, 1.69], [1.41, 1.68], [1.44, 1.57], [1.57, 1.62], [1.5, 1.62], [1.51, 1.67], [1.61, 1.63], [1.74, 1.72], [1.68, 1.68], [1.84, 1.69], [1.69, 1.67], [1.75, 1.68], [1.68, 1.68], [1.86, 1.61], [1.71, 1.64], [1.71, 1.66], [1.8, 1.67], [1.9, 1.71], [1.91, 1.68], [1.83, 1.75], [1.85, 1.71], [1.85, 1.69]], "conv_cost": [[0.0, 53.54], [5.74, 52.23], [2.02, 56.02], [0.22, 54.06], [50.73, 52.67], [5.8, 56.58], [0.03, 58.62], [0.01, 54.51], [0.0, 53.99], [61.86, 51.29], [64.68, 56.44], [59.52, 56.14], [63.49, 51.65], [68.81, 52.92], [67.57, 56.75], [60.98, 53.59], [63.56, 54.58], [62.5, 52.98], [60.7, 55.64], [58.66, 51.12], [60.97, 51.93], [55.08, 51.98], [59.33, 52.01], [61.01, 58.43], [62.9, 58.19], [57.54, 61.79], [61.93, 60.74], [61.52, 59.84], [59.12, 56.27], [55.42, 59.55], [55.86, 59.92], [58.37, 52.66], [58.69, 56.04], [58.59, 54.63]], "gmv": [[0.0, 97859.6], [319.0, 59718.6], [374.0, 87255.5], [319.0, 61010.8], [220.0, 65349.59], [65.8, 72545.2], [275.0, 60695.9], [139.0, 83656.9], [0.0, 74159.6], [25649.0, 68751.89], [19518.0, 56587.7], [22008.0, 84767.8], [23707.0, 76908.8], [21098.0, 68000.7], [21629.0, 72538.0], [23503.0, 66307.7], [22462.0, 72910.8], [22715.0, 66618.7], [30576.0, 65652.8], [47063.0, 70567.0], [49046.0, 100545.8], [35592.0, 92587.7], [32841.0, 63467.5], [46513.0, 117229.9], [51819.0, 95445.9], [60515.0, 59223.9], [43351.0, 91442.9], [60409.0, 77763.7], [57511.0, 85066.9], [62701.0, 54407.7], [77469.0, 84809.0], [81978.4, 58108.0], [84117.65, 80853.9], [102706.0, 89042.0]]};
+const corrMatrix = {"col_labels": ["30支PVC vs 36袋条袋"], "rows": [{"label": "总花费", "cells": [{"value": 0.13782387821809042}]}, {"label": "转化成本", "cells": [{"value": 0.05494522604624707}]}, {"label": "总ROI", "cells": [{"value": -0.16302771259483378}]}, {"label": "总GMV", "cells": [{"value": 0.1864199502909347}]}, {"label": "订单数", "cells": [{"value": 0.05245685048295853}]}]};
+const lagResults = {"lags": [-3, -2, -1, 0, 1, 2, 3], "series": [{"label": "总ROI", "values": [0.19354189160011515, -0.12651166717381213, -0.3343421137438201, -0.16302771259483378, 0.10090654600653848, 0.28573286007496423, -0.36430370372666004]}, {"label": "总花费", "values": [0.1279804451768702, 0.009739993892203402, 0.06753271604099534, 0.13782387821809042, 0.21418897950070373, 0.16732949598160318, 0.2793554084170073]}, {"label": "总花费（反向）", "values": [0.27935540841700723, 0.16732949598160318, 0.21418897950070376, 0.13782387821809042, 0.06753271604099534, 0.009739993892203402, 0.1279804451768702]}]};
+const summary = {"conclusions": [{"title": "总花费 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.14，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "转化成本 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.05，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "总ROI 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = -0.16，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "总GMV 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.19，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "订单数 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.05，极弱不相关。➖ 双方此指标无明显关联。"}], "overall": {"label": "互不干扰", "icon": "➖", "tag_class": "neutral", "body": "两个品种的总ROI同期相关系数为 -0.16，极弱不相关。说明两个品种的投放表现基本独立，一方的好坏不会显著影响另一方。可独立制定投放策略，无需特别协同。"}};
 
-
-const dates = rawData.map(d => d.date.slice(5));
-const spend = rawData.map(d => d.spend);
-const gmv = rawData.map(d => d.gmv);
-const netGmv = rawData.map(d => d.netGmv);
-const totalRoi = rawData.map(d => d.totalRoi);
-const netRoi = rawData.map(d => d.netRoi);
-const convCost = rawData.map(d => d.convCost);
-const orders = rawData.map(d => d.orders);
-
-let cumSpend = 0, cumNetGmv = 0, cumGmv = 0;
-const cumSpendArr = [], cumNetGmvArr = [], cumGmvArr = [];
-rawData.forEach(d => {
-  cumSpend += d.spend;
-  cumNetGmv += (d.netGmv || 0);
-  cumGmv += d.gmv;
-  cumSpendArr.push(+cumSpend.toFixed(0));
-  cumNetGmvArr.push(+cumNetGmv.toFixed(0));
-  cumGmvArr.push(+cumGmv.toFixed(0));
-});
 
 const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', GOLD = '#FFA940', GRAY = '#888';
 
+// ROI 趋势对比
 (function(){
-  var c = echarts.init(document.getElementById('chart-spend-gmv'));
-  var series = [
-    { name: '总花费', type: 'bar', data: spend, itemStyle: { color: ORANGE, borderRadius: [4,4,0,0] }, barWidth: '40%' },
-    { name: '总GMV', type: 'line', data: gmv, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: RED, width: 2 }, itemStyle: { color: RED } },
-  ];
-  if (hasNetData) {
-    series.push({ name: '净GMV', type: 'line', data: netGmv, smooth: true, symbol: 'diamond', symbolSize: 5, lineStyle: { color: BLUE, width: 2, type: 'dashed' }, itemStyle: { color: BLUE } });
-  }
+  var dom = document.getElementById('chart-roi-compare');
+  var c = echarts.init(dom);
+  var dates = aligned.dates;
+  var p1TotalRoi = aligned.p1.totalRoi;
+  var p2TotalRoi = aligned.p2.totalRoi;
+  var p1NetRoi = aligned.p1.netRoi;
+  var p2NetRoi = aligned.p2.netRoi;
+
   c.setOption({
     tooltip: { trigger: 'axis' },
-    legend: { data: hasNetData ? ['总花费','总GMV','净GMV'] : ['总花费','总GMV'], top: 0, textStyle: {fontSize:11} },
-    grid: { left: 60, right: 60, top: 40, bottom: 50 },
+    legend: { data: [
+      aligned.p1.name + ' 总ROI', aligned.p2.name + ' 总ROI',
+      aligned.p1.name + ' 净ROI', aligned.p2.name + ' 净ROI'
+    ], top: 0, textStyle: {fontSize:10} },
+    grid: { left: 50, right: 30, top: 50, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
-    yAxis: [{ type: 'value', name: '金额(¥)', axisLabel: {formatter: v => v>=1000 ? (v/1000).toFixed(0)+'k' : v } }],
-    series: series
-  });
-  if (activeStart < dates.length) {
-    c.setOption({ series: [{ markArea: { silent: true, data: [[{ xAxis: dates[activeStart], itemStyle: { color: 'rgba(24,144,255,0.05)' } }, { xAxis: dates[dates.length-1] }]] } }] });
-  }
-})();
-
-(function(){
-  var c = echarts.init(document.getElementById('chart-roi'));
-  var totalRoiVis = totalRoi.map(v => v > 5 ? 5 : v);
-  var netRoiVis = netRoi.map(v => v === null ? null : (v > 5 ? 5 : v));
-  var markPoints = [];
-  if (netRoi.length >= 3) {
-    for (var i = netRoi.length - 3; i < netRoi.length; i++) {
-      if (i >= 0 && netRoi[i] !== null && netRoi[i] > 0 && (i === 0 || (netRoi[i-1] !== null && netRoi[i] < netRoi[i-1]))) {
-        var v = netRoi[i] !== null ? netRoi[i] : totalRoi[i];
-        markPoints.push({ coord: [dates[i], Math.min(v, 5)], value: (netRoi[i-1] !== null && netRoi[i] < netRoi[i-1] && i > 0 ? '↓' : '') + v.toFixed(2), symbol: 'pin', symbolSize: 22, itemStyle: { color: v < 1.2 ? GREEN : ORANGE } });
-      }
-    }
-  }
-  var seriesArr = [
-    { name: '总ROI', type: 'line', data: totalRoiVis, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: RED, width: 2 }, itemStyle: { color: RED } },
-  ];
-  if (hasNetData) {
-    seriesArr.push({ name: '净ROI', type: 'line', data: netRoiVis, smooth: true, symbol: 'diamond', symbolSize: 6, lineStyle: { color: BLUE, width: 2.5 }, itemStyle: { color: BLUE },
-      markLine: { silent: true, symbol: 'none', lineStyle: { color: GREEN, type: 'dashed', width: 1 }, data: [{ yAxis: 1.0, label: { formatter: 'ROI=1.0', fontSize: 10, color: GREEN } }] },
-      markPoints: markPoints.length > 0 ? { data: markPoints } : undefined
-    });
-  }
-  seriesArr.push({ name: '盈亏线(1.0)', type: 'line', data: dates.map(()=>1), symbol: 'none', lineStyle: { color: GRAY, type: 'dotted', width: 1 }, itemStyle: { color: GRAY } });
-  c.setOption({
-    tooltip: { trigger: 'axis', formatter: function(params) { var d = rawData[params[0].dataIndex]; var netR = d.netRoi !== null ? d.netRoi.toFixed(2) : '—'; return d.date + '<br/>总ROI: ' + d.totalRoi.toFixed(2) + '<br/>净ROI: ' + netR; } },
-    legend: { data: hasNetData ? ['总ROI','净ROI','盈亏线(1.0)'] : ['总ROI','盈亏线(1.0)'], top: 0, textStyle: {fontSize:11} },
-    grid: { left: 50, right: 30, top: 40, bottom: 50 },
-    xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
-    yAxis: { type: 'value', name: 'ROI', min: 0, max: 5 },
-    series: seriesArr
-  });
-})();
-
-(function(){
-  var c = echarts.init(document.getElementById('chart-cost-order'));
-  var convCostVis = convCost.map(v => v === null ? null : v);
-  c.setOption({
-    tooltip: { trigger: 'axis' },
-    legend: { data: ['转化成本','成交订单数'], top: 0, textStyle: {fontSize:11} },
-    grid: { left: 50, right: 50, top: 40, bottom: 50 },
-    xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
-    yAxis: [
-      { type: 'value', name: '成本(¥)', axisLabel: {formatter: '¥{value}'} },
-      { type: 'value', name: '订单数' }
-    ],
+    yAxis: [{ type: 'value', name: 'ROI', min: 0, max: 5 }],
     series: [
-      { name: '转化成本', type: 'line', yAxisIndex: 0, data: convCostVis, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: GOLD, width: 2 }, itemStyle: { color: GOLD } },
-      { name: '成交订单数', type: 'bar', yAxisIndex: 1, data: orders, itemStyle: { color: BLUE + '88', borderRadius: [4,4,0,0] }, barWidth: '40%' },
+      { name: aligned.p1.name + ' 总ROI', type: 'line', data: p1TotalRoi, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: ORANGE, width: 2 }, itemStyle: { color: ORANGE } },
+      { name: aligned.p2.name + ' 总ROI', type: 'line', data: p2TotalRoi, smooth: true, symbol: 'diamond', symbolSize: 5, lineStyle: { color: BLUE, width: 2 }, itemStyle: { color: BLUE } },
+      { name: aligned.p1.name + ' 净ROI', type: 'line', data: p1NetRoi, smooth: true, symbol: 'circle', symbolSize: 4, lineStyle: { color: ORANGE, width: 1.5, type: 'dashed' }, itemStyle: { color: ORANGE } },
+      { name: aligned.p2.name + ' 净ROI', type: 'line', data: p2NetRoi, smooth: true, symbol: 'diamond', symbolSize: 4, lineStyle: { color: BLUE, width: 1.5, type: 'dashed' }, itemStyle: { color: BLUE } },
     ]
   });
 })();
 
+// 花费趋势对比
 (function(){
-  var c = echarts.init(document.getElementById('chart-cumulative'));
-  var seriesArr = [
-    { name: '累计花费', type: 'line', data: cumSpendArr, smooth: true, symbol: 'circle', symbolSize: 4, lineStyle: { color: ORANGE, width: 2 }, itemStyle: { color: ORANGE }, areaStyle: { color: 'rgba(255,107,53,0.1)' } },
-    { name: '累计GMV', type: 'line', data: cumGmvArr, smooth: true, symbol: 'diamond', symbolSize: 4, lineStyle: { color: RED, width: 2 }, itemStyle: { color: RED }, areaStyle: { color: 'rgba(207,58,54,0.08)' } },
-  ];
-  var legendData = ['累计花费', '累计GMV'];
-  if (hasNetData) {
-    seriesArr.push({ name: '累计净GMV', type: 'line', data: cumNetGmvArr, smooth: true, symbol: 'circle', symbolSize: 4, lineStyle: { color: BLUE, width: 2, type: 'dashed' }, itemStyle: { color: BLUE }, areaStyle: { color: 'rgba(24,144,255,0.08)' } });
-    legendData.push('累计净GMV');
-  }
+  var dom = document.getElementById('chart-spend-compare');
+  var c = echarts.init(dom);
+  var dates = aligned.dates;
   c.setOption({
     tooltip: { trigger: 'axis' },
-    legend: { data: legendData, top: 0, textStyle: {fontSize:11} },
-    grid: { left: 60, right: 30, top: 40, bottom: 50 },
+    legend: { data: [aligned.p1.name, aligned.p2.name], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 60, right: 60, top: 40, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
-    yAxis: { type: 'value', name: '金额(¥)', axisLabel: {formatter: v => (v/1000).toFixed(0)+'k'} },
-    series: seriesArr
+    yAxis: [{ type: 'value', name: '花费(¥)', axisLabel: {formatter: v => v>=1000 ? (v/1000).toFixed(0)+'k' : v } }],
+    series: [
+      { name: aligned.p1.name, type: 'bar', data: aligned.p1.spend, itemStyle: { color: ORANGE, borderRadius: [3,3,0,0] }, barWidth: '35%' },
+      { name: aligned.p2.name, type: 'bar', data: aligned.p2.spend, itemStyle: { color: BLUE, borderRadius: [3,3,0,0] }, barWidth: '35%' },
+    ]
   });
 })();
 
+// 转化成本对比
 (function(){
-  var dom = document.getElementById('chart-period');
-  if (!dom || typeof periodData === 'undefined') return;
-  var pd = periodData.filter(function(p){ return p.days > 0; });
-  if (pd.length === 0) return;
-  var labels = pd.map(function(p){ return p.label; });
-  var netRoiArr = pd.map(function(p){ return p.netRoi > 0 ? p.netRoi : null; });
-  var totalRoiArr = pd.map(function(p){ return p.totalRoi; });
-  var chgLabels = pd.map(function(p){
-    if (p.netRoiChg === null || p.netRoiChg === undefined) return { value: '基准', color: GRAY };
-    var up = p.netRoiChg >= 0;
-    return { value: (up ? '▲ +' : '▼ ') + p.netRoiChg.toFixed(1) + '%', color: up ? RED : GREEN };
-  });
+  var dom = document.getElementById('chart-cost-compare');
   var c = echarts.init(dom);
-  var seriesArr = [
-    { name: '总ROI', type: 'line', data: totalRoiArr, smooth: true, symbol: 'diamond', symbolSize: 8,
-       lineStyle: { color: RED, width: 2.5 }, itemStyle: { color: RED } }
+  var dates = aligned.dates;
+  c.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: { data: [aligned.p1.name, aligned.p2.name], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 30, top: 40, bottom: 50 },
+    xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
+    yAxis: { type: 'value', name: '成本(¥)' },
+    series: [
+      { name: aligned.p1.name, type: 'line', data: aligned.p1.convCost, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: ORANGE, width: 2 }, itemStyle: { color: ORANGE } },
+      { name: aligned.p2.name, type: 'line', data: aligned.p2.convCost, smooth: true, symbol: 'diamond', symbolSize: 5, lineStyle: { color: BLUE, width: 2 }, itemStyle: { color: BLUE } },
+    ]
+  });
+})();
+
+// 散点图矩阵（4个：花费/总ROI/转化成本/总GMV）
+(function(){
+  var dom = document.getElementById('chart-scatter');
+  var c = echarts.init(dom);
+  var scatterData = [
+    { name: '总花费', data: scatter.spend, color: ORANGE },
+    { name: '总ROI', data: scatter.total_roi, color: RED },
+    { name: '转化成本', data: scatter.conv_cost, color: GOLD },
+    { name: '总GMV', data: scatter.gmv, color: BLUE },
   ];
-  var legendData = ['总ROI'];
-  if (hasNetData) {
-    seriesArr.unshift({ name: '净ROI', type: 'bar', data: netRoiArr, barWidth: '38%',
-       itemStyle: { color: BLUE, borderRadius: [4,4,0,0] },
-       label: { show: true, position: 'top', fontSize: 12, fontWeight: 'bold',
-         formatter: function(pm){ return netRoiArr[pm.dataIndex] !== null ? netRoiArr[pm.dataIndex].toFixed(2) : '—'; } },
-       markLine: { silent: true, symbol: 'none', lineStyle: { color: GREEN, type: 'dashed', width: 1 },
-         data: [{ yAxis: 1.0, label: { formatter: 'ROI=1.0', fontSize: 10, color: GREEN } }] }
-    });
-    legendData.unshift('净ROI');
-  }
+  var titles = scatterData.map(function(d){
+    var pts = d.data;
+    if (pts.length < 3) return d.name + ' (数据不足)';
+    var xs = pts.map(function(p){ return p[0]; });
+    var ys = pts.map(function(p){ return p[1]; });
+    var mx = xs.reduce(function(a,b){return a+b;}, 0) / xs.length;
+    var my = ys.reduce(function(a,b){return a+b;}, 0) / ys.length;
+    var num = 0, denx = 0, deny = 0;
+    for (var i = 0; i < pts.length; i++) {
+      num += (xs[i] - mx) * (ys[i] - my);
+      denx += (xs[i] - mx) * (xs[i] - mx);
+      deny += (ys[i] - my) * (ys[i] - my);
+    }
+    var r = (denx > 0 && deny > 0) ? num / Math.sqrt(denx * deny) : 0;
+    return d.name + ' (r=' + r.toFixed(2) + ')';
+  });
+
+  var gridPos = [
+    {x: '7%', y: '12%', width: '40%', height: '38%'},
+    {x: '55%', y: '12%', width: '40%', height: '38%'},
+    {x: '7%', y: '55%', width: '40%', height: '38%'},
+    {x: '55%', y: '55%', width: '40%', height: '38%'},
+  ];
+
+  var option = {
+    tooltip: { trigger: 'item', formatter: function(p){ return aligned.p1.name + ': ' + p.value[0].toFixed(2) + '<br/>' + aligned.p2.name + ': ' + p.value[1].toFixed(2); } },
+    grid: gridPos,
+    title: scatterData.map(function(d, i){
+      return { text: titles[i], left: i % 2 === 0 ? '7%' : '55%', top: i < 2 ? '0%' : '45%', textStyle: { fontSize: 11, fontWeight: 'bold' } };
+    }),
+    xAxis: scatterData.map(function(d, i){
+      return { gridIndex: i, type: 'value', scale: true, axisLabel: {fontSize:9} };
+    }),
+    yAxis: scatterData.map(function(d, i){
+      return { gridIndex: i, type: 'value', scale: true, axisLabel: {fontSize:9} };
+    }),
+    series: scatterData.map(function(d, i){
+      return {
+        name: d.name, type: 'scatter', xAxisIndex: i, yAxisIndex: i,
+        data: d.data,
+        symbolSize: 8,
+        itemStyle: { color: d.color, opacity: 0.6 }
+      };
+    })
+  };
+  c.setOption(option);
+})();
+
+// 滞后相关性图
+(function(){
+  var dom = document.getElementById('chart-lag');
+  var c = echarts.init(dom);
+  var seriesData = lagResults.series.map(function(s){
+    return {
+      name: s.label,
+      type: 'line',
+      data: s.values.map(function(v, i){ return v === null ? null : [lagResults.lags[i], v]; }),
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 8,
+      lineStyle: { width: 2 },
+      itemStyle: {},
+      markLine: { silent: true, symbol: 'none', data: [{ yAxis: 0, label: { formatter: 'r=0', fontSize: 10, color: GRAY } }] }
+    };
+  });
+  var colorMap = { '总ROI': ORANGE, '净ROI': BLUE, '总花费': RED, '总花费（反向）': GOLD };
+  seriesData.forEach(function(s){
+    s.lineStyle.color = colorMap[s.name] || GRAY;
+    s.itemStyle.color = colorMap[s.name] || GRAY;
+  });
   c.setOption({
     tooltip: { trigger: 'axis', formatter: function(params){
-      var i = params[0].dataIndex; var p = pd[i];
-      var chg = (p.netRoiChg === null || p.netRoiChg === undefined) ? '基准' : (p.netRoiChg >= 0 ? '+' : '') + p.netRoiChg.toFixed(1) + '%';
-      return p.label + ' (' + p.range + ')<br/>投放 ' + p.days + ' 天<br/>花费 ¥' + p.spend.toLocaleString() +
-             '<br/>净GMV ¥' + (p.netGmv > 0 ? p.netGmv.toLocaleString() : '—') + '<br/>总ROI ' + p.totalRoi.toFixed(2) +
-             '<br/>净ROI ' + (p.netRoi > 0 ? p.netRoi.toFixed(2) : '—') + '<br/>净ROI环比 ' + chg;
+      var html = '滞后 ' + params[0].axisValue + ' 天<br/>';
+      params.forEach(function(p){
+        if (p.value === null) return;
+        html += p.marker + ' ' + p.seriesName + ': ' + p.value[1].toFixed(2) + '<br/>';
+      });
+      return html;
     } },
-    legend: { data: legendData, top: 0, textStyle: {fontSize:11} },
-    grid: { left: 50, right: 30, top: 40, bottom: 30 },
-    xAxis: { type: 'category', data: labels, axisLabel: {fontSize:12} },
-    yAxis: { type: 'value', name: 'ROI', min: 0 },
-    series: seriesArr
-  });
-  c.setOption({ graphic: chgLabels.map(function(cl, i){
-    var total = labels.length;
-    var xPct = ((i + 0.5) / total) * 100;
-    return { type: 'text', left: xPct + '%', top: '55%',
-      style: { text: cl.value, fill: cl.color, fontSize: 12, fontWeight: 'bold', textAlign: 'center' } };
-  }) });
-})();
-
-(function(){
-  var tbody = document.getElementById('table-body');
-  rawData.forEach(function(d, i) {
-    var isActive = i >= activeStart;
-    var mainRoi = (d.netRoi !== null) ? d.netRoi : d.totalRoi;
-    var roiClass = mainRoi >= 1.5 ? 'roi-good' : (mainRoi >= 1.2 ? 'roi-warn' : 'roi-bad');
-    var tr = '<tr' + (isActive ? ' class="highlight-row"' : '') + '>';
-    tr += '<td>' + d.date + '</td>';
-    tr += '<td>' + (d.spend >= 1000 ? d.spend.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.spend.toFixed(2)) + '</td>';
-    tr += '<td>' + (d.conv !== null ? d.conv : '—') + '</td>';
-    tr += '<td>' + (d.convCost !== null ? d.convCost.toFixed(2) : '—') + '</td>';
-    tr += '<td>' + (d.gmv >= 1000 ? d.gmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.gmv.toFixed(2)) + '</td>';
-    tr += '<td>' + d.orders + '</td>';
-    tr += '<td class="' + roiClass + '">' + d.totalRoi.toFixed(2) + '</td>';
-    tr += '<td>' + (d.netGmv !== null ? (d.netGmv >= 1000 ? d.netGmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.netGmv.toFixed(2)) : '—') + '</td>';
-    tr += '<td class="' + roiClass + '">' + (d.netRoi !== null ? d.netRoi.toFixed(2) : '—') + '</td>';
-    tr += '<td>' + (d.asp !== null ? d.asp.toFixed(2) : '—') + '</td>';
-    tr += '</tr>';
-    tbody.innerHTML += tr;
+    legend: { data: lagResults.series.map(function(s){ return s.label; }), top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 30, top: 40, bottom: 50 },
+    xAxis: { type: 'value', name: '滞后天数（正值 = p1领先p2）', min: -3, max: 3, splitNumber: 7 },
+    yAxis: { type: 'value', name: '相关系数 r' },
+    series: seriesData
   });
 })();
 
 window.addEventListener('resize', function() {
-  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative','chart-period'].forEach(function(id) {
+  ['chart-roi-compare','chart-spend-compare','chart-cost-compare','chart-scatter','chart-lag'].forEach(function(id) {
     var dom = document.getElementById(id); if (dom) { var inst = echarts.getInstanceByDom(dom); if (inst) inst.resize(); }
   });
 });
