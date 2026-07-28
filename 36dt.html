@@ -131,7 +131,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-07-28 14:48</span>
+    <span class="update-time">● 已更新 2026-07-28 15:03</span>
   </div>
 </div>
 
@@ -144,8 +144,8 @@ tr:hover td { background: #fafbfc; }
 </div>
 
 <div class="alert-banner">
-<div class="alert-item alert-warn"><span class="alert-icon">📉</span><div><strong>总ROI(成交ROI)轻微下滑</strong><br>07/27 总ROI(成交ROI) 为 <b>1.69</b>（前日 1.71），微降 0.02。</div></div>
-<div class="alert-item alert-danger"><span class="alert-icon">⚠️</span><div><strong>总ROI(成交ROI)连续下滑</strong><br>近3天总ROI(成交ROI)持续下降: 1.75 → 1.71 → 1.69，出现明显下行趋势。</div></div>
+<div class="alert-item alert-warn"><span class="alert-icon">📉</span><div><strong>净ROI轻微下滑</strong><br>07/27 净ROI 为 <b>1.69</b>（前日 1.71），微降 0.02。</div></div>
+<div class="alert-item alert-danger"><span class="alert-icon">⚠️</span><div><strong>净ROI连续下滑</strong><br>近3天净ROI持续下降: 1.75 → 1.71 → 1.69，出现明显下行趋势。</div></div>
 
 </div>
 
@@ -157,15 +157,15 @@ tr:hover td { background: #fafbfc; }
     <div class="kpi-change up">07/27 环比 +11.2%</div>
   </div>
   <div class="kpi-card card-gmv">
-    <div class="kpi-label">📌 期间总GMV</div>
+    <div class="kpi-label">📌 期间总GMV（净）</div>
     <div class="kpi-value">¥22,796,297</div>
-    <div class="kpi-sub">无净GMV维度</div>
-    <div class="kpi-change up">07/27 GMV ¥88,823</div>
+    <div class="kpi-sub">总GMV ¥22,796,297 · 净率 100.0%</div>
+    <div class="kpi-change up">07/27 净GMV ¥89,042</div>
   </div>
   <div class="kpi-card card-roi">
-    <div class="kpi-label">📌 整体总ROI(成交ROI)</div>
+    <div class="kpi-label">📌 整体净ROI</div>
     <div class="kpi-value">1.64</div>
-    <div class="kpi-sub">近3日均 1.69</div>
+    <div class="kpi-sub">总ROI 1.64 · 近3日均 1.69</div>
     <div class="kpi-change down">07/27 ↓ -0.02</div>
   </div>
   <div class="kpi-card card-cost">
@@ -175,7 +175,7 @@ tr:hover td { background: #fafbfc; }
     <div class="kpi-change up">降低 2.5%</div>
   </div>
   <div class="kpi-card card-order">
-    <div class="kpi-label">📌 成交订单</div>
+    <div class="kpi-label">📌 成交订单（净）</div>
     <div class="kpi-value">247409</div>
     <div class="kpi-sub">07/27 当日</div>
     <div class="kpi-change up">环比 +14.1%</div>
@@ -202,9 +202,9 @@ tr:hover td { background: #fafbfc; }
         <th>花费(¥)</th><th>净GMV(¥)</th><th>总ROI</th><th>净ROI</th><th>净ROI环比</th>
       </tr></thead>
       <tbody>
-<tr><td style="text-align:left;font-weight:600;">7月上旬</td><td>07-01~07-10</td><td>10</td><td>¥432,180</td><td>—</td><td class="roi-good">1.65</td><td class="roi-good">—</td><td><span style="color:#aaa;">基准</span></td></tr>
-<tr><td style="text-align:left;font-weight:600;">7月中旬</td><td>07-11~07-20</td><td>10</td><td>¥492,918</td><td>—</td><td class="roi-good">1.67</td><td class="roi-good">—</td><td><span style="color:#aaa;">基准</span></td></tr>
-<tr><td style="text-align:left;font-weight:600;">7月下旬</td><td>07-21~07-31</td><td>7</td><td>¥312,937</td><td>—</td><td class="roi-good">1.69</td><td class="roi-good">—</td><td><span style="color:#aaa;">基准</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">7月上旬</td><td>07-01~07-10</td><td>10</td><td>¥432,180</td><td>¥713,251</td><td class="roi-good">1.65</td><td class="roi-good">1.65</td><td><span style="color:#aaa;">基准</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">7月中旬</td><td>07-11~07-20</td><td>10</td><td>¥492,918</td><td>¥822,782</td><td class="roi-good">1.67</td><td class="roi-good">1.67</td><td><span style="color:#CF3A36;font-weight:700;">▲ +1.2%</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">7月下旬</td><td>07-21~07-31</td><td>7</td><td>¥312,937</td><td>¥530,051</td><td class="roi-good">1.69</td><td class="roi-good">1.69</td><td><span style="color:#CF3A36;font-weight:700;">▲ +1.5%</span></td></tr>
       </tbody>
     </table>
     <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
@@ -234,9 +234,9 @@ const rawData = [
     "gmv": 77667.0,
     "orders": 930,
     "totalRoi": 1.22,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 77667.0,
+    "netOrders": 930,
+    "netRoi": 1.22,
     "asp": null
   },
   {
@@ -247,9 +247,9 @@ const rawData = [
     "gmv": 89539.0,
     "orders": 1047,
     "totalRoi": 1.28,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 89539.0,
+    "netOrders": 1047,
+    "netRoi": 1.28,
     "asp": null
   },
   {
@@ -260,9 +260,9 @@ const rawData = [
     "gmv": 107943.9,
     "orders": 1257,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 107943.9,
+    "netOrders": 1257,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -273,9 +273,9 @@ const rawData = [
     "gmv": 93117.0,
     "orders": 1092,
     "totalRoi": 1.28,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 93117.0,
+    "netOrders": 1092,
+    "netRoi": 1.28,
     "asp": null
   },
   {
@@ -286,9 +286,9 @@ const rawData = [
     "gmv": 96713.0,
     "orders": 1132,
     "totalRoi": 1.27,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 96713.0,
+    "netOrders": 1132,
+    "netRoi": 1.27,
     "asp": null
   },
   {
@@ -299,9 +299,9 @@ const rawData = [
     "gmv": 117201.0,
     "orders": 1394,
     "totalRoi": 1.27,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 117201.0,
+    "netOrders": 1394,
+    "netRoi": 1.27,
     "asp": null
   },
   {
@@ -312,9 +312,9 @@ const rawData = [
     "gmv": 124298.8,
     "orders": 1431,
     "totalRoi": 1.28,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 124298.8,
+    "netOrders": 1431,
+    "netRoi": 1.28,
     "asp": null
   },
   {
@@ -325,9 +325,9 @@ const rawData = [
     "gmv": 96897.0,
     "orders": 1141,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 96897.0,
+    "netOrders": 1141,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -338,9 +338,9 @@ const rawData = [
     "gmv": 124299.3,
     "orders": 1457,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 124299.3,
+    "netOrders": 1457,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -351,9 +351,9 @@ const rawData = [
     "gmv": 132013.53,
     "orders": 1524,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 132013.53,
+    "netOrders": 1524,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -364,9 +364,9 @@ const rawData = [
     "gmv": 188096.39,
     "orders": 2152,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 188096.39,
+    "netOrders": 2152,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -377,9 +377,9 @@ const rawData = [
     "gmv": 224691.43,
     "orders": 2525,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 224691.43,
+    "netOrders": 2525,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -390,9 +390,9 @@ const rawData = [
     "gmv": 182309.98,
     "orders": 2022,
     "totalRoi": 1.23,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 182309.98,
+    "netOrders": 2022,
+    "netRoi": 1.23,
     "asp": null
   },
   {
@@ -403,9 +403,9 @@ const rawData = [
     "gmv": 157231.0,
     "orders": 1723,
     "totalRoi": 1.25,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 157231.0,
+    "netOrders": 1723,
+    "netRoi": 1.25,
     "asp": null
   },
   {
@@ -416,9 +416,9 @@ const rawData = [
     "gmv": 234793.27,
     "orders": 2622,
     "totalRoi": 1.23,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 234793.27,
+    "netOrders": 2622,
+    "netRoi": 1.23,
     "asp": null
   },
   {
@@ -429,9 +429,9 @@ const rawData = [
     "gmv": 154357.29,
     "orders": 1679,
     "totalRoi": 1.28,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 154357.29,
+    "netOrders": 1679,
+    "netRoi": 1.28,
     "asp": null
   },
   {
@@ -442,9 +442,9 @@ const rawData = [
     "gmv": 153540.85,
     "orders": 1699,
     "totalRoi": 1.28,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 153540.85,
+    "netOrders": 1699,
+    "netRoi": 1.28,
     "asp": null
   },
   {
@@ -455,9 +455,9 @@ const rawData = [
     "gmv": 185010.9,
     "orders": 2010,
     "totalRoi": 1.33,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 185010.9,
+    "netOrders": 2010,
+    "netRoi": 1.33,
     "asp": null
   },
   {
@@ -468,9 +468,9 @@ const rawData = [
     "gmv": 123321.0,
     "orders": 1350,
     "totalRoi": 1.34,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 123321.0,
+    "netOrders": 1350,
+    "netRoi": 1.34,
     "asp": null
   },
   {
@@ -481,9 +481,9 @@ const rawData = [
     "gmv": 157177.0,
     "orders": 1752,
     "totalRoi": 1.37,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 157177.0,
+    "netOrders": 1752,
+    "netRoi": 1.37,
     "asp": null
   },
   {
@@ -494,9 +494,9 @@ const rawData = [
     "gmv": 111239.1,
     "orders": 1248,
     "totalRoi": 1.33,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 111239.1,
+    "netOrders": 1248,
+    "netRoi": 1.33,
     "asp": null
   },
   {
@@ -507,9 +507,9 @@ const rawData = [
     "gmv": 123655.7,
     "orders": 1426,
     "totalRoi": 1.37,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 123655.7,
+    "netOrders": 1426,
+    "netRoi": 1.37,
     "asp": null
   },
   {
@@ -520,9 +520,9 @@ const rawData = [
     "gmv": 89798.5,
     "orders": 1054,
     "totalRoi": 1.35,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 89798.5,
+    "netOrders": 1054,
+    "netRoi": 1.35,
     "asp": null
   },
   {
@@ -533,9 +533,9 @@ const rawData = [
     "gmv": 99129.0,
     "orders": 1103,
     "totalRoi": 1.41,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 99129.0,
+    "netOrders": 1103,
+    "netRoi": 1.41,
     "asp": null
   },
   {
@@ -546,9 +546,9 @@ const rawData = [
     "gmv": 82410.0,
     "orders": 956,
     "totalRoi": 1.37,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 82410.0,
+    "netOrders": 956,
+    "netRoi": 1.37,
     "asp": null
   },
   {
@@ -559,9 +559,9 @@ const rawData = [
     "gmv": 88785.8,
     "orders": 1043,
     "totalRoi": 1.4,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 88785.8,
+    "netOrders": 1043,
+    "netRoi": 1.4,
     "asp": null
   },
   {
@@ -572,9 +572,9 @@ const rawData = [
     "gmv": 39191.0,
     "orders": 457,
     "totalRoi": 1.08,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 39191.0,
+    "netOrders": 457,
+    "netRoi": 1.08,
     "asp": null
   },
   {
@@ -585,9 +585,9 @@ const rawData = [
     "gmv": 69.0,
     "orders": 0,
     "totalRoi": 0.07,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 69.0,
+    "netOrders": 0,
+    "netRoi": 0.07,
     "asp": null
   },
   {
@@ -598,9 +598,9 @@ const rawData = [
     "gmv": 0.0,
     "orders": 0,
     "totalRoi": 0.0,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 0.0,
+    "netOrders": 0,
+    "netRoi": 0.0,
     "asp": null
   },
   {
@@ -611,9 +611,9 @@ const rawData = [
     "gmv": 127483.9,
     "orders": 1424,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 127483.9,
+    "netOrders": 1424,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -624,9 +624,9 @@ const rawData = [
     "gmv": 69559.0,
     "orders": 775,
     "totalRoi": 1.61,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 69559.0,
+    "netOrders": 775,
+    "netRoi": 1.61,
     "asp": null
   },
   {
@@ -637,9 +637,9 @@ const rawData = [
     "gmv": 72912.0,
     "orders": 800,
     "totalRoi": 1.61,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 72912.0,
+    "netOrders": 800,
+    "netRoi": 1.61,
     "asp": null
   },
   {
@@ -650,9 +650,9 @@ const rawData = [
     "gmv": 67253.0,
     "orders": 759,
     "totalRoi": 1.63,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 67253.0,
+    "netOrders": 759,
+    "netRoi": 1.63,
     "asp": null
   },
   {
@@ -663,9 +663,9 @@ const rawData = [
     "gmv": 85924.0,
     "orders": 966,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 85924.0,
+    "netOrders": 966,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -676,9 +676,9 @@ const rawData = [
     "gmv": 64756.0,
     "orders": 724,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 64756.0,
+    "netOrders": 724,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -689,9 +689,9 @@ const rawData = [
     "gmv": 86533.0,
     "orders": 943,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 86533.0,
+    "netOrders": 943,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -702,9 +702,9 @@ const rawData = [
     "gmv": 88501.0,
     "orders": 969,
     "totalRoi": 1.63,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 88501.0,
+    "netOrders": 969,
+    "netRoi": 1.63,
     "asp": null
   },
   {
@@ -715,9 +715,9 @@ const rawData = [
     "gmv": 77416.0,
     "orders": 849,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 77416.0,
+    "netOrders": 849,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -728,9 +728,9 @@ const rawData = [
     "gmv": 69920.7,
     "orders": 766,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 69920.7,
+    "netOrders": 766,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -741,9 +741,9 @@ const rawData = [
     "gmv": 85173.0,
     "orders": 949,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 85173.0,
+    "netOrders": 949,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -754,9 +754,9 @@ const rawData = [
     "gmv": 50965.0,
     "orders": 553,
     "totalRoi": 1.54,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 50965.0,
+    "netOrders": 553,
+    "netRoi": 1.54,
     "asp": null
   },
   {
@@ -767,9 +767,9 @@ const rawData = [
     "gmv": 68006.0,
     "orders": 767,
     "totalRoi": 1.64,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 68006.0,
+    "netOrders": 767,
+    "netRoi": 1.64,
     "asp": null
   },
   {
@@ -780,9 +780,9 @@ const rawData = [
     "gmv": 43479.0,
     "orders": 476,
     "totalRoi": 1.54,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 43479.0,
+    "netOrders": 476,
+    "netRoi": 1.54,
     "asp": null
   },
   {
@@ -793,9 +793,9 @@ const rawData = [
     "gmv": 34433.0,
     "orders": 385,
     "totalRoi": 1.55,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 34433.0,
+    "netOrders": 385,
+    "netRoi": 1.55,
     "asp": null
   },
   {
@@ -806,9 +806,9 @@ const rawData = [
     "gmv": 64047.0,
     "orders": 700,
     "totalRoi": 1.58,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 64047.0,
+    "netOrders": 700,
+    "netRoi": 1.58,
     "asp": null
   },
   {
@@ -819,9 +819,9 @@ const rawData = [
     "gmv": 53312.0,
     "orders": 580,
     "totalRoi": 1.51,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 53312.0,
+    "netOrders": 580,
+    "netRoi": 1.51,
     "asp": null
   },
   {
@@ -832,9 +832,9 @@ const rawData = [
     "gmv": 51851.0,
     "orders": 558,
     "totalRoi": 1.48,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 51851.0,
+    "netOrders": 558,
+    "netRoi": 1.48,
     "asp": null
   },
   {
@@ -845,9 +845,9 @@ const rawData = [
     "gmv": 70486.0,
     "orders": 760,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 70486.0,
+    "netOrders": 760,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -858,9 +858,9 @@ const rawData = [
     "gmv": 82811.0,
     "orders": 856,
     "totalRoi": 1.58,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 82811.0,
+    "netOrders": 856,
+    "netRoi": 1.58,
     "asp": null
   },
   {
@@ -871,9 +871,9 @@ const rawData = [
     "gmv": 93285.0,
     "orders": 973,
     "totalRoi": 1.58,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 93285.0,
+    "netOrders": 973,
+    "netRoi": 1.58,
     "asp": null
   },
   {
@@ -884,9 +884,9 @@ const rawData = [
     "gmv": 102187.0,
     "orders": 1047,
     "totalRoi": 1.67,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 102187.0,
+    "netOrders": 1047,
+    "netRoi": 1.67,
     "asp": null
   },
   {
@@ -897,9 +897,9 @@ const rawData = [
     "gmv": 104117.0,
     "orders": 1044,
     "totalRoi": 1.58,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 104117.0,
+    "netOrders": 1044,
+    "netRoi": 1.58,
     "asp": null
   },
   {
@@ -910,9 +910,9 @@ const rawData = [
     "gmv": 153883.0,
     "orders": 1557,
     "totalRoi": 1.65,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 153883.0,
+    "netOrders": 1557,
+    "netRoi": 1.65,
     "asp": null
   },
   {
@@ -923,9 +923,9 @@ const rawData = [
     "gmv": 149821.0,
     "orders": 1493,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 149821.0,
+    "netOrders": 1493,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -936,9 +936,9 @@ const rawData = [
     "gmv": 229895.0,
     "orders": 2365,
     "totalRoi": 1.65,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 229895.0,
+    "netOrders": 2365,
+    "netRoi": 1.65,
     "asp": null
   },
   {
@@ -949,9 +949,9 @@ const rawData = [
     "gmv": 153318.0,
     "orders": 1537,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 153318.0,
+    "netOrders": 1537,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -962,9 +962,9 @@ const rawData = [
     "gmv": 222126.9,
     "orders": 2258,
     "totalRoi": 1.65,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 222126.9,
+    "netOrders": 2258,
+    "netRoi": 1.65,
     "asp": null
   },
   {
@@ -975,9 +975,9 @@ const rawData = [
     "gmv": 141264.0,
     "orders": 1472,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 141264.0,
+    "netOrders": 1472,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -988,9 +988,9 @@ const rawData = [
     "gmv": 253846.0,
     "orders": 2632,
     "totalRoi": 1.77,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 253846.0,
+    "netOrders": 2632,
+    "netRoi": 1.77,
     "asp": null
   },
   {
@@ -1001,9 +1001,9 @@ const rawData = [
     "gmv": 245082.0,
     "orders": 2465,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 245082.0,
+    "netOrders": 2465,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1014,9 +1014,9 @@ const rawData = [
     "gmv": 206839.0,
     "orders": 2077,
     "totalRoi": 1.77,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 206839.0,
+    "netOrders": 2077,
+    "netRoi": 1.77,
     "asp": null
   },
   {
@@ -1027,9 +1027,9 @@ const rawData = [
     "gmv": 156565.0,
     "orders": 1623,
     "totalRoi": 1.81,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 156565.0,
+    "netOrders": 1623,
+    "netRoi": 1.81,
     "asp": null
   },
   {
@@ -1040,9 +1040,9 @@ const rawData = [
     "gmv": 209719.9,
     "orders": 2184,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 209719.9,
+    "netOrders": 2184,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1053,9 +1053,9 @@ const rawData = [
     "gmv": 238736.0,
     "orders": 2498,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 238736.0,
+    "netOrders": 2498,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -1066,9 +1066,9 @@ const rawData = [
     "gmv": 185328.2,
     "orders": 1919,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 185328.2,
+    "netOrders": 1919,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -1079,9 +1079,9 @@ const rawData = [
     "gmv": 179090.6,
     "orders": 1881,
     "totalRoi": 1.88,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 179090.6,
+    "netOrders": 1881,
+    "netRoi": 1.88,
     "asp": null
   },
   {
@@ -1092,9 +1092,9 @@ const rawData = [
     "gmv": 187205.2,
     "orders": 1998,
     "totalRoi": 1.81,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 187205.2,
+    "netOrders": 1998,
+    "netRoi": 1.81,
     "asp": null
   },
   {
@@ -1105,9 +1105,9 @@ const rawData = [
     "gmv": 185470.2,
     "orders": 1967,
     "totalRoi": 1.81,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 185470.2,
+    "netOrders": 1967,
+    "netRoi": 1.81,
     "asp": null
   },
   {
@@ -1118,9 +1118,9 @@ const rawData = [
     "gmv": 192978.49,
     "orders": 2087,
     "totalRoi": 1.84,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 192978.49,
+    "netOrders": 2087,
+    "netRoi": 1.84,
     "asp": null
   },
   {
@@ -1131,9 +1131,9 @@ const rawData = [
     "gmv": 185393.0,
     "orders": 1999,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 185393.0,
+    "netOrders": 1999,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1144,9 +1144,9 @@ const rawData = [
     "gmv": 150029.4,
     "orders": 1598,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 150029.4,
+    "netOrders": 1598,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1157,9 +1157,9 @@ const rawData = [
     "gmv": 191072.7,
     "orders": 2038,
     "totalRoi": 1.81,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 191072.7,
+    "netOrders": 2038,
+    "netRoi": 1.81,
     "asp": null
   },
   {
@@ -1170,9 +1170,9 @@ const rawData = [
     "gmv": 159575.09,
     "orders": 1787,
     "totalRoi": 1.86,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 159575.09,
+    "netOrders": 1787,
+    "netRoi": 1.86,
     "asp": null
   },
   {
@@ -1183,9 +1183,9 @@ const rawData = [
     "gmv": 194269.0,
     "orders": 2077,
     "totalRoi": 1.78,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 194269.0,
+    "netOrders": 2077,
+    "netRoi": 1.78,
     "asp": null
   },
   {
@@ -1196,9 +1196,9 @@ const rawData = [
     "gmv": 196391.98,
     "orders": 2112,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 196391.98,
+    "netOrders": 2112,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -1209,9 +1209,9 @@ const rawData = [
     "gmv": 186743.59,
     "orders": 2017,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 186743.59,
+    "netOrders": 2017,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1222,9 +1222,9 @@ const rawData = [
     "gmv": 253912.0,
     "orders": 2782,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 253912.0,
+    "netOrders": 2782,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1235,9 +1235,9 @@ const rawData = [
     "gmv": 192349.4,
     "orders": 2079,
     "totalRoi": 1.78,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 192349.4,
+    "netOrders": 2079,
+    "netRoi": 1.78,
     "asp": null
   },
   {
@@ -1248,9 +1248,9 @@ const rawData = [
     "gmv": 166518.0,
     "orders": 1778,
     "totalRoi": 1.74,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 166518.0,
+    "netOrders": 1778,
+    "netRoi": 1.74,
     "asp": null
   },
   {
@@ -1261,9 +1261,9 @@ const rawData = [
     "gmv": 141943.59,
     "orders": 1583,
     "totalRoi": 1.73,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 141943.59,
+    "netOrders": 1583,
+    "netRoi": 1.73,
     "asp": null
   },
   {
@@ -1274,9 +1274,9 @@ const rawData = [
     "gmv": 134656.9,
     "orders": 1442,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 134656.9,
+    "netOrders": 1442,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1287,9 +1287,9 @@ const rawData = [
     "gmv": 149863.4,
     "orders": 1633,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 149863.4,
+    "netOrders": 1633,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1300,9 +1300,9 @@ const rawData = [
     "gmv": 147554.5,
     "orders": 1578,
     "totalRoi": 1.78,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 147554.5,
+    "netOrders": 1578,
+    "netRoi": 1.78,
     "asp": null
   },
   {
@@ -1313,9 +1313,9 @@ const rawData = [
     "gmv": 154388.8,
     "orders": 1697,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 154388.8,
+    "netOrders": 1697,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -1326,9 +1326,9 @@ const rawData = [
     "gmv": 160439.6,
     "orders": 1719,
     "totalRoi": 1.73,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 160439.6,
+    "netOrders": 1719,
+    "netRoi": 1.73,
     "asp": null
   },
   {
@@ -1339,9 +1339,9 @@ const rawData = [
     "gmv": 125119.9,
     "orders": 1343,
     "totalRoi": 1.83,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 125119.9,
+    "netOrders": 1343,
+    "netRoi": 1.83,
     "asp": null
   },
   {
@@ -1352,9 +1352,9 @@ const rawData = [
     "gmv": 116175.5,
     "orders": 1231,
     "totalRoi": 1.77,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 116175.5,
+    "netOrders": 1231,
+    "netRoi": 1.77,
     "asp": null
   },
   {
@@ -1365,9 +1365,9 @@ const rawData = [
     "gmv": 162418.9,
     "orders": 1732,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 162418.9,
+    "netOrders": 1732,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1378,9 +1378,9 @@ const rawData = [
     "gmv": 158304.7,
     "orders": 1749,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 158304.7,
+    "netOrders": 1749,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -1391,9 +1391,9 @@ const rawData = [
     "gmv": 137909.9,
     "orders": 1472,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 137909.9,
+    "netOrders": 1472,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -1404,9 +1404,9 @@ const rawData = [
     "gmv": 152791.9,
     "orders": 1640,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 152791.9,
+    "netOrders": 1640,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -1417,9 +1417,9 @@ const rawData = [
     "gmv": 99611.0,
     "orders": 1065,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 99611.0,
+    "netOrders": 1065,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -1430,9 +1430,9 @@ const rawData = [
     "gmv": 105517.99,
     "orders": 1174,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 105517.99,
+    "netOrders": 1174,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1443,9 +1443,9 @@ const rawData = [
     "gmv": 118684.0,
     "orders": 1280,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 118684.0,
+    "netOrders": 1280,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -1456,9 +1456,9 @@ const rawData = [
     "gmv": 126974.9,
     "orders": 1400,
     "totalRoi": 1.87,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 126974.9,
+    "netOrders": 1400,
+    "netRoi": 1.87,
     "asp": null
   },
   {
@@ -1469,9 +1469,9 @@ const rawData = [
     "gmv": 113208.9,
     "orders": 1203,
     "totalRoi": 1.84,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 113208.9,
+    "netOrders": 1203,
+    "netRoi": 1.84,
     "asp": null
   },
   {
@@ -1482,9 +1482,9 @@ const rawData = [
     "gmv": 135555.6,
     "orders": 1453,
     "totalRoi": 1.9,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 135555.6,
+    "netOrders": 1453,
+    "netRoi": 1.9,
     "asp": null
   },
   {
@@ -1495,9 +1495,9 @@ const rawData = [
     "gmv": 192320.0,
     "orders": 2073,
     "totalRoi": 1.83,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 192320.0,
+    "netOrders": 2073,
+    "netRoi": 1.83,
     "asp": null
   },
   {
@@ -1508,9 +1508,9 @@ const rawData = [
     "gmv": 147388.79,
     "orders": 1554,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 147388.79,
+    "netOrders": 1554,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -1521,9 +1521,9 @@ const rawData = [
     "gmv": 177856.9,
     "orders": 1917,
     "totalRoi": 1.73,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 177856.9,
+    "netOrders": 1917,
+    "netRoi": 1.73,
     "asp": null
   },
   {
@@ -1534,9 +1534,9 @@ const rawData = [
     "gmv": 159268.8,
     "orders": 1658,
     "totalRoi": 1.77,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 159268.8,
+    "netOrders": 1658,
+    "netRoi": 1.77,
     "asp": null
   },
   {
@@ -1547,9 +1547,9 @@ const rawData = [
     "gmv": 73522.9,
     "orders": 764,
     "totalRoi": 1.88,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 73522.9,
+    "netOrders": 764,
+    "netRoi": 1.88,
     "asp": null
   },
   {
@@ -1560,9 +1560,9 @@ const rawData = [
     "gmv": 178714.29,
     "orders": 1946,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 178714.29,
+    "netOrders": 1946,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1573,9 +1573,9 @@ const rawData = [
     "gmv": 143824.0,
     "orders": 1569,
     "totalRoi": 1.78,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 143824.0,
+    "netOrders": 1569,
+    "netRoi": 1.78,
     "asp": null
   },
   {
@@ -1586,9 +1586,9 @@ const rawData = [
     "gmv": 143163.0,
     "orders": 1555,
     "totalRoi": 1.85,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 143163.0,
+    "netOrders": 1555,
+    "netRoi": 1.85,
     "asp": null
   },
   {
@@ -1599,9 +1599,9 @@ const rawData = [
     "gmv": 112849.7,
     "orders": 1235,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 112849.7,
+    "netOrders": 1235,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -1612,9 +1612,9 @@ const rawData = [
     "gmv": 78990.7,
     "orders": 873,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 78990.7,
+    "netOrders": 873,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1625,9 +1625,9 @@ const rawData = [
     "gmv": 96451.3,
     "orders": 1066,
     "totalRoi": 1.83,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 96451.3,
+    "netOrders": 1066,
+    "netRoi": 1.83,
     "asp": null
   },
   {
@@ -1638,9 +1638,9 @@ const rawData = [
     "gmv": 90029.0,
     "orders": 972,
     "totalRoi": 1.84,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 90029.0,
+    "netOrders": 972,
+    "netRoi": 1.84,
     "asp": null
   },
   {
@@ -1651,9 +1651,9 @@ const rawData = [
     "gmv": 66125.49,
     "orders": 708,
     "totalRoi": 1.82,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 66125.49,
+    "netOrders": 708,
+    "netRoi": 1.82,
     "asp": null
   },
   {
@@ -1664,9 +1664,9 @@ const rawData = [
     "gmv": 139489.9,
     "orders": 1541,
     "totalRoi": 1.73,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 139489.9,
+    "netOrders": 1541,
+    "netRoi": 1.73,
     "asp": null
   },
   {
@@ -1677,9 +1677,9 @@ const rawData = [
     "gmv": 152029.5,
     "orders": 1738,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 152029.5,
+    "netOrders": 1738,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -1690,9 +1690,9 @@ const rawData = [
     "gmv": 100895.14,
     "orders": 1111,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 100895.14,
+    "netOrders": 1111,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -1703,9 +1703,9 @@ const rawData = [
     "gmv": 89762.9,
     "orders": 1010,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 89762.9,
+    "netOrders": 1010,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -1716,9 +1716,9 @@ const rawData = [
     "gmv": 81107.9,
     "orders": 878,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 81107.9,
+    "netOrders": 878,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -1729,9 +1729,9 @@ const rawData = [
     "gmv": 103565.73,
     "orders": 1114,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 103565.73,
+    "netOrders": 1114,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -1742,9 +1742,9 @@ const rawData = [
     "gmv": 96758.5,
     "orders": 1053,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 96758.5,
+    "netOrders": 1053,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -1755,9 +1755,9 @@ const rawData = [
     "gmv": 157616.8,
     "orders": 1747,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 157616.8,
+    "netOrders": 1747,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -1768,9 +1768,9 @@ const rawData = [
     "gmv": 117316.8,
     "orders": 1307,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 117316.8,
+    "netOrders": 1307,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -1781,9 +1781,9 @@ const rawData = [
     "gmv": 66428.8,
     "orders": 717,
     "totalRoi": 1.69,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 66428.8,
+    "netOrders": 717,
+    "netRoi": 1.69,
     "asp": null
   },
   {
@@ -1794,9 +1794,9 @@ const rawData = [
     "gmv": 110626.7,
     "orders": 1256,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 110626.7,
+    "netOrders": 1256,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -1807,9 +1807,9 @@ const rawData = [
     "gmv": 72917.79,
     "orders": 800,
     "totalRoi": 1.7,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 72917.79,
+    "netOrders": 800,
+    "netRoi": 1.7,
     "asp": null
   },
   {
@@ -1820,9 +1820,9 @@ const rawData = [
     "gmv": 105194.9,
     "orders": 1180,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 105194.9,
+    "netOrders": 1180,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -1833,9 +1833,9 @@ const rawData = [
     "gmv": 83760.7,
     "orders": 911,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 83760.7,
+    "netOrders": 911,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -1846,9 +1846,9 @@ const rawData = [
     "gmv": 59509.3,
     "orders": 669,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 59509.3,
+    "netOrders": 669,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -1859,9 +1859,9 @@ const rawData = [
     "gmv": 83954.8,
     "orders": 960,
     "totalRoi": 1.74,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 83954.8,
+    "netOrders": 960,
+    "netRoi": 1.74,
     "asp": null
   },
   {
@@ -1872,9 +1872,9 @@ const rawData = [
     "gmv": 118719.0,
     "orders": 1344,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 118719.0,
+    "netOrders": 1344,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -1885,9 +1885,9 @@ const rawData = [
     "gmv": 77175.9,
     "orders": 848,
     "totalRoi": 1.63,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 77175.9,
+    "netOrders": 848,
+    "netRoi": 1.63,
     "asp": null
   },
   {
@@ -1898,9 +1898,9 @@ const rawData = [
     "gmv": 62225.5,
     "orders": 687,
     "totalRoi": 1.7,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 62225.5,
+    "netOrders": 687,
+    "netRoi": 1.7,
     "asp": null
   },
   {
@@ -1911,9 +1911,9 @@ const rawData = [
     "gmv": 67044.59,
     "orders": 730,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 67044.59,
+    "netOrders": 730,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -1924,9 +1924,9 @@ const rawData = [
     "gmv": 89297.7,
     "orders": 987,
     "totalRoi": 1.78,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 89297.7,
+    "netOrders": 987,
+    "netRoi": 1.78,
     "asp": null
   },
   {
@@ -1937,9 +1937,9 @@ const rawData = [
     "gmv": 75451.6,
     "orders": 850,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 75451.6,
+    "netOrders": 850,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -1950,9 +1950,9 @@ const rawData = [
     "gmv": 75568.0,
     "orders": 847,
     "totalRoi": 1.76,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 75568.0,
+    "netOrders": 847,
+    "netRoi": 1.76,
     "asp": null
   },
   {
@@ -1963,9 +1963,9 @@ const rawData = [
     "gmv": 68752.0,
     "orders": 753,
     "totalRoi": 1.74,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 68752.0,
+    "netOrders": 753,
+    "netRoi": 1.74,
     "asp": null
   },
   {
@@ -1976,9 +1976,9 @@ const rawData = [
     "gmv": 157046.9,
     "orders": 1644,
     "totalRoi": 1.73,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 157046.9,
+    "netOrders": 1644,
+    "netRoi": 1.73,
     "asp": null
   },
   {
@@ -1989,9 +1989,9 @@ const rawData = [
     "gmv": 115088.0,
     "orders": 1175,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 115088.0,
+    "netOrders": 1175,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -2002,9 +2002,9 @@ const rawData = [
     "gmv": 101472.2,
     "orders": 1069,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 101472.2,
+    "netOrders": 1069,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -2015,9 +2015,9 @@ const rawData = [
     "gmv": 86688.8,
     "orders": 904,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 86688.8,
+    "netOrders": 904,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -2028,9 +2028,9 @@ const rawData = [
     "gmv": 73430.5,
     "orders": 776,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 73430.5,
+    "netOrders": 776,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -2041,9 +2041,9 @@ const rawData = [
     "gmv": 89686.2,
     "orders": 973,
     "totalRoi": 1.8,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 89686.2,
+    "netOrders": 973,
+    "netRoi": 1.8,
     "asp": null
   },
   {
@@ -2054,9 +2054,9 @@ const rawData = [
     "gmv": 70628.8,
     "orders": 770,
     "totalRoi": 1.7,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 70628.8,
+    "netOrders": 770,
+    "netRoi": 1.7,
     "asp": null
   },
   {
@@ -2067,9 +2067,9 @@ const rawData = [
     "gmv": 50252.7,
     "orders": 563,
     "totalRoi": 1.64,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 50252.7,
+    "netOrders": 563,
+    "netRoi": 1.64,
     "asp": null
   },
   {
@@ -2080,9 +2080,9 @@ const rawData = [
     "gmv": 53878.6,
     "orders": 599,
     "totalRoi": 1.78,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 53878.6,
+    "netOrders": 599,
+    "netRoi": 1.78,
     "asp": null
   },
   {
@@ -2093,9 +2093,9 @@ const rawData = [
     "gmv": 61813.9,
     "orders": 710,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 61813.9,
+    "netOrders": 710,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -2106,9 +2106,9 @@ const rawData = [
     "gmv": 67517.3,
     "orders": 752,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 67517.3,
+    "netOrders": 752,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -2119,9 +2119,9 @@ const rawData = [
     "gmv": 154804.8,
     "orders": 1641,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 154804.8,
+    "netOrders": 1641,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -2132,9 +2132,9 @@ const rawData = [
     "gmv": 133335.9,
     "orders": 1328,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 133335.9,
+    "netOrders": 1328,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -2145,9 +2145,9 @@ const rawData = [
     "gmv": 121390.7,
     "orders": 1266,
     "totalRoi": 1.7,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 121390.7,
+    "netOrders": 1266,
+    "netRoi": 1.7,
     "asp": null
   },
   {
@@ -2158,9 +2158,9 @@ const rawData = [
     "gmv": 92175.0,
     "orders": 968,
     "totalRoi": 1.61,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 92175.0,
+    "netOrders": 968,
+    "netRoi": 1.61,
     "asp": null
   },
   {
@@ -2171,9 +2171,9 @@ const rawData = [
     "gmv": 96305.0,
     "orders": 1006,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 96305.0,
+    "netOrders": 1006,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -2184,9 +2184,9 @@ const rawData = [
     "gmv": 66348.9,
     "orders": 721,
     "totalRoi": 1.64,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 66348.9,
+    "netOrders": 721,
+    "netRoi": 1.64,
     "asp": null
   },
   {
@@ -2197,9 +2197,9 @@ const rawData = [
     "gmv": 136145.8,
     "orders": 1403,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 136145.8,
+    "netOrders": 1403,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2210,9 +2210,9 @@ const rawData = [
     "gmv": 91765.7,
     "orders": 980,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 91765.7,
+    "netOrders": 980,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -2223,9 +2223,9 @@ const rawData = [
     "gmv": 104577.5,
     "orders": 1141,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 104577.5,
+    "netOrders": 1141,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -2236,9 +2236,9 @@ const rawData = [
     "gmv": 52775.8,
     "orders": 580,
     "totalRoi": 1.58,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 52775.8,
+    "netOrders": 580,
+    "netRoi": 1.58,
     "asp": null
   },
   {
@@ -2249,9 +2249,9 @@ const rawData = [
     "gmv": 86137.0,
     "orders": 975,
     "totalRoi": 1.54,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 86137.0,
+    "netOrders": 975,
+    "netRoi": 1.54,
     "asp": null
   },
   {
@@ -2262,9 +2262,9 @@ const rawData = [
     "gmv": 71231.8,
     "orders": 767,
     "totalRoi": 1.65,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 71231.8,
+    "netOrders": 767,
+    "netRoi": 1.65,
     "asp": null
   },
   {
@@ -2275,9 +2275,9 @@ const rawData = [
     "gmv": 83675.0,
     "orders": 928,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 83675.0,
+    "netOrders": 928,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2288,9 +2288,9 @@ const rawData = [
     "gmv": 64891.28,
     "orders": 703,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 64891.28,
+    "netOrders": 703,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -2301,9 +2301,9 @@ const rawData = [
     "gmv": 83770.8,
     "orders": 983,
     "totalRoi": 1.67,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 83770.8,
+    "netOrders": 983,
+    "netRoi": 1.67,
     "asp": null
   },
   {
@@ -2314,9 +2314,9 @@ const rawData = [
     "gmv": 63818.0,
     "orders": 723,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 63818.0,
+    "netOrders": 723,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -2327,9 +2327,9 @@ const rawData = [
     "gmv": 106073.8,
     "orders": 1151,
     "totalRoi": 1.74,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 106073.8,
+    "netOrders": 1151,
+    "netRoi": 1.74,
     "asp": null
   },
   {
@@ -2340,9 +2340,9 @@ const rawData = [
     "gmv": 87662.2,
     "orders": 943,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 87662.2,
+    "netOrders": 943,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -2353,9 +2353,9 @@ const rawData = [
     "gmv": 61721.9,
     "orders": 665,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 61721.9,
+    "netOrders": 665,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -2366,9 +2366,9 @@ const rawData = [
     "gmv": 103981.9,
     "orders": 1122,
     "totalRoi": 1.64,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 103981.9,
+    "netOrders": 1122,
+    "netRoi": 1.64,
     "asp": null
   },
   {
@@ -2379,9 +2379,9 @@ const rawData = [
     "gmv": 137563.5,
     "orders": 1476,
     "totalRoi": 1.67,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 137563.5,
+    "netOrders": 1476,
+    "netRoi": 1.67,
     "asp": null
   },
   {
@@ -2392,9 +2392,9 @@ const rawData = [
     "gmv": 83162.6,
     "orders": 895,
     "totalRoi": 1.65,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 83162.6,
+    "netOrders": 895,
+    "netRoi": 1.65,
     "asp": null
   },
   {
@@ -2405,9 +2405,9 @@ const rawData = [
     "gmv": 115441.8,
     "orders": 1195,
     "totalRoi": 1.7,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 115441.8,
+    "netOrders": 1195,
+    "netRoi": 1.7,
     "asp": null
   },
   {
@@ -2418,9 +2418,9 @@ const rawData = [
     "gmv": 84897.5,
     "orders": 879,
     "totalRoi": 1.79,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 84897.5,
+    "netOrders": 879,
+    "netRoi": 1.79,
     "asp": null
   },
   {
@@ -2431,9 +2431,9 @@ const rawData = [
     "gmv": 70869.8,
     "orders": 791,
     "totalRoi": 1.61,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 70869.8,
+    "netOrders": 791,
+    "netRoi": 1.61,
     "asp": null
   },
   {
@@ -2444,9 +2444,9 @@ const rawData = [
     "gmv": 48109.7,
     "orders": 518,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 48109.7,
+    "netOrders": 518,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2457,9 +2457,9 @@ const rawData = [
     "gmv": 68603.9,
     "orders": 763,
     "totalRoi": 1.69,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 68603.9,
+    "netOrders": 763,
+    "netRoi": 1.69,
     "asp": null
   },
   {
@@ -2470,9 +2470,9 @@ const rawData = [
     "gmv": 97859.6,
     "orders": 1086,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 97859.6,
+    "netOrders": 1086,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2483,9 +2483,9 @@ const rawData = [
     "gmv": 59718.6,
     "orders": 681,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 59718.6,
+    "netOrders": 681,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2496,9 +2496,9 @@ const rawData = [
     "gmv": 87255.5,
     "orders": 964,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 87255.5,
+    "netOrders": 964,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2509,9 +2509,9 @@ const rawData = [
     "gmv": 61010.8,
     "orders": 679,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 61010.8,
+    "netOrders": 679,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -2522,9 +2522,9 @@ const rawData = [
     "gmv": 65349.59,
     "orders": 732,
     "totalRoi": 1.7,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 65349.59,
+    "netOrders": 732,
+    "netRoi": 1.7,
     "asp": null
   },
   {
@@ -2535,9 +2535,9 @@ const rawData = [
     "gmv": 72545.2,
     "orders": 791,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 72545.2,
+    "netOrders": 791,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2548,9 +2548,9 @@ const rawData = [
     "gmv": 60695.9,
     "orders": 656,
     "totalRoi": 1.58,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 60695.9,
+    "netOrders": 656,
+    "netRoi": 1.58,
     "asp": null
   },
   {
@@ -2561,9 +2561,9 @@ const rawData = [
     "gmv": 83656.9,
     "orders": 940,
     "totalRoi": 1.63,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 83656.9,
+    "netOrders": 940,
+    "netRoi": 1.63,
     "asp": null
   },
   {
@@ -2574,9 +2574,9 @@ const rawData = [
     "gmv": 50254.0,
     "orders": 559,
     "totalRoi": 1.74,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 50254.0,
+    "netOrders": 559,
+    "netRoi": 1.74,
     "asp": null
   },
   {
@@ -2587,9 +2587,9 @@ const rawData = [
     "gmv": 72317.8,
     "orders": 806,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 72317.8,
+    "netOrders": 806,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -2600,9 +2600,9 @@ const rawData = [
     "gmv": 74159.6,
     "orders": 815,
     "totalRoi": 1.69,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 74159.6,
+    "netOrders": 815,
+    "netRoi": 1.69,
     "asp": null
   },
   {
@@ -2613,9 +2613,9 @@ const rawData = [
     "gmv": 68751.89,
     "orders": 773,
     "totalRoi": 1.73,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 68751.89,
+    "netOrders": 773,
+    "netRoi": 1.73,
     "asp": null
   },
   {
@@ -2626,9 +2626,9 @@ const rawData = [
     "gmv": 56587.7,
     "orders": 642,
     "totalRoi": 1.56,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 56587.7,
+    "netOrders": 642,
+    "netRoi": 1.56,
     "asp": null
   },
   {
@@ -2639,9 +2639,9 @@ const rawData = [
     "gmv": 84767.8,
     "orders": 944,
     "totalRoi": 1.6,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 84767.8,
+    "netOrders": 944,
+    "netRoi": 1.6,
     "asp": null
   },
   {
@@ -2652,9 +2652,9 @@ const rawData = [
     "gmv": 76908.8,
     "orders": 879,
     "totalRoi": 1.69,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 76908.8,
+    "netOrders": 879,
+    "netRoi": 1.69,
     "asp": null
   },
   {
@@ -2665,9 +2665,9 @@ const rawData = [
     "gmv": 68000.7,
     "orders": 763,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 68000.7,
+    "netOrders": 763,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2678,9 +2678,9 @@ const rawData = [
     "gmv": 72538.0,
     "orders": 815,
     "totalRoi": 1.57,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 72538.0,
+    "netOrders": 815,
+    "netRoi": 1.57,
     "asp": null
   },
   {
@@ -2691,9 +2691,9 @@ const rawData = [
     "gmv": 66307.7,
     "orders": 765,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 66307.7,
+    "netOrders": 765,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2704,9 +2704,9 @@ const rawData = [
     "gmv": 72910.8,
     "orders": 824,
     "totalRoi": 1.62,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 72910.8,
+    "netOrders": 824,
+    "netRoi": 1.62,
     "asp": null
   },
   {
@@ -2717,9 +2717,9 @@ const rawData = [
     "gmv": 66618.7,
     "orders": 753,
     "totalRoi": 1.67,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 66618.7,
+    "netOrders": 753,
+    "netRoi": 1.67,
     "asp": null
   },
   {
@@ -2730,9 +2730,9 @@ const rawData = [
     "gmv": 65652.8,
     "orders": 726,
     "totalRoi": 1.63,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 65652.8,
+    "netOrders": 726,
+    "netRoi": 1.63,
     "asp": null
   },
   {
@@ -2743,9 +2743,9 @@ const rawData = [
     "gmv": 70567.0,
     "orders": 804,
     "totalRoi": 1.72,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 70567.0,
+    "netOrders": 804,
+    "netRoi": 1.72,
     "asp": null
   },
   {
@@ -2756,9 +2756,9 @@ const rawData = [
     "gmv": 100545.8,
     "orders": 1152,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 100545.8,
+    "netOrders": 1152,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2769,9 +2769,9 @@ const rawData = [
     "gmv": 92587.7,
     "orders": 1057,
     "totalRoi": 1.69,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 92587.7,
+    "netOrders": 1057,
+    "netRoi": 1.69,
     "asp": null
   },
   {
@@ -2782,9 +2782,9 @@ const rawData = [
     "gmv": 63467.5,
     "orders": 730,
     "totalRoi": 1.67,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 63467.5,
+    "netOrders": 730,
+    "netRoi": 1.67,
     "asp": null
   },
   {
@@ -2795,9 +2795,9 @@ const rawData = [
     "gmv": 117229.9,
     "orders": 1193,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 117229.9,
+    "netOrders": 1193,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2808,9 +2808,9 @@ const rawData = [
     "gmv": 95445.9,
     "orders": 975,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 95445.9,
+    "netOrders": 975,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2821,9 +2821,9 @@ const rawData = [
     "gmv": 59223.9,
     "orders": 594,
     "totalRoi": 1.61,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 59223.9,
+    "netOrders": 594,
+    "netRoi": 1.61,
     "asp": null
   },
   {
@@ -2834,9 +2834,9 @@ const rawData = [
     "gmv": 91442.9,
     "orders": 916,
     "totalRoi": 1.64,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 91442.9,
+    "netOrders": 916,
+    "netRoi": 1.64,
     "asp": null
   },
   {
@@ -2847,9 +2847,9 @@ const rawData = [
     "gmv": 77763.7,
     "orders": 781,
     "totalRoi": 1.66,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 77763.7,
+    "netOrders": 781,
+    "netRoi": 1.66,
     "asp": null
   },
   {
@@ -2860,9 +2860,9 @@ const rawData = [
     "gmv": 85066.9,
     "orders": 903,
     "totalRoi": 1.67,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 85066.9,
+    "netOrders": 903,
+    "netRoi": 1.67,
     "asp": null
   },
   {
@@ -2873,9 +2873,9 @@ const rawData = [
     "gmv": 54407.7,
     "orders": 534,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 54407.7,
+    "netOrders": 534,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -2886,9 +2886,9 @@ const rawData = [
     "gmv": 84809.0,
     "orders": 843,
     "totalRoi": 1.68,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 84809.0,
+    "netOrders": 843,
+    "netRoi": 1.68,
     "asp": null
   },
   {
@@ -2899,9 +2899,9 @@ const rawData = [
     "gmv": 58108.0,
     "orders": 632,
     "totalRoi": 1.75,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 58108.0,
+    "netOrders": 632,
+    "netRoi": 1.75,
     "asp": null
   },
   {
@@ -2912,9 +2912,9 @@ const rawData = [
     "gmv": 80853.9,
     "orders": 843,
     "totalRoi": 1.71,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 80853.9,
+    "netOrders": 843,
+    "netRoi": 1.71,
     "asp": null
   },
   {
@@ -2925,16 +2925,16 @@ const rawData = [
     "gmv": 89042.0,
     "orders": 962,
     "totalRoi": 1.69,
-    "netGmv": null,
-    "netOrders": null,
-    "netRoi": null,
+    "netGmv": 89042.0,
+    "netOrders": 962,
+    "netRoi": 1.69,
     "asp": null
   }
 ];
 const activeStart = 0;
 const accounts = [];
-const periodData = [{"label": "7月上旬", "range": "07-01~07-10", "days": 10, "spend": 432179.53, "netGmv": 0.0, "gmv": 713250.79, "orders": 8026, "netRoi": 0, "totalRoi": 1.65, "avgNetRoi": 1.651, "netRoiChg": null, "totalRoiChg": null}, {"label": "7月中旬", "range": "07-11~07-20", "days": 10, "spend": 492917.54, "netGmv": 0.0, "gmv": 822782.1, "orders": 8900, "netRoi": 0, "totalRoi": 1.669, "avgNetRoi": 1.667, "netRoiChg": null, "totalRoiChg": null}, {"label": "7月下旬", "range": "07-21~07-31", "days": 7, "spend": 312937.47, "netGmv": 0.0, "gmv": 530051.2, "orders": 5498, "netRoi": 0, "totalRoi": 1.694, "avgNetRoi": 1.696, "netRoiChg": null, "totalRoiChg": null}];
-const hasNetData = false;
+const periodData = [{"label": "7月上旬", "range": "07-01~07-10", "days": 10, "spend": 432179.53, "netGmv": 713250.79, "gmv": 713250.79, "orders": 8026, "netRoi": 1.65, "totalRoi": 1.65, "avgNetRoi": 1.651, "netRoiChg": null, "totalRoiChg": null}, {"label": "7月中旬", "range": "07-11~07-20", "days": 10, "spend": 492917.54, "netGmv": 822782.1, "gmv": 822782.1, "orders": 8900, "netRoi": 1.669, "totalRoi": 1.669, "avgNetRoi": 1.667, "netRoiChg": 1.2, "totalRoiChg": 1.2}, {"label": "7月下旬", "range": "07-21~07-31", "days": 7, "spend": 312937.47, "netGmv": 530051.2, "gmv": 530051.2, "orders": 5498, "netRoi": 1.694, "totalRoi": 1.694, "avgNetRoi": 1.696, "netRoiChg": 1.5, "totalRoiChg": 1.5}];
+const hasNetData = true;
 
 
 const dates = rawData.map(d => d.date.slice(5));
