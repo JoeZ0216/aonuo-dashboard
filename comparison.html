@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>投流相互干扰分析 - 30支PVC vs 36袋条袋</title>
+<title>投流相互干扰分析（升级版）- 30支PVC vs 36袋条袋</title>
 <script>
 /*
 * Licensed to the Apache Software Foundation (ASF) under one
@@ -85,6 +85,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .chart-panel { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .panel-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1a1a2e; }
 
+.surge-section { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.surge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.surge-card { background: #fafafa; border-radius: 6px; padding: 14px; }
+.surge-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.surge-tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; color: #fff; font-weight: 600; }
+.surge-body { font-size: 12px; color: #555; line-height: 1.7; }
+
 .conclusions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
 .conclusion-card { background: #fff; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .conclusion-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
@@ -98,19 +105,27 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 .tw-product { color: #FF6B35; font-weight: 700; }
 .tw-product2 { color: #1890FF; font-weight: 700; }
 
-@media (max-width: 1024px) { .charts-row { grid-template-columns: 1fr; } .conclusions { grid-template-columns: 1fr; } }
+.section-title { font-size: 15px; font-weight: 700; margin: 20px 0 10px 0; color: #1a1a2e; display: flex; align-items: center; gap: 6px; }
+.section-title .badge { font-size: 10px; background: #FF6B35; color: #fff; padding: 2px 6px; border-radius: 3px; font-weight: 500; }
+
+.methodology { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.methodology summary { cursor: pointer; font-size: 13px; font-weight: 600; color: #1890FF; }
+.methodology .method-body { margin-top: 12px; font-size: 12px; color: #666; line-height: 1.8; }
+.methodology .method-body b { color: #333; }
+
+@media (max-width: 1024px) { .charts-row { grid-template-columns: 1fr; } .conclusions { grid-template-columns: 1fr; } .surge-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-left">
-    <h1>🔄 投流相互干扰分析<span class="brand-tag">澳诺</span></h1>
-    <div class="subtitle">30支PVC vs 36袋条袋 · 仅7月数据 · 同期相关性 + 滞后效应分析（36袋条袋 总成交=净成交）</div>
+    <h1>🔄 投流相互干扰分析（升级版）<span class="brand-tag">澳诺</span></h1>
+    <div class="subtitle">30支PVC vs 36袋条袋 · Pearson+Spearman+p值+去星期几+跨指标滞后+放量事件 · 仅7月数据</div>
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-08-05 11:57</span>
+    <span class="update-time">● 已更新 2026-08-05 14:04</span>
   </div>
 </div>
 
@@ -137,7 +152,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
   </div>
 </div>
 
-<div class="overall-banner overall-neutral"><div class="overall-icon">➖</div><div class="overall-content"><div class="overall-title">综合判断：互不干扰</div><div class="overall-body">两个品种的净ROI同期相关系数为 0.12，极弱不相关。说明两个品种的投放表现基本独立，一方的好坏不会显著影响另一方。可独立制定投放策略，无需特别协同。</div></div></div>
+<div class="overall-banner overall-warn"><div class="overall-icon">⚠️</div><div class="overall-content"><div class="overall-title">综合判断：存在放量干扰</div><div class="overall-body">跨指标滞后分析或放量事件分析检测到干扰信号。滞后1天 r = -0.42，Δ花费_30支PVC放量后，ROI_36袋条袋效率有下降趋势。 建议错峰放量或差异化人群定向，避免直接竞争。</div></div></div>
 
 <div class="charts-row">
   <div class="chart-panel"><div class="panel-title">📈 ROI 趋势对比（双Y轴）</div><div id="chart-roi-compare" style="height:320px;"></div></div>
@@ -149,26 +164,75 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
   <div class="chart-panel"><div class="panel-title">📊 散点图矩阵（同期日数据）</div><div id="chart-scatter" style="height:320px;"></div></div>
 </div>
 
-<div class="chart-panel" style="margin-bottom: 16px;">
-  <div class="panel-title">⏱️ 滞后相关性分析（横轴：天数，正值表示 p1 领先 p2）</div>
-  <div id="chart-lag" style="height:300px;"></div>
-</div>
-
+<div class="section-title">📐 增强相关系数矩阵 <span class="badge">Pearson + Spearman + p值 + 去星期几</span></div>
 <div class="corr-table">
-  <div class="panel-title">📐 同期 Pearson 相关系数矩阵</div>
   <table>
-    <thead><tr><th style="text-align:left;width:140px;">指标</th><th>30支PVC vs 36袋条袋</th></tr></thead>
-    <tbody><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总花费</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.06</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">转化成本</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.06</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总ROI</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.13</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">净ROI</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.12</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总GMV</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">0.11</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">订单数</td><td style="text-align:center;"><div style="font-size:18px;font-weight:700;color:#888780;">-0.05</div><div style="font-size:10px;color:#888;">极弱不相关</div><div style="font-size:9px;color:#888780;font-weight:600;margin-top:2px;">互不干扰</div></td></tr></tbody>
+    <thead><tr><th>指标</th><th>Pearson r</th><th>p 值</th><th>显著性</th><th>Spearman r</th><th>去星期几 r</th><th>结论</th></tr></thead>
+    <tbody><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总花费</td><td style="text-align:center;font-size:15px;font-weight:700;color:#888780;">0.06</td><td style="text-align:center;color:#555;">0.757</td><td style="text-align:center;color:#999;font-weight:600;">ns</td><td style="text-align:center;color:#555;">0.08</td><td style="text-align:center;color:#555;">-0.01</td><td style="text-align:center;font-size:11px;font-weight:600;color:#888780;">互不干扰</td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">转化成本</td><td style="text-align:center;font-size:15px;font-weight:700;color:#888780;">0.06</td><td style="text-align:center;color:#555;">0.745</td><td style="text-align:center;color:#999;font-weight:600;">ns</td><td style="text-align:center;color:#555;">-0.06</td><td style="text-align:center;color:#555;">0.08</td><td style="text-align:center;font-size:11px;font-weight:600;color:#888780;">互不干扰</td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总ROI</td><td style="text-align:center;font-size:15px;font-weight:700;color:#888780;">0.13</td><td style="text-align:center;color:#555;">0.484</td><td style="text-align:center;color:#999;font-weight:600;">ns</td><td style="text-align:center;color:#555;">0.30</td><td style="text-align:center;color:#555;">0.19</td><td style="text-align:center;font-size:11px;font-weight:600;color:#888780;">互不干扰</td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">净ROI</td><td style="text-align:center;font-size:15px;font-weight:700;color:#888780;">0.12</td><td style="text-align:center;color:#555;">0.515</td><td style="text-align:center;color:#999;font-weight:600;">ns</td><td style="text-align:center;color:#555;">0.27</td><td style="text-align:center;color:#555;">0.18</td><td style="text-align:center;font-size:11px;font-weight:600;color:#888780;">互不干扰</td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">总GMV</td><td style="text-align:center;font-size:15px;font-weight:700;color:#888780;">0.11</td><td style="text-align:center;color:#555;">0.540</td><td style="text-align:center;color:#999;font-weight:600;">ns</td><td style="text-align:center;color:#555;">0.12</td><td style="text-align:center;color:#555;">0.06</td><td style="text-align:center;font-size:11px;font-weight:600;color:#888780;">互不干扰</td></tr><tr><td style="text-align:left;font-weight:600;background:#fafafa;">订单数</td><td style="text-align:center;font-size:15px;font-weight:700;color:#888780;">-0.05</td><td style="text-align:center;color:#555;">0.805</td><td style="text-align:center;color:#999;font-weight:600;">ns</td><td style="text-align:center;color:#555;">-0.02</td><td style="text-align:center;color:#555;">-0.13</td><td style="text-align:center;font-size:11px;font-weight:600;color:#888780;">互不干扰</td></tr></tbody>
   </table>
   <div style="font-size:11px;color:#999;margin-top:10px;line-height:1.7;">
-    解读：r &gt; 0.2 → 同向变动（协同）；r &lt; -0.2 → 反向变动（替代/干扰）；|r| &le; 0.2 → 无明显关联。<br/>
-    强度：|r| &ge; 0.7 强，0.4~0.7 中等，0.2~0.4 弱，&lt; 0.2 极弱。
+    显著性：*** p&lt;0.01 | ** p&lt;0.05 | * p&lt;0.10 | ns 不显著<br/>
+    去星期几 r = 控制星期几周期效应后的偏相关系数（剔除周末/工作日规律性波动后的"真实"相关性）<br/>
+    Spearman r = 秩相关（衡量单调关系，对异常值稳健，能捕捉非线性拐点）
   </div>
 </div>
 
-<div class="panel-title" style="margin: 0 0 10px 0;font-size:14px;">📋 各指标结论</div>
+<div class="section-title">⏱️ 同指标滞后相关（±7天）</div>
+<div class="chart-panel" style="margin-bottom: 16px;">
+  <div id="chart-lag" style="height:300px;"></div>
+  <div style="font-size:11px;color:#999;margin-top:6px;">横轴：滞后天数（正值 = P1领先P2） | 参考线：r = ±0.3（弱相关阈值）</div>
+</div>
+
+<div class="section-title">🔀 跨指标滞后相关：放量→效率 <span class="badge">核心新增</span></div>
+<div class="chart-panel" style="margin-bottom: 16px;">
+  <div id="chart-cross-lag" style="height:340px;"></div>
+  <div style="font-size:11px;color:#999;margin-top:6px;">
+    横轴：滞后天数（正值 = A花费变化领先B的ROI/花费） | Δ花费 = 日环比变化率<br/>
+    解读：若"Δ花费_A→ROI_B"在 lag 1~3 天出现 r &lt; -0.3，说明 A 放量后 B 效率下降（存在拖累）
+  </div>
+</div>
+
+<div class="section-title">⚡ 放量事件分析 <span class="badge">核心新增</span></div>
+<div class="surge-section">
+  <div style="font-size:12px;color:#888;margin-bottom:10px;">标记日花费环比增长 &gt;30% 的日期为"放量事件"，比较另一方在事件后5天的ROI均值与非事件日均值</div>
+  <div class="surge-grid">
+    <div class="surge-card" style="border-left:4px solid #888780;"><div class="surge-title">30支PVC 放量 → 36袋条袋 效率 <span class="surge-tag" style="background:#888780;">无明显影响</span></div><div class="surge-body">放量 6 次（07-03, 07-13, 07-17, 07-21, 07-29, 07-31）<br>事件后5天 36袋条袋 ROI 均值: <b>1.67</b> vs 非事件日: <b>1.67</b><br>差异: <b style='color:#888780;'>+0.2%</b> (无明显影响)</div></div><div class="surge-card" style="border-left:4px solid #888780;"><div class="surge-title">36袋条袋 放量 → 30支PVC 效率 <span class="surge-tag" style="background:#888780;">无明显影响</span></div><div class="surge-body">放量 8 次（07-05, 07-14, 07-17, 07-20, 07-24, 07-26, 07-29, 08-01）<br>事件后5天 30支PVC ROI 均值: <b>1.62</b> vs 非事件日: <b>1.56</b><br>差异: <b style='color:#888780;'>+3.4%</b> (无明显影响)</div></div>
+  </div>
+</div>
+
+<div class="section-title">📋 同期相关性结论</div>
 <div class="conclusions">
-<div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总花费 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.06，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">转化成本 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.06，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总ROI 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.13，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">净ROI 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.12，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总GMV 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.11，极弱不相关。➖ 双方此指标无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">订单数 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = -0.05，极弱不相关。➖ 双方此指标无明显关联。</div></div>
+<div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总花费 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.06；p = 0.757 (ns)；Spearman r = 0.08；去星期几 r = -0.01。➖ 双方无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">转化成本 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.06；p = 0.745 (ns)；Spearman r = -0.06；去星期几 r = 0.08。➖ 双方无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总ROI 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.13；p = 0.484 (ns)；Spearman r = 0.30；去星期几 r = 0.19。➖ 双方无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">净ROI 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.12；p = 0.515 (ns)；Spearman r = 0.27；去星期几 r = 0.18。➖ 双方无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">总GMV 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = 0.11；p = 0.540 (ns)；Spearman r = 0.12；去星期几 r = 0.06。➖ 双方无明显关联。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">订单数 同期相关性 <span class="conclusion-tag" style="background:#888780;">互不干扰</span></div><div class="conclusion-body">Pearson r = -0.05；p = 0.805 (ns)；Spearman r = -0.02；去星期几 r = -0.13。➖ 双方无明显关联。</div></div>
+</div>
+
+<div class="section-title">🔀 跨指标滞后结论</div>
+<div class="conclusions">
+<div class="conclusion-card" style="border-left: 4px solid #22A446;"><div class="conclusion-title">Δ花费_30支PVC → ROI_36袋条袋 <span class="conclusion-tag" style="background:#22A446;">存在拖累</span></div><div class="conclusion-body">滞后1天 r = -0.42，Δ花费_30支PVC放量后，ROI_36袋条袋效率有下降趋势。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">Δ花费_36袋条袋 → ROI_30支PVC <span class="conclusion-tag" style="background:#888780;">无显著影响</span></div><div class="conclusion-body">滞后1~3天最大 r = -0.07（|r| < 0.3），Δ花费_36袋条袋 → ROI_30支PVC：未发现显著跨指标影响。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">Δ花费_30支PVC → 花费_36袋条袋 <span class="conclusion-tag" style="background:#888780;">无显著影响</span></div><div class="conclusion-body">滞后1~3天最大 r = -0.20（|r| < 0.3），Δ花费_30支PVC → 花费_36袋条袋：未发现显著跨指标影响。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">Δ花费_36袋条袋 → 花费_30支PVC <span class="conclusion-tag" style="background:#888780;">无显著影响</span></div><div class="conclusion-body">滞后1~3天最大 r = -0.08（|r| < 0.3），Δ花费_36袋条袋 → 花费_30支PVC：未发现显著跨指标影响。</div></div>
+</div>
+
+<div class="section-title">⚡ 放量事件结论</div>
+<div class="conclusions">
+<div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">30支PVC放量 → 36袋条袋效率 <span class="conclusion-tag" style="background:#888780;">无明显影响</span></div><div class="conclusion-body">放量 6 次，事件后5天ROI均值 1.67 vs 非事件日 1.67，差异 +0.2%（无明显影响）。</div></div><div class="conclusion-card" style="border-left: 4px solid #888780;"><div class="conclusion-title">36袋条袋放量 → 30支PVC效率 <span class="conclusion-tag" style="background:#888780;">无明显影响</span></div><div class="conclusion-body">放量 8 次，事件后5天ROI均值 1.62 vs 非事件日 1.56，差异 +3.4%（无明显影响）。</div></div>
+</div>
+
+<div class="methodology">
+  <details>
+    <summary>📖 分析方法说明与局限性</summary>
+    <div class="method-body">
+      <b>1. Pearson 相关系数</b>：衡量两个变量的线性相关程度，范围 -1 到 1。正值=同向（协同），负值=反向（干扰）。<br/>
+      <b>2. Spearman 秩相关</b>：衡量单调关系（不限于线性），对异常值更稳健。若 Spearman 显著但 Pearson 不显著，可能存在非线性关系。<br/>
+      <b>3. p 值</b>：相关系数的统计显著性。p&lt;0.05 表示相关性不太可能是偶然。*** p&lt;0.01, ** p&lt;0.05, * p&lt;0.10, ns 不显著。<br/>
+      <b>4. 去星期几效应</b>：控制星期几对数据的周期性影响后的偏相关系数。若去星期几后 r 显著下降，说明原相关性是周末/工作日规律导致的假象。<br/>
+      <b>5. 同指标滞后相关</b>：A 的指标领先 B 若干天，看 B 是否跟随。±7天窗口。<br/>
+      <b>6. 跨指标滞后相关</b>：A 的花费变化率（Δ花费）→ B 的 ROI，直接测试"放量拖累"假说。这是本次升级的核心。<br/>
+      <b>7. 放量事件分析</b>：标记 A 花费环比增长 &gt;30% 的日期，比较 B 在事件后 5 天的 ROI 均值与非事件日均值。类似金融事件研究法。<br/><br/>
+      <b>局限性：</b><br/>
+      - 样本量较小（约31天），统计功效有限，小效应可能检测不到<br/>
+      - 相关性 ≠ 因果关系，两个品种可能受共同外部因素影响（大盘、季节、活动）<br/>
+      - 放量事件次数较少时，事件分析结论仅供参考<br/>
+      - p 值未做多重比较校正（同时检验多个指标/滞后会增加假阳性率）
+    </div>
+  </details>
 </div>
 
 </div>
@@ -176,9 +240,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 <script>
 const aligned = {"dates": ["07-02", "07-03", "07-04", "07-05", "07-06", "07-07", "07-08", "07-09", "07-10", "07-11", "07-12", "07-13", "07-14", "07-15", "07-16", "07-17", "07-18", "07-19", "07-20", "07-21", "07-22", "07-23", "07-24", "07-25", "07-26", "07-27", "07-28", "07-29", "07-30", "07-31", "08-01"], "p1": {"name": "30支PVC", "spend": [1.45, 18000.21, 13000.0, 15000.0, 16000.0, 15000.0, 15000.0, 15000.0, 15000.0, 15000.0, 19000.0, 27100.0, 29265.63, 19386.87, 19458.64, 26600.58, 30819.69, 32510.14, 25389.37, 35312.64, 31924.15, 32916.84, 40613.34, 44828.79, 45483.32, 55425.13, 51313.85, 74955.5, 47341.37, 68784.32, 86041.37], "totalRoi": [0.0, 1.42, 1.5, 1.47, 1.48, 1.41, 1.44, 1.57, 1.5, 1.51, 1.61, 1.74, 1.68, 1.84, 1.69, 1.75, 1.68, 1.86, 1.71, 1.71, 1.8, 1.9, 1.91, 1.83, 1.85, 1.85, 1.9, 1.86, 1.84, 1.84, 1.78], "netRoi": [0.0, 1.31, 1.36, 1.31, 1.32, 1.31, 1.31, 1.47, 1.41, 1.38, 1.48, 1.62, 1.58, 1.67, 1.56, 1.63, 1.55, 1.73, 1.56, 1.57, 1.69, 1.65, 1.72, 1.68, 1.68, 1.68, 1.75, 1.7, 1.66, 1.67, 1.63], "convCost": [0.0, 61.86, 64.68, 59.52, 63.49, 68.81, 67.57, 60.98, 63.56, 62.5, 60.7, 58.66, 60.97, 55.08, 59.33, 61.01, 62.9, 57.54, 61.93, 61.52, 59.12, 55.42, 55.86, 58.37, 58.69, 58.59, 58.05, 61.69, 61.4, 59.86, 61.99], "gmv": [0.0, 25649.0, 19518.0, 22008.0, 23707.0, 21098.0, 21629.0, 23503.0, 22462.0, 22715.0, 30576.0, 47063.0, 49046.0, 35592.0, 32841.0, 46513.0, 51819.0, 60515.0, 43351.0, 60409.0, 57511.0, 62701.0, 77469.0, 81978.4, 84117.65, 102706.0, 97690.7, 139063.79, 86923.64, 126264.55, 153539.0], "orders": [0, 291, 201, 252, 252, 218, 222, 246, 236, 240, 313, 462, 480, 352, 328, 436, 490, 565, 410, 574, 540, 594, 727, 768, 775, 946, 884, 1215, 771, 1149, 1388], "color": "#FF6B35"}, "p2": {"name": "36袋条袋", "spend": [43998.22, 39644.95, 36235.2, 52995.7, 45397.8, 40381.65, 46252.19, 40999.26, 44977.74, 39895.99, 40393.39, 41101.92, 59821.73, 54946.74, 37968.15, 69710.77, 56739.01, 36700.66, 55639.18, 46735.01, 50810.36, 31800.86, 50508.6, 33280.26, 47244.34, 52558.04, 42401.51, 61610.63, 38474.63, 31925.44, 45096.73], "totalRoi": [1.69, 1.73, 1.56, 1.6, 1.69, 1.68, 1.57, 1.62, 1.62, 1.67, 1.63, 1.72, 1.68, 1.69, 1.67, 1.68, 1.68, 1.61, 1.64, 1.66, 1.67, 1.71, 1.68, 1.75, 1.71, 1.69, 1.64, 1.76, 1.73, 1.64, 1.7], "netRoi": [1.69, 1.73, 1.56, 1.6, 1.69, 1.68, 1.57, 1.62, 1.62, 1.67, 1.63, 1.72, 1.68, 1.69, 1.67, 1.68, 1.68, 1.61, 1.64, 1.66, 1.67, 1.71, 1.68, 1.75, 1.71, 1.69, 1.64, 1.76, 1.73, 1.64, 1.7], "convCost": [53.99, 51.29, 56.44, 56.14, 51.65, 52.92, 56.75, 53.59, 54.58, 52.98, 55.64, 51.12, 51.93, 51.98, 52.01, 58.43, 58.19, 61.79, 60.74, 59.84, 56.27, 59.55, 59.92, 52.66, 56.04, 54.63, 58.24, 55.41, 59.56, 60.46, 56.73], "gmv": [74159.6, 68751.89, 56587.7, 84767.8, 76908.8, 68000.7, 72538.0, 66307.7, 72910.8, 66618.7, 65652.8, 70567.0, 100545.8, 92587.7, 63467.5, 117229.9, 95445.9, 59223.9, 91442.9, 77763.7, 85066.9, 54407.7, 84809.0, 58108.0, 80853.9, 89042.0, 69501.0, 108581.0, 66458.0, 52309.8, 76542.0], "orders": [815, 773, 642, 944, 879, 763, 815, 765, 824, 753, 726, 804, 1152, 1057, 730, 1193, 975, 594, 916, 781, 903, 534, 843, 632, 843, 962, 728, 1112, 646, 528, 795], "color": "#1890FF"}};
 const scatter = {"spend": [[1.45, 43998.22], [18000.21, 39644.95], [13000.0, 36235.2], [15000.0, 52995.7], [16000.0, 45397.8], [15000.0, 40381.65], [15000.0, 46252.19], [15000.0, 40999.26], [15000.0, 44977.74], [15000.0, 39895.99], [19000.0, 40393.39], [27100.0, 41101.92], [29265.63, 59821.73], [19386.87, 54946.74], [19458.64, 37968.15], [26600.58, 69710.77], [30819.69, 56739.01], [32510.14, 36700.66], [25389.37, 55639.18], [35312.64, 46735.01], [31924.15, 50810.36], [32916.84, 31800.86], [40613.34, 50508.6], [44828.79, 33280.26], [45483.32, 47244.34], [55425.13, 52558.04], [51313.85, 42401.51], [74955.5, 61610.63], [47341.37, 38474.63], [68784.32, 31925.44], [86041.37, 45096.73]], "total_roi": [[0.0, 1.69], [1.42, 1.73], [1.5, 1.56], [1.47, 1.6], [1.48, 1.69], [1.41, 1.68], [1.44, 1.57], [1.57, 1.62], [1.5, 1.62], [1.51, 1.67], [1.61, 1.63], [1.74, 1.72], [1.68, 1.68], [1.84, 1.69], [1.69, 1.67], [1.75, 1.68], [1.68, 1.68], [1.86, 1.61], [1.71, 1.64], [1.71, 1.66], [1.8, 1.67], [1.9, 1.71], [1.91, 1.68], [1.83, 1.75], [1.85, 1.71], [1.85, 1.69], [1.9, 1.64], [1.86, 1.76], [1.84, 1.73], [1.84, 1.64], [1.78, 1.7]], "conv_cost": [[0.0, 53.99], [61.86, 51.29], [64.68, 56.44], [59.52, 56.14], [63.49, 51.65], [68.81, 52.92], [67.57, 56.75], [60.98, 53.59], [63.56, 54.58], [62.5, 52.98], [60.7, 55.64], [58.66, 51.12], [60.97, 51.93], [55.08, 51.98], [59.33, 52.01], [61.01, 58.43], [62.9, 58.19], [57.54, 61.79], [61.93, 60.74], [61.52, 59.84], [59.12, 56.27], [55.42, 59.55], [55.86, 59.92], [58.37, 52.66], [58.69, 56.04], [58.59, 54.63], [58.05, 58.24], [61.69, 55.41], [61.4, 59.56], [59.86, 60.46], [61.99, 56.73]], "gmv": [[0.0, 74159.6], [25649.0, 68751.89], [19518.0, 56587.7], [22008.0, 84767.8], [23707.0, 76908.8], [21098.0, 68000.7], [21629.0, 72538.0], [23503.0, 66307.7], [22462.0, 72910.8], [22715.0, 66618.7], [30576.0, 65652.8], [47063.0, 70567.0], [49046.0, 100545.8], [35592.0, 92587.7], [32841.0, 63467.5], [46513.0, 117229.9], [51819.0, 95445.9], [60515.0, 59223.9], [43351.0, 91442.9], [60409.0, 77763.7], [57511.0, 85066.9], [62701.0, 54407.7], [77469.0, 84809.0], [81978.4, 58108.0], [84117.65, 80853.9], [102706.0, 89042.0], [97690.7, 69501.0], [139063.79, 108581.0], [86923.64, 66458.0], [126264.55, 52309.8], [153539.0, 76542.0]]};
-const corrMatrix = {"col_labels": ["30支PVC vs 36袋条袋"], "rows": [{"label": "总花费", "cells": [{"value": 0.05797401026222778}]}, {"label": "转化成本", "cells": [{"value": 0.06086618932100312}]}, {"label": "总ROI", "cells": [{"value": 0.13048835992368546}]}, {"label": "净ROI", "cells": [{"value": 0.12135329028916753}]}, {"label": "总GMV", "cells": [{"value": 0.11444820226787317}]}, {"label": "订单数", "cells": [{"value": -0.04621376706537389}]}]};
-const lagResults = {"lags": [-3, -2, -1, 0, 1, 2, 3], "series": [{"label": "总ROI", "values": [0.3170146471242505, 0.4625723572487219, 0.38730769439320833, 0.13048835992368546, 0.07446365375537506, 0.5985932374607393, 0.44294367000944107]}, {"label": "净ROI", "values": [0.30947960343166814, 0.4333442222667665, 0.37830804585788574, 0.12135329028916753, 0.06586601353965119, 0.5770696461335274, 0.4431991785685907]}, {"label": "总花费", "values": [0.1843068759908409, 0.04498782694918197, -0.12843340359336583, 0.05797401026222778, -0.004905532675537995, -0.081021523751238, -0.0744728491243048]}, {"label": "总花费（反向）", "values": [-0.0744728491243048, -0.081021523751238, -0.004905532675537995, 0.05797401026222778, -0.12843340359336583, 0.04498782694918197, 0.1843068759908409]}]};
-const summary = {"conclusions": [{"title": "总花费 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.06，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "转化成本 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.06，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "总ROI 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.13，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "净ROI 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.12，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "总GMV 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.11，极弱不相关。➖ 双方此指标无明显关联。"}, {"title": "订单数 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = -0.05，极弱不相关。➖ 双方此指标无明显关联。"}], "overall": {"label": "互不干扰", "icon": "➖", "tag_class": "neutral", "body": "两个品种的净ROI同期相关系数为 0.12，极弱不相关。说明两个品种的投放表现基本独立，一方的好坏不会显著影响另一方。可独立制定投放策略，无需特别协同。"}};
+const corrMatrix = {"col_labels": ["Pearson r", "p值", "显著性", "Spearman r", "去星期几 r"], "rows": [{"label": "总花费", "cells": [{"value": 0.05797401026222778, "pvalue": 0.7567270226393995, "spearman": 0.08356147472937962, "dow": -0.007191670860394602, "n": 31}]}, {"label": "转化成本", "cells": [{"value": 0.06086618932100312, "pvalue": 0.7449812929673628, "spearman": -0.05645161290322581, "dow": 0.08007894720048585, "n": 31}]}, {"label": "总ROI", "cells": [{"value": 0.13048835992368546, "pvalue": 0.48413165742202086, "spearman": 0.30215976406257644, "dow": 0.18947462308427412, "n": 31}]}, {"label": "净ROI", "cells": [{"value": 0.12135329028916753, "pvalue": 0.5154915411464986, "spearman": 0.2717509567993639, "dow": 0.18374514856226162, "n": 31}]}, {"label": "总GMV", "cells": [{"value": 0.11444820226787317, "pvalue": 0.5398404365339828, "spearman": 0.11612903225806454, "dow": 0.06380399907716391, "n": 31}]}, {"label": "订单数", "cells": [{"value": -0.04621376706537389, "pvalue": 0.8050125109958803, "spearman": -0.016738933230205855, "dow": -0.1286670163530868, "n": 31}]}]};
+const lagResults = {"lags": [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7], "series": [{"label": "总ROI", "values": [0.039668202177282015, 0.288320768002354, 0.04597265004247564, 0.19435955108590675, 0.3170146471242505, 0.4625723572487219, 0.38730769439320833, 0.13048835992368546, 0.07446365375537506, 0.5985932374607393, 0.44294367000944107, 0.08573812669811445, 0.13590040264258396, 0.5712566352022682, 0.3822816470739246]}, {"label": "净ROI", "values": [0.07123314405433526, 0.256545353059744, -0.02626671163824646, 0.21611532645235085, 0.30947960343166814, 0.4333442222667665, 0.37830804585788574, 0.12135329028916753, 0.06586601353965119, 0.5770696461335274, 0.4431991785685907, 0.11354464782181482, 0.1388473433929691, 0.5490181779720138, 0.37995965870075665]}, {"label": "总花费", "values": [0.08219929150123416, -0.0971665814209807, 0.14500104723058638, 0.009045063022556327, 0.1843068759908409, 0.04498782694918197, -0.12843340359336583, 0.05797401026222778, -0.004905532675537995, -0.081021523751238, -0.0744728491243048, -0.09515700244835791, -0.07782914113279013, -0.22707530181385624, -0.1358471829698405]}, {"label": "总花费(反向)", "values": [-0.1358471829698405, -0.2270753018138562, -0.07782914113279013, -0.09515700244835792, -0.0744728491243048, -0.081021523751238, -0.004905532675537995, 0.05797401026222778, -0.12843340359336583, 0.04498782694918197, 0.1843068759908409, 0.009045063022556327, 0.1450010472305864, -0.0971665814209807, 0.08219929150123416]}]};
+const crossLagResults = {"lags": [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7], "series": [{"label": "Δ花费_30支PVC → ROI_36袋条袋", "values": [0.07603811125889123, 0.3390781144213973, -0.19078531434979357, 0.017374965670092418, 0.09189686808586629, 0.15138834617275188, 0.08101941970009513, 0.2332618015234139, -0.42421759524216107, -0.3106904830488152, 0.07499379791138648, 0.03199610357762707, -0.4754006452879113, -0.30032969899121925, -0.328896772152453]}, {"label": "Δ花费_36袋条袋 → ROI_30支PVC", "values": [0.13450601678087235, -0.14025917424220766, 0.15421876645551066, 0.11868972557797346, -0.19303033795368846, 0.078269077167536, 0.11527707341788443, 0.04852508840064375, -0.019448032843907306, 0.18911037535503286, -0.0696972374870459, 0.05285076809459605, 0.17612648553280338, -0.15053924515712352, 0.06635971172007338]}, {"label": "Δ花费_30支PVC → 花费_36袋条袋", "values": [0.41566834753935983, -0.2819433136113123, -0.01219112937354194, 0.11340630211334196, 0.13865556778012716, -0.013131988781959173, -0.03479986056624045, -0.1242473138288399, -0.1997015566655449, 0.14054504950249155, -0.01383906620656944, -0.12089987180521745, -0.0010818948934436241, -0.11370843075356814, -0.033665126123943366]}, {"label": "Δ花费_36袋条袋 → 花费_30支PVC", "values": [0.10195995451140419, -0.05057033908386157, 0.07247019977191677, 0.022445047167661977, 0.047481043683866894, -0.023533677161688814, 0.010444549591043269, 0.1511619019611079, -0.08144413392500639, -0.03848315067736024, 0.15100714605952345, -0.05719624304315666, 0.2046311781914205, -0.05766570844989483, 0.030576080806892673]}]};
+const surgeResults = {"p1_to_p2": {"surge_count": 6, "surge_dates": ["07-03", "07-13", "07-17", "07-21", "07-29", "07-31"], "surge_mean": 1.67, "normal_mean": 1.67, "diff": 0.0, "diff_pct": 0.2, "tag": "无明显影响", "color": "#888780", "normal_count": 24}, "p2_to_p1": {"surge_count": 8, "surge_dates": ["07-05", "07-14", "07-17", "07-20", "07-24", "07-26", "07-29", "08-01"], "surge_mean": 1.62, "normal_mean": 1.56, "diff": 0.05, "diff_pct": 3.4, "tag": "无明显影响", "color": "#888780", "normal_count": 23}};
+const summary = {"conclusions": [{"title": "总花费 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.06；p = 0.757 (ns)；Spearman r = 0.08；去星期几 r = -0.01。➖ 双方无明显关联。"}, {"title": "转化成本 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.06；p = 0.745 (ns)；Spearman r = -0.06；去星期几 r = 0.08。➖ 双方无明显关联。"}, {"title": "总ROI 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.13；p = 0.484 (ns)；Spearman r = 0.30；去星期几 r = 0.19。➖ 双方无明显关联。"}, {"title": "净ROI 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.12；p = 0.515 (ns)；Spearman r = 0.27；去星期几 r = 0.18。➖ 双方无明显关联。"}, {"title": "总GMV 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = 0.11；p = 0.540 (ns)；Spearman r = 0.12；去星期几 r = 0.06。➖ 双方无明显关联。"}, {"title": "订单数 同期相关性", "tag": "互不干扰", "color": "#888780", "body": "Pearson r = -0.05；p = 0.805 (ns)；Spearman r = -0.02；去星期几 r = -0.13。➖ 双方无明显关联。"}], "cross_conclusions": [{"title": "Δ花费_30支PVC → ROI_36袋条袋", "tag": "存在拖累", "color": "#22A446", "body": "滞后1天 r = -0.42，Δ花费_30支PVC放量后，ROI_36袋条袋效率有下降趋势。"}, {"title": "Δ花费_36袋条袋 → ROI_30支PVC", "tag": "无显著影响", "color": "#888780", "body": "滞后1~3天最大 r = -0.07（|r| < 0.3），Δ花费_36袋条袋 → ROI_30支PVC：未发现显著跨指标影响。"}, {"title": "Δ花费_30支PVC → 花费_36袋条袋", "tag": "无显著影响", "color": "#888780", "body": "滞后1~3天最大 r = -0.20（|r| < 0.3），Δ花费_30支PVC → 花费_36袋条袋：未发现显著跨指标影响。"}, {"title": "Δ花费_36袋条袋 → 花费_30支PVC", "tag": "无显著影响", "color": "#888780", "body": "滞后1~3天最大 r = -0.08（|r| < 0.3），Δ花费_36袋条袋 → 花费_30支PVC：未发现显著跨指标影响。"}], "surge_conclusions": [{"title": "30支PVC放量 → 36袋条袋效率", "tag": "无明显影响", "color": "#888780", "body": "放量 6 次，事件后5天ROI均值 1.67 vs 非事件日 1.67，差异 +0.2%（无明显影响）。"}, {"title": "36袋条袋放量 → 30支PVC效率", "tag": "无明显影响", "color": "#888780", "body": "放量 8 次，事件后5天ROI均值 1.62 vs 非事件日 1.56，差异 +3.4%（无明显影响）。"}], "overall": {"label": "存在放量干扰", "icon": "⚠️", "tag_class": "warn", "body": "跨指标滞后分析或放量事件分析检测到干扰信号。滞后1天 r = -0.42，Δ花费_30支PVC放量后，ROI_36袋条袋效率有下降趋势。 建议错峰放量或差异化人群定向，避免直接竞争。"}};
 
 
 const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', GOLD = '#FFA940', GRAY = '#888';
@@ -188,11 +254,6 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   var dom = document.getElementById('chart-roi-compare');
   var c = echarts.init(dom);
   var dates = aligned.dates;
-  var p1TotalRoi = aligned.p1.totalRoi;
-  var p2TotalRoi = aligned.p2.totalRoi;
-  var p1NetRoi = aligned.p1.netRoi;
-  var p2NetRoi = aligned.p2.netRoi;
-
   c.setOption({
     tooltip: { trigger: 'axis' },
     legend: { data: [
@@ -203,10 +264,10 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
     yAxis: [{ type: 'value', name: 'ROI', min: 0, max: 5 }],
     series: [
-      { name: aligned.p1.name + ' 总ROI', type: 'line', data: p1TotalRoi, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: ORANGE, width: 2 }, itemStyle: { color: ORANGE } },
-      { name: aligned.p2.name + ' 总ROI', type: 'line', data: p2TotalRoi, smooth: true, symbol: 'diamond', symbolSize: 5, lineStyle: { color: BLUE, width: 2 }, itemStyle: { color: BLUE } },
-      { name: aligned.p1.name + ' 净ROI', type: 'line', data: p1NetRoi, smooth: true, symbol: 'circle', symbolSize: 4, lineStyle: { color: ORANGE, width: 1.5, type: 'dashed' }, itemStyle: { color: ORANGE } },
-      { name: aligned.p2.name + ' 净ROI', type: 'line', data: p2NetRoi, smooth: true, symbol: 'diamond', symbolSize: 4, lineStyle: { color: BLUE, width: 1.5, type: 'dashed' }, itemStyle: { color: BLUE } },
+      { name: aligned.p1.name + ' 总ROI', type: 'line', data: aligned.p1.totalRoi, smooth: true, symbol: 'circle', symbolSize: 5, lineStyle: { color: ORANGE, width: 2 }, itemStyle: { color: ORANGE } },
+      { name: aligned.p2.name + ' 总ROI', type: 'line', data: aligned.p2.totalRoi, smooth: true, symbol: 'diamond', symbolSize: 5, lineStyle: { color: BLUE, width: 2 }, itemStyle: { color: BLUE } },
+      { name: aligned.p1.name + ' 净ROI', type: 'line', data: aligned.p1.netRoi, smooth: true, symbol: 'circle', symbolSize: 4, lineStyle: { color: ORANGE, width: 1.5, type: 'dashed' }, itemStyle: { color: ORANGE } },
+      { name: aligned.p2.name + ' 净ROI', type: 'line', data: aligned.p2.netRoi, smooth: true, symbol: 'diamond', symbolSize: 4, lineStyle: { color: BLUE, width: 1.5, type: 'dashed' }, itemStyle: { color: BLUE } },
     ]
   });
 })();
@@ -247,7 +308,7 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   });
 })();
 
-// 散点图矩阵（4个：花费/总ROI/转化成本/总GMV）
+// 散点图矩阵
 (function(){
   var dom = document.getElementById('chart-scatter');
   var c = echarts.init(dom);
@@ -273,39 +334,27 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
     var r = (denx > 0 && deny > 0) ? num / Math.sqrt(denx * deny) : 0;
     return d.name + ' (r=' + r.toFixed(2) + ')';
   });
-
   var gridPos = [
     {x: '7%', y: '12%', width: '40%', height: '38%'},
     {x: '55%', y: '12%', width: '40%', height: '38%'},
     {x: '7%', y: '55%', width: '40%', height: '38%'},
     {x: '55%', y: '55%', width: '40%', height: '38%'},
   ];
-
-  var option = {
+  c.setOption({
     tooltip: { trigger: 'item', formatter: function(p){ return aligned.p1.name + ': ' + p.value[0].toFixed(2) + '<br/>' + aligned.p2.name + ': ' + p.value[1].toFixed(2); } },
     grid: gridPos,
     title: scatterData.map(function(d, i){
       return { text: titles[i], left: i % 2 === 0 ? '7%' : '55%', top: i < 2 ? '0%' : '45%', textStyle: { fontSize: 11, fontWeight: 'bold' } };
     }),
-    xAxis: scatterData.map(function(d, i){
-      return { gridIndex: i, type: 'value', scale: true, axisLabel: {fontSize:9} };
-    }),
-    yAxis: scatterData.map(function(d, i){
-      return { gridIndex: i, type: 'value', scale: true, axisLabel: {fontSize:9} };
-    }),
+    xAxis: scatterData.map(function(d, i){ return { gridIndex: i, type: 'value', scale: true, axisLabel: {fontSize:9} }; }),
+    yAxis: scatterData.map(function(d, i){ return { gridIndex: i, type: 'value', scale: true, axisLabel: {fontSize:9} }; }),
     series: scatterData.map(function(d, i){
-      return {
-        name: d.name, type: 'scatter', xAxisIndex: i, yAxisIndex: i,
-        data: d.data,
-        symbolSize: 8,
-        itemStyle: { color: d.color, opacity: 0.6 }
-      };
+      return { name: d.name, type: 'scatter', xAxisIndex: i, yAxisIndex: i, data: d.data, symbolSize: 8, itemStyle: { color: d.color, opacity: 0.6 } };
     })
-  };
-  c.setOption(option);
+  });
 })();
 
-// 滞后相关性图
+// 同指标滞后相关
 (function(){
   var dom = document.getElementById('chart-lag');
   var c = echarts.init(dom);
@@ -314,15 +363,10 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
       name: s.label,
       type: 'line',
       data: s.values.map(function(v, i){ return v === null ? null : [lagResults.lags[i], v]; }),
-      smooth: true,
-      symbol: 'circle',
-      symbolSize: 8,
-      lineStyle: { width: 2 },
-      itemStyle: {},
-      markLine: { silent: true, symbol: 'none', data: [{ yAxis: 0, label: { formatter: 'r=0', fontSize: 10, color: GRAY } }] }
+      smooth: true, symbol: 'circle', symbolSize: 8, lineStyle: { width: 2 }, itemStyle: {}
     };
   });
-  var colorMap = { '总ROI': ORANGE, '净ROI': BLUE, '总花费': RED, '总花费（反向）': GOLD };
+  var colorMap = { '总ROI': ORANGE, '净ROI': BLUE, '总花费': RED, '总花费(反向)': GOLD };
   seriesData.forEach(function(s){
     s.lineStyle.color = colorMap[s.name] || GRAY;
     s.itemStyle.color = colorMap[s.name] || GRAY;
@@ -330,22 +374,60 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   c.setOption({
     tooltip: { trigger: 'axis', formatter: function(params){
       var html = '滞后 ' + params[0].axisValue + ' 天<br/>';
-      params.forEach(function(p){
-        if (p.value === null) return;
-        html += p.marker + ' ' + p.seriesName + ': ' + p.value[1].toFixed(2) + '<br/>';
-      });
+      params.forEach(function(p){ if (p.value !== null) { html += p.marker + ' ' + p.seriesName + ': ' + p.value[1].toFixed(2) + '<br/>'; } });
       return html;
     } },
     legend: { data: lagResults.series.map(function(s){ return s.label; }), top: 0, textStyle: {fontSize:11} },
     grid: { left: 50, right: 30, top: 40, bottom: 50 },
-    xAxis: { type: 'value', name: '滞后天数（正值 = p1领先p2）', min: -3, max: 3, splitNumber: 7 },
-    yAxis: { type: 'value', name: '相关系数 r' },
-    series: seriesData
+    xAxis: { type: 'value', name: '滞后天数', min: -7, max: 7, splitNumber: 15 },
+    yAxis: { type: 'value', name: 'r', min: -1, max: 1 },
+    series: seriesData,
+    markLine: { silent: true, symbol: 'none', data: [
+      { yAxis: 0.3, label: { formatter: 'r=0.3', fontSize: 9, color: GRAY }, lineStyle: { color: GRAY, type: 'dashed' } },
+      { yAxis: -0.3, label: { formatter: 'r=-0.3', fontSize: 9, color: GRAY }, lineStyle: { color: GRAY, type: 'dashed' } },
+      { yAxis: 0, label: { formatter: 'r=0', fontSize: 9, color: GRAY }, lineStyle: { color: GRAY } },
+    ] }
+  });
+})();
+
+// 跨指标滞后相关
+(function(){
+  var dom = document.getElementById('chart-cross-lag');
+  var c = echarts.init(dom);
+  var seriesData = crossLagResults.series.map(function(s){
+    return {
+      name: s.label,
+      type: 'line',
+      data: s.values.map(function(v, i){ return v === null ? null : [crossLagResults.lags[i], v]; }),
+      smooth: true, symbol: 'circle', symbolSize: 7, lineStyle: { width: 2 }, itemStyle: {}
+    };
+  });
+  var colors = [ORANGE, BLUE, RED, GOLD];
+  seriesData.forEach(function(s, i){
+    s.lineStyle.color = colors[i] || GRAY;
+    s.itemStyle.color = colors[i] || GRAY;
+  });
+  c.setOption({
+    tooltip: { trigger: 'axis', formatter: function(params){
+      var html = '滞后 ' + params[0].axisValue + ' 天<br/>';
+      params.forEach(function(p){ if (p.value !== null) { html += p.marker + ' ' + p.seriesName + ': ' + p.value[1].toFixed(2) + '<br/>'; } });
+      return html;
+    } },
+    legend: { data: crossLagResults.series.map(function(s){ return s.label; }), top: 0, textStyle: {fontSize:10} },
+    grid: { left: 50, right: 30, top: 50, bottom: 50 },
+    xAxis: { type: 'value', name: '滞后天数（正值=A领先B）', min: -7, max: 7, splitNumber: 15 },
+    yAxis: { type: 'value', name: 'r', min: -1, max: 1 },
+    series: seriesData,
+    markLine: { silent: true, symbol: 'none', data: [
+      { yAxis: 0.3, label: { formatter: '弱相关阈值 0.3', fontSize: 9, color: GRAY }, lineStyle: { color: GRAY, type: 'dashed' } },
+      { yAxis: -0.3, label: { formatter: '弱相关阈值 -0.3', fontSize: 9, color: GRAY }, lineStyle: { color: GRAY, type: 'dashed' } },
+      { yAxis: 0, label: { formatter: 'r=0', fontSize: 9, color: GRAY }, lineStyle: { color: GRAY } },
+    ] }
   });
 })();
 
 window.addEventListener('resize', function() {
-  ['chart-roi-compare','chart-spend-compare','chart-cost-compare','chart-scatter','chart-lag'].forEach(function(id) {
+  ['chart-roi-compare','chart-spend-compare','chart-cost-compare','chart-scatter','chart-lag','chart-cross-lag'].forEach(function(id) {
     var dom = document.getElementById(id); if (dom) { var inst = echarts.getInstanceByDom(dom); if (inst) inst.resize(); }
   });
 });
