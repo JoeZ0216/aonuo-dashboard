@@ -131,7 +131,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-08-10 13:10</span>
+    <span class="update-time">● 已更新 2026-08-10 13:12</span>
   </div>
 </div>
 
@@ -774,6 +774,18 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
   var c = echarts.init(document.getElementById('chart-roi'));
   var totalRoiVis = totalRoi.map(v => v > 5 ? 5 : v);
   var netRoiVis = netRoi.map(v => v === null ? null : (v > 5 ? 5 : v));
+  // 动态ROI纵轴范围：聚焦数据波动区间，保留1.0盈亏线可见
+  var roiSamples = [];
+  (hasNetData ? netRoi : totalRoi).forEach(function(v){ if (v !== null && v > 0) roiSamples.push(Math.min(v, 5)); });
+  var roiYMin = 0, roiYMax = 5;
+  if (roiSamples.length >= 2) {
+    var roiLo = Math.min.apply(null, roiSamples);
+    var roiHi = Math.max.apply(null, roiSamples);
+    var pad = Math.max((roiHi - roiLo) * 0.25, 0.15);
+    roiYMax = roiHi + pad;
+    roiYMin = Math.max(0.5, roiLo - pad);
+    if (roiYMin > 1.0) roiYMin = 1.0;
+  }
   var markPoints = [];
   if (netRoi.length >= 3) {
     for (var i = netRoi.length - 3; i < netRoi.length; i++) {
@@ -798,7 +810,7 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
     legend: { data: hasNetData ? ['总ROI','净ROI','盈亏线(1.0)'] : ['总ROI','盈亏线(1.0)'], top: 0, textStyle: {fontSize:11} },
     grid: { left: 50, right: 30, top: 40, bottom: 50 },
     xAxis: { type: 'category', data: dates, axisLabel: {fontSize:10, rotate:30} },
-    yAxis: { type: 'value', name: 'ROI', min: 0, max: 5 },
+    yAxis: { type: 'value', name: 'ROI', min: roiYMin, max: roiYMax },
     series: seriesArr
   });
 })();
