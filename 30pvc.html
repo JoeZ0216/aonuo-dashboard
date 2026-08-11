@@ -127,11 +127,11 @@ tr:hover td { background: #fafbfc; }
 <div class="header">
   <div class="header-left">
     <h1>📊 30支PVC · 抖音投流 BI 看板<span class="brand-tag">澳诺</span></h1>
-    <div class="subtitle">999澳诺钙锌口服液 10ml×30支 · 千川投放分析 · 07-03 ~ 08-09</div>
+    <div class="subtitle">999澳诺钙锌口服液 10ml×30支 · 千川投放分析 · 07-03 ~ 08-10</div>
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-08-10 13:14</span>
+    <span class="update-time">● 已更新 2026-08-11 11:56</span>
   </div>
 </div>
 
@@ -151,33 +151,33 @@ tr:hover td { background: #fafbfc; }
 <div class="kpi-row">
   <div class="kpi-card card-spend">
     <div class="kpi-label">📌 期间总花费</div>
-    <div class="kpi-value">¥1,530,666</div>
-    <div class="kpi-sub">近3日 ¥166,782（10.9%）</div>
-    <div class="kpi-change down">08/09 环比 -9.3%</div>
+    <div class="kpi-value">¥1,586,650</div>
+    <div class="kpi-sub">近3日 ¥162,721（10.3%）</div>
+    <div class="kpi-change up">08/10 环比 +10.3%</div>
   </div>
   <div class="kpi-card card-gmv">
     <div class="kpi-label">📌 期间总GMV（净）</div>
-    <div class="kpi-value">¥2,477,810</div>
-    <div class="kpi-sub">总GMV ¥2,711,899 · 净率 91.4%</div>
-    <div class="kpi-change up">08/09 净GMV ¥82,414</div>
+    <div class="kpi-value">¥2,568,864</div>
+    <div class="kpi-sub">总GMV ¥2,810,540 · 净率 91.4%</div>
+    <div class="kpi-change up">08/10 净GMV ¥91,054</div>
   </div>
   <div class="kpi-card card-roi">
     <div class="kpi-label">📌 整体净ROI</div>
     <div class="kpi-value">1.62</div>
-    <div class="kpi-sub">总ROI 1.77 · 近3日均 1.62</div>
-    <div class="kpi-change up">08/09 +0.04</div>
+    <div class="kpi-sub">总ROI 1.77 · 近3日均 1.63</div>
+    <div class="kpi-change up">08/10 +0.01</div>
   </div>
   <div class="kpi-card card-cost">
     <div class="kpi-label">📌 转化成本</div>
-    <div class="kpi-value">¥61.22</div>
-    <div class="kpi-sub">08/09 当日 · 前日 ¥65.10</div>
-    <div class="kpi-change up">降低 6.0%</div>
+    <div class="kpi-value">¥60.07</div>
+    <div class="kpi-sub">08/10 当日 · 前日 ¥61.22</div>
+    <div class="kpi-change up">降低 1.9%</div>
   </div>
   <div class="kpi-card card-order">
     <div class="kpi-label">📌 成交订单（净）</div>
-    <div class="kpi-value">22941</div>
-    <div class="kpi-sub">08/09 当日 · 客单价 ¥109.16</div>
-    <div class="kpi-change down">环比 -4.7%</div>
+    <div class="kpi-value">23800</div>
+    <div class="kpi-sub">08/10 当日 · 客单价 ¥106.00</div>
+    <div class="kpi-change up">环比 +13.8%</div>
   </div>
 </div>
 
@@ -201,7 +201,7 @@ tr:hover td { background: #fafbfc; }
         <th>花费(¥)</th><th>净GMV(¥)</th><th>总ROI</th><th>净ROI</th><th>净ROI环比</th>
       </tr></thead>
       <tbody>
-<tr><td style="text-align:left;font-weight:600;">8月上旬</td><td>08-01~08-10</td><td>9</td><td>¥635,236</td><td>¥1,036,127</td><td class="roi-good">1.79</td><td class="roi-good">1.63</td><td><span style="color:#aaa;">基准</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">8月上旬</td><td>08-01~08-10</td><td>10</td><td>¥691,220</td><td>¥1,127,181</td><td class="roi-good">1.78</td><td class="roi-good">1.63</td><td><span style="color:#aaa;">基准</span></td></tr>
 <tr><td>8月中旬</td><td>08-11~08-20</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
 <tr><td>8月下旬</td><td>08-21~08-31</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
       </tbody>
@@ -718,11 +718,24 @@ const rawData = [
     "netOrders": 755,
     "netRoi": 1.62,
     "asp": 109.16
+  },
+  {
+    "date": "2026-08-10",
+    "spend": 55983.95,
+    "conv": 932,
+    "convCost": 60.07,
+    "gmv": 98640.9,
+    "orders": 932,
+    "totalRoi": 1.76,
+    "netGmv": 91053.9,
+    "netOrders": 859,
+    "netRoi": 1.63,
+    "asp": 106.0
   }
 ];
 const activeStart = 0;
 const accounts = [];
-const periodData = [{"label": "8月上旬", "range": "08-01~08-10", "days": 9, "spend": 635235.83, "netGmv": 1036126.79, "gmv": 1135459.09, "orders": 9349, "netRoi": 1.631, "totalRoi": 1.787, "avgNetRoi": 1.627, "netRoiChg": null, "totalRoiChg": null}, {"label": "8月中旬", "range": "08-11~08-20", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}, {"label": "8月下旬", "range": "08-21~08-31", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}];
+const periodData = [{"label": "8月上旬", "range": "08-01~08-10", "days": 10, "spend": 691219.78, "netGmv": 1127180.69, "gmv": 1234099.99, "orders": 10208, "netRoi": 1.631, "totalRoi": 1.785, "avgNetRoi": 1.627, "netRoiChg": null, "totalRoiChg": null}, {"label": "8月中旬", "range": "08-11~08-20", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}, {"label": "8月下旬", "range": "08-21~08-31", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}];
 const hasNetData = true;
 
 
