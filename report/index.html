@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI赋能电商运营数据分析及运营管理 · 项目复盘汇报</title>
+<style>
+  :root {
+    --primary: #c8102e;       /* 华润红 */
+    --primary-dark: #8b0a1f;
+    --accent: #1e6fb9;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --muted: #8a8a8a;
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --bg-card: #ffffff;
+    --line: #e5e8ed;
+    --good: #2e8b57;
+    --warn: #d97706;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: #0d1117;
+    overflow: hidden;
+  }
+  /* 16:9 stage */
+  .stage {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(100vw, 177.78vh);   /* 16:9 */
+    height: min(56.25vw, 100vh);
+    background: var(--bg);
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  }
+  /* deck */
+  .deck { position: absolute; inset: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    padding: 4.2vh 5.6vw;
+    display: none;
+    flex-direction: column;
+    background: var(--bg);
+  }
+  .slide.active { display: flex; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* common slide elements */
+  .eyebrow {
+    font-size: 1.6vh;
+    letter-spacing: .25em;
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1vh;
+  }
+  .slide-title {
+    font-size: 4.4vh;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: .4vh;
+    letter-spacing: .02em;
+  }
+  .slide-sub {
+    font-size: 2.1vh;
+    color: var(--ink-soft);
+    margin-bottom: 2.6vh;
+  }
+  .accent-bar {
+    width: 6vh; height: .55vh;
+    background: var(--primary);
+    margin-bottom: 2.6vh;
+  }
+  .footer {
+    position: absolute; left: 5.6vw; right: 5.6vw; bottom: 2.2vh;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 1.5vh; color: var(--muted);
+    border-top: 1px solid var(--line); padding-top: 1.2vh;
+  }
+  .footer strong { color: var(--ink-soft); font-weight: 600; }
+
+  /* nav */
+  .nav {
+    position: absolute; right: 2.4vw; top: 0.4vh;
+    display: flex; gap: .8vh; z-index: 50;
+  }
+  .nav button {
+    background: rgba(255,255,255,.85); border: 1px solid var(--line);
+    width: 4.2vh; height: 4.2vh; border-radius: 50%;
+    cursor: pointer; color: var(--ink-soft);
+    font-size: 2vh; display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+    backdrop-filter: blur(8px);
+  }
+  .nav button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .dots {
+    position: absolute; bottom: 2.4vh; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 1vh; z-index: 50;
+  }
+  .dots span {
+    width: 1.4vh; height: 1.4vh; border-radius: 50%;
+    background: var(--line); cursor: pointer; transition: all .2s;
+  }
+  .dots span.active { background: var(--primary); width: 4.4vh; border-radius: 1vh; }
+  .pagenum {
+    position: absolute; left: 5.6vw; top: 0.4vh;
+    font-size: 1.7vh; color: var(--muted); z-index: 10;
+    font-variant-numeric: tabular-nums;
+    background: rgba(255,255,255,.85); padding: .6vh 1.4vh;
+    border-radius: 1.2vh; border: 1px solid var(--line);
+    backdrop-filter: blur(6px);
+  }
+  .pagenum b { color: var(--primary); font-weight: 700; }
+
+  /* cover */
+  .cover { background: linear-gradient(135deg, #fff 0%, #f4f6fa 100%); }
+  .cover .top-mark {
+    font-size: 1.6vh; letter-spacing: .4em;
+    color: var(--primary); font-weight: 600;
+  }
+  .cover .title-wrap { margin-top: 4vh; }
+  .cover h1 {
+    font-size: 7vh; font-weight: 800; color: var(--ink);
+    line-height: 1.18; letter-spacing: .02em;
+  }
+  .cover h1 span { color: var(--primary); }
+  .cover .sub {
+    font-size: 3vh; color: var(--ink-soft); margin-top: 2vh;
+    font-weight: 500;
+  }
+  .cover .meta {
+    margin-top: auto; display: flex; gap: 6vh; padding-bottom: 4vh;
+    font-size: 1.9vh; color: var(--ink-soft);
+  }
+  .cover .meta div b { display: block; color: var(--ink); font-size: 2.4vh; font-weight: 700; margin-bottom: .4vh; }
+  .cover .badge {
+    display: inline-flex; align-items: center; gap: 1vh;
+    background: var(--primary); color: #fff; padding: 1vh 2.4vh;
+    border-radius: 3vh; font-size: 1.8vh; font-weight: 600;
+    margin-bottom: 4vh;
+  }
+  .cover .badge::before { content: ""; width: .8vh; height: .8vh; background: #fff; border-radius: 50%; }
+
+  /* two-col layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4.8vh; flex: 1; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.6vh; flex: 1; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 1.6vh;
+    padding: 3vh 3.2vh;
+  }
+  .card.accent-red { border-top: .55vh solid var(--primary); }
+  .card.accent-blue { border-top: .55vh solid var(--accent); }
+  .card.accent-green { border-top: .55vh solid var(--good); }
+  .card h3 {
+    font-size: 2.6vh; color: var(--ink); margin-bottom: 1.6vh;
+    display: flex; align-items: center; gap: 1.2vh;
+  }
+  .card .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 3.6vh; height: 3.6vh; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    font-size: 1.9vh; font-weight: 700;
+  }
+  .card .num.blue { background: var(--accent); }
+  .card .num.green { background: var(--good); }
+  .card p, .card li { font-size: 2vh; line-height: 1.75; color: var(--ink-soft); }
+  .card ul { padding-left: 2.2vh; }
+  .card ul li { margin-bottom: .8vh; }
+
+  /* key metric block */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.4vh; margin-top: 2vh; }
+  .kpi {
+    background: var(--bg-soft); border-radius: 1.4vh; padding: 2.4vh;
+    border-left: .5vh solid var(--primary);
+  }
+  .kpi .lbl { font-size: 1.7vh; color: var(--muted); margin-bottom: .8vh; }
+  .kpi .val { font-size: 4vh; font-weight: 800; color: var(--ink); letter-spacing: -.01em; }
+  .kpi .unit { font-size: 1.8vh; color: var(--ink-soft); margin-left: .4vh; font-weight: 500; }
+  .kpi .delta { font-size: 1.7vh; margin-top: .6vh; }
+  .kpi .delta.up { color: var(--good); }
+  .kpi .delta.down { color: var(--primary); }
+
+  /* shot frame */
+  .shot-frame {
+    flex: 1; border: 1px solid var(--line); border-radius: 1.6vh;
+    overflow: hidden; background: var(--bg-soft);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .shot-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .shot-caption {
+    margin-top: 1.6vh; display: flex; justify-content: space-between;
+    font-size: 1.8vh; color: var(--ink-soft);
+  }
+  .shot-caption .tags { display: flex; gap: 1vh; }
+  .shot-caption .tag {
+    background: #eef2f7; padding: .5vh 1.4vh; border-radius: 1.4vh;
+    font-size: 1.5vh; color: var(--ink-soft);
+  }
+  .shot-caption .tag.red { background: #fdecef; color: var(--primary); }
+
+  /* value slide */
+  .value-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4.8vh; flex: 1; }
+  .value-list .v-item {
+    display: flex; gap: 2vh; margin-bottom: 2.4vh; align-items: flex-start;
+  }
+  .v-icon {
+    width: 5vh; height: 5vh; border-radius: 1.2vh;
+    background: rgba(200,16,46,.1); color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4vh; flex-shrink: 0; font-weight: 700;
+  }
+  .v-item h4 { font-size: 2.2vh; color: var(--ink); margin-bottom: .8vh; font-weight: 700; }
+  .v-item p { font-size: 1.9vh; color: var(--ink-soft); line-height: 1.7; }
+  .quote {
+    background: var(--bg-soft); border-radius: 1.6vh; padding: 3vh;
+    border-left: .6vh solid var(--primary);
+    font-size: 2vh; color: var(--ink-soft); line-height: 1.85;
+  }
+  .quote b { color: var(--ink); }
+
+  /* retrospective */
+  .retro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.2vh; flex: 1; }
+  .retro-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 1.6vh;
+    padding: 3vh; display: flex; flex-direction: column;
+  }
+  .retro-card h3 {
+    font-size: 2.4vh; font-weight: 700; color: var(--ink);
+    padding-bottom: 1.4vh; border-bottom: .3vh solid var(--line);
+    margin-bottom: 1.8vh; display: flex; align-items: center; gap: 1vh;
+  }
+  .retro-card h3 .dot { width: 1.4vh; height: 1.4vh; border-radius: 50%; }
+  .retro-card.red h3 .dot { background: var(--primary); }
+  .retro-card.blue h3 .dot { background: var(--accent); }
+  .retro-card.green h3 .dot { background: var(--good); }
+  .retro-card li { font-size: 1.9vh; line-height: 1.75; color: var(--ink-soft); margin-bottom: 1vh; }
+  .retro-card ul { padding-left: 1.8vh; }
+
+  /* roadmap */
+  .roadmap { flex: 1; display: flex; flex-direction: column; }
+  .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6vh; flex: 1; margin-top: 1vh; }
+  .phase {
+    background: linear-gradient(180deg, var(--bg-soft), var(--bg));
+    border: 1px solid var(--line); border-radius: 1.6vh;
+    padding: 2.8vh; position: relative;
+  }
+  .phase::before {
+    content: attr(data-n);
+    position: absolute; right: 2.6vh; top: 1.8vh;
+    font-size: 7vh; font-weight: 800; color: rgba(200,16,46,.12);
+    line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .phase h4 { font-size: 2.4vh; color: var(--primary); margin-bottom: .8vh; font-weight: 700; }
+  .phase .range { font-size: 1.8vh; color: var(--muted); margin-bottom: 1.6vh; }
+  .phase ul { padding-left: 1.8vh; }
+  .phase li { font-size: 1.85vh; line-height: 1.75; color: var(--ink-soft); margin-bottom: .6vh; }
+
+  /* end */
+  .end-slide { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; align-items: center; justify-content: center; text-align: center; }
+  .end-slide h2 { font-size: 7vh; font-weight: 800; margin-bottom: 2vh; }
+  .end-slide p { font-size: 2.6vh; opacity: .9; }
+  .end-slide .line { width: 12vh; height: .6vh; background: #fff; margin: 3vh auto; opacity: .8; }
+
+  /* hint */
+  .hint {
+    position: absolute; right: 15.6vw; top: 0.4vh;
+    font-size: 1.5vh; color: var(--muted); z-index: 50;
+    background: rgba(255,255,255,.85); padding: .6vh 1.4vh;
+    border-radius: 1.2vh; border: 1px solid var(--line);
+    backdrop-filter: blur(6px);
+    opacity: .6; transition: opacity .3s;
+  }
+  .hint kbd {
+    display: inline-block; padding: .2vh .9vh; margin: 0 .3vh;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: .5vh; font-size: 1.4vh; font-family: inherit;
+    color: var(--ink-soft);
+  }
+  .stage:hover .hint { opacity: 1; }
+  .hint kbd {
+    display: inline-block; padding: .2vh .9vh; margin: 0 .3vh;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: .5vh; font-size: 1.4vh; font-family: inherit;
+    color: var(--ink-soft);
+  }
+
+  /* screenshot small frame label */
+  .frame-tag {
+    position: absolute; top: 1.6vh; left: 1.6vh;
+    background: rgba(0,0,0,.7); color: #fff; padding: .5vh 1.4vh;
+    border-radius: .8vh; font-size: 1.5vh; backdrop-filter: blur(6px);
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="deck" id="deck">
+
+    <!-- 1 封面 -->
+    <section class="slide cover active" data-i="1">
+      <div class="top-mark">华润之道 · 第23期 · 个人行动学习课题</div>
+      <div class="title-wrap">
+        <div class="badge">AI赋能业务</div>
+        <h1>AI赋能电商运营<br/><span>数据分析及运营管理</span></h1>
+        <div class="sub">从人工数据汇总到自动化智能看板的项目实践与复盘</div>
+      </div>
+      <div class="meta">
+        <div><b>汇报人</b>周俊</div>
+        <div><b>所在单位</b>华润三九 · 智能与数字化中心</div>
+        <div><b>分管业务</b>线上B2C运营 · 助理总经理</div>
+        <div><b>汇报日期</b>2026年8月</div>
+      </div>
+    </section>
+
+    <!-- 2 目录 -->
+    <section class="slide" data-i="2">
+      <div class="eyebrow">CONTENTS</div>
+      <div class="slide-title">汇报内容</div>
+      <div class="slide-sub">从立项初衷到落地复盘,完整呈现两个月的实践路径</div>
+      <div class="accent-bar"></div>
+      <div class="three-col" style="margin-top: 2vh;">
+        <div class="card accent-red">
+          <h3><span class="num">01</span>课题背景与目标</h3>
+          <ul>
+            <li>电商业务高速增长带来的运营压力</li>
+            <li>AI赋能的核心思路与课题目标</li>
+            <li>课题覆盖的业务范围与团队分工</li>
+          </ul>
+        </div>
+        <div class="card accent-blue">
+          <h3><span class="num blue">02</span>三大痛点精准识别</h3>
+          <ul>
+            <li>多平台数据汇总耗时长</li>
+            <li>竞品监控与市场洞察滞后</li>
+            <li>运营内容产出效率低下</li>
+          </ul>
+        </div>
+        <div class="card accent-green">
+          <h3><span class="num green">03</span>应用展示与价值分析</h3>
+          <ul>
+            <li>代表性看板系统逐一展示</li>
+            <li>效率、决策、复制三维价值</li>
+            <li>从工具到方法论的沉淀</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span><strong>课题全称</strong> AI赋能电商运营数据分析及运营管理</span><span>华润三九 · 智能与数字化中心</span></div>
+    </section>
+
+    <!-- 3 背景 -->
+    <section class="slide" data-i="3">
+      <div class="eyebrow">01 · 研究背景</div>
+      <div class="slide-title">从「人力密集」走向「数据智能驱动」</div>
+      <div class="slide-sub">线上B2C业务高速扩张,但传统人工运营模式已触及效率天花板</div>
+      <div class="accent-bar"></div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="lbl">电商团队规模</div><div class="val">28<span class="unit">人</span></div><div class="delta">货架电商 24-25 / 兴趣电商 3-4</div></div>
+        <div class="kpi"><div class="lbl">覆盖核心品类</div><div class="val">5<span class="unit">个</span></div><div class="delta">呼吸 · 肠胃 · 皮肤 · 骨健康 · 维矿</div></div>
+        <div class="kpi"><div class="lbl">主要B2B渠道</div><div class="val">2+<span class="unit">家</span></div><div class="delta">京东健康 · 阿里健康 + 自有旗舰店</div></div>
+        <div class="kpi"><div class="lbl">每日数据指标项</div><div class="val">数十<span class="unit">项</span></div><div class="delta">GMV · 订单 · 转化 · ROI · 费率</div></div>
+      </div>
+
+      <div style="margin-top: 3vh; padding: 2.4vh 3vh; background: var(--bg-soft); border-radius: 1.4vh; border-left: .5vh solid var(--accent);">
+        <div style="font-size: 2vh; color: var(--ink-soft); line-height: 1.85;">
+          <b style="color:var(--ink);">核心矛盾:</b>
+          业务规模扩大 + 平台规则日趋复杂 →
+          传统人工模式在<span style="color:var(--primary);font-weight:600;">数据汇总、竞品监控、内容产出</span>三大环节高度依赖经验判断,
+          缺乏数据驱动的系统化决策支撑。AI/LLM的快速发展,为电商运营智能化转型提供了前所未有的机遇。
+        </div>
+      </div>
+      <div class="footer"><span><strong>课题立项</strong> 2026年5月 · 课题周期2个月</span><span>负责人:周俊</span></div>
+    </section>
+
+    <!-- 4 三大痛点 -->
+    <section class="slide" data-i="4">
+      <div class="eyebrow">02 · 业务痛点</div>
+      <div class="slide-title">精准识别 · 三大核心痛点</div>
+      <div class="slide-sub">从一线实际工作中抽象出的、阻碍效率与经营效益提升的关键瓶颈</div>
+      <div class="accent-bar"></div>
+
+      <div class="three-col" style="margin-top: 1vh;">
+        <div class="card accent-red" style="display:flex; flex-direction:column;">
+          <h3><span class="num">①</span>多平台数据汇总耗时长</h3>
+          <p style="font-size:1.9vh;color:var(--ink-soft);line-height:1.7;margin-bottom:1.4vh;">
+            京东商智 · 阿里生意参谋 · 抖音罗盘,数据专员每日需花费 <b style="color:var(--primary);">2-3小时</b> 手动导出、清洗、制表。
+          </p>
+          <ul style="margin-top:auto;">
+            <li>数据专员日均有效产出仅1份日报</li>
+            <li>深度分析报告需要1-2天</li>
+            <li>各平台口径不一,跨平台对比难</li>
+            <li>停留在"记录数据",难以"分析数据"</li>
+          </ul>
+        </div>
+        <div class="card accent-red" style="display:flex; flex-direction:column;">
+          <h3><span class="num">②</span>竞品监控响应滞后</h3>
+          <p style="font-size:1.9vh;color:var(--ink-soft);line-height:1.7;margin-bottom:1.4vh;">
+            当前覆盖 <b style="color:var(--primary);">3-5个核心竞品</b>,更新频率仅周度甚至月度,大促期间反应严重滞后。
+          </p>
+          <ul style="margin-top:auto;">
+            <li>2025年"618"呼吸品类损失约2天搜索流量</li>
+            <li>依赖运营人员手动浏览记录</li>
+            <li>评价舆情、促销策略跟踪盲区大</li>
+            <li>错失最佳应对窗口期</li>
+          </ul>
+        </div>
+        <div class="card accent-red" style="display:flex; flex-direction:column;">
+          <h3><span class="num">③</span>内容产出效率低</h3>
+          <p style="font-size:1.9vh;color:var(--ink-soft);line-height:1.7;margin-bottom:1.4vh;">
+            商品详情页、推广素材、直播脚本需多平台适配,人工产出周期 <b style="color:var(--primary);">1-2天/篇</b>。
+          </p>
+          <ul style="margin-top:auto;">
+            <li>多平台高频上新节奏难以满足</li>
+            <li>医药OTC合规要求,通用模型易"踩雷"</li>
+            <li>大促期间素材迭代压力倍增</li>
+            <li>人力成本与产出效率难以平衡</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span><strong>痛点识别方法</strong> 一线深度访谈 · 业务复盘 · 平台数据抽样</span><span>覆盖团队全员28人</span></div>
+    </section>
+
+    <!-- 5 整体方案架构 -->
+    <section class="slide" data-i="5">
+      <div class="eyebrow">03 · 整体方案</div>
+      <div class="slide-title">AI赋能电商运营的「三横一纵」架构</div>
+      <div class="slide-sub">横向打通数据采集、竞品监控、内容生成,纵向串联运营全链路决策</div>
+      <div class="accent-bar"></div>
+
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows:1fr 1fr; gap:2vh; margin-top:1vh;">
+        <!-- row 1: 三大能力 -->
+        <div class="card accent-blue">
+          <h3><span class="num blue">A</span>数据采集自动化</h3>
+          <p>多平台数据 → 自动归一 → 看板自动渲染,日报生成从2-3小时压缩至15分钟。</p>
+        </div>
+        <div class="card accent-blue">
+          <h3><span class="num blue">B</span>竞品监控智能化</h3>
+          <p>价格、促销、评价、舆情实时扫描,小时级预警,大促期间自动触发应对建议。</p>
+        </div>
+        <div class="card accent-blue">
+          <h3><span class="num blue">C</span>内容生成专业化</h3>
+          <p>详情页文案、推广素材、直播脚本,内置医药合规知识库,确保合规可用。</p>
+        </div>
+        <!-- row 2: 数据底座 + 决策闭环 -->
+        <div class="card accent-red" style="grid-column: span 2;">
+          <h3><span class="num">D</span>WorkBuddy · 数据底座与可视化中台</h3>
+          <p>私有化部署保障数据合规 · 飞书电子表格/Wiki/多维表格统一接入 · 看板模板沉淀 · 一键部署到 GitHub Pages · 飞书机器人定时推送日报。</p>
+        </div>
+        <div class="card accent-green">
+          <h3><span class="num green">E</span>运营决策闭环</h3>
+          <p>看板 → 异常定位 → AI归因 → 推送一线 → 行动回流,形成"看数据→做决策→看效果"的飞轮。</p>
+        </div>
+      </div>
+
+      <div class="footer"><span><strong>架构核心</strong> 不做大模型重训练,而是工程化串联既有AI能力与业务流</span><span>工具集 + 操作手册 + 提示词库 三件套</span></div>
+    </section>
+
+    <!-- 6 数据梳理与清洗（新增 · 看板之前的「地基工程」） -->
+    <section class="slide" data-i="6">
+      <div class="eyebrow">04 · 数据前置 · 看板之前的"地基工程"</div>
+      <div class="slide-title">数据梳理与清洗 · 从29张报表到统一底座</div>
+      <div class="slide-sub">在启动所有看板制作之前,第一步是把数据做好梳理与筛选 · 把各种数据源做好清洗与规则制定</div>
+      <div class="accent-bar"></div>
+
+      <!-- 顶部：4 个紧凑 KPI 小卡（缩小版） -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1.8vh; margin-top:1vh;">
+        <div style="background:var(--bg-soft); border-radius:1vh; padding:1.4vh 1.6vh; border-left:.4vh solid var(--primary);">
+          <div style="font-size:1.35vh; color:var(--muted);">数据报表总数</div>
+          <div style="font-size:2.8vh; font-weight:800; color:var(--ink);">29 <span style="font-size:1.5vh; font-weight:500; color:var(--ink-soft);">张</span></div>
+          <div style="font-size:1.3vh; color:var(--ink-soft);">散落于京东/阿里/兴趣/专项四源</div>
+        </div>
+        <div style="background:var(--bg-soft); border-radius:1vh; padding:1.4vh 1.6vh; border-left:.4vh solid var(--primary);">
+          <div style="font-size:1.35vh; color:var(--muted);">填写来源</div>
+          <div style="font-size:2.8vh; font-weight:800; color:var(--ink);">4 <span style="font-size:1.5vh; font-weight:500; color:var(--ink-soft);">类平台</span></div>
+          <div style="font-size:1.3vh; color:var(--ink-soft);">京东 · 阿里 · 兴趣电商 · 专项电商</div>
+        </div>
+        <div style="background:var(--bg-soft); border-radius:1vh; padding:1.4vh 1.6vh; border-left:.4vh solid var(--primary);">
+          <div style="font-size:1.35vh; color:var(--muted);">报表留用地</div>
+          <div style="font-size:2.8vh; font-weight:800; color:var(--ink);">17<span style="font-size:1.5vh; font-weight:500; color:var(--ink-soft);">+7+4+1</span></div>
+          <div style="font-size:1.3vh; color:var(--ink-soft);">润工作 17 · 飞书 7 · WPS 4 · 其他 1</div>
+        </div>
+        <div style="background:var(--bg-soft); border-radius:1vh; padding:1.4vh 1.6vh; border-left:.4vh solid var(--primary);">
+          <div style="font-size:1.35vh; color:var(--muted);">数据类型</div>
+          <div style="font-size:2.8vh; font-weight:800; color:var(--ink);">6 <span style="font-size:1.5vh; font-weight:500; color:var(--ink-soft);">+ 大类</span></div>
+          <div style="font-size:1.3vh; color:var(--ink-soft);">运营 · 考核 · 库存 · 采购 · 澳诺 · 大单品</div>
+        </div>
+      </div>
+
+      <!-- 主区：脑图截图（左大）+ 清洗规则要点（右窄） -->
+      <div style="height:62vh; display:grid; grid-template-columns:2.1fr 1fr; gap:2.4vh; margin-top:1.2vh;">
+        <!-- 左：脑图截图 -->
+        <div class="shot-frame" style="background:#fff; border:1px solid var(--line); padding:.6vh;">
+          <div class="frame-tag">数据报表汇总 · 29 张 · 思维导图</div>
+          <img src="shots/data_mindmap.png" alt="数据报表汇总思维导图" style="object-fit:contain; max-height:100%;" />
+        </div>
+
+        <!-- 右：清洗与规则要点 -->
+        <div class="card accent-red">
+          <h3><span class="num">①</span>清洗与规则要点</h3>
+          <div style="font-size:1.6vh; color:var(--ink-soft); line-height:1.7; margin-bottom:1.2vh;">
+            脑图右侧已按 <b style="color:var(--primary);">6 大类业务域</b> 完成 29 张报表的清洗归一,关键规则如下:
+          </div>
+          <ul>
+            <li><b>经营数据(店铺维度):</b> 使用公司通报参考,不共享。999 店铺 · 澳诺店铺(莲藕)</li>
+            <li><b>考核数据(公司维度):</b> 使用公司线上通报参考,不共享。26 年数字化动销 · 兴趣电商动销</li>
+            <li><b>澳诺 9 张:</b> 存量 3 / 30支 2 / 36袋 3 / 汇总 1,为抖音投流看板主战场</li>
+            <li><b>大单品 11 张:</b> 覆盖 9 个重点品种项目表(易善复 · 绿皮卡 · 洗发水 · 身体乳 · 好娃娃维D · 益血生 · 必无忧 · 皮肤药 · 三倍银翘)</li>
+            <li><b>其他 3 张:</b> 数字化二审 · 自动化数据拉取 · 自营店全数据维表(横向支撑)</li>
+          </ul>
+          <div style="margin-top:auto; padding:1vh 1.4vh; background:#fef0f1; border-radius:1vh; font-size:1.5vh; color:var(--primary); display:flex; align-items:center; gap:1vh;">
+            <span style="font-size:1.8vh;">🔒</span>
+            <span><b>对外共享口径:</b> 严格区分 · 数据底座为唯一可信源</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer"><span><strong>数据前置</strong> 数据梳理与清洗 · 看板建设的"地基"</span><span>为后续自动化管道提供唯一可信的数据源</span></div>
+    </section>
+
+    <!-- 7 澳诺抖音投流 BI 看板（原6） -->
+    <section class="slide" data-i="7">
+      <div class="eyebrow">04 · 应用展示 · 旗舰项目</div>
+      <div class="slide-title">澳诺 · 抖音投流 BI 看板</div>
+      <div class="slide-sub">端到端自动化数据管道 · 每日12:00自动更新 · 飞书机器人推送日报</div>
+      <div class="accent-bar"></div>
+      <div class="shot-frame">
+        <div class="frame-tag">沙部署 GitHub Pages · joez0216.github.io/aonuo-dashboard</div>
+        <img src="shots/aonuo_dashboard.png" alt="30支PVC抖音投流看板" />
+      </div>
+      <div class="shot-caption">
+        <div>
+          <b style="color:var(--ink);">数据范围</b> 30支PVC + 36袋条袋双 SKU · 7月3日 — 8月19日 · 飞书在线表格
+        </div>
+        <div class="tags">
+          <span class="tag red">自动更新</span>
+          <span class="tag">日报推送</span>
+          <span class="tag">双 SKU 对比</span>
+          <span class="tag">异常预警</span>
+        </div>
+      </div>
+      <div class="footer"><span><strong>核心能力</strong> 总花费/GMV/净GMV/ROI/转化成本/成交订单 · 同环比 · 趋势曲线</span><span>SKU 切换 + 对比分析 Tab</span></div>
+    </section>
+
+    <!-- 8 维D电商销售追踪（原7） -->
+    <section class="slide" data-i="8">
+      <div class="eyebrow">04 · 应用展示</div>
+      <div class="slide-title">维D · 电商销售追踪看板</div>
+      <div class="slide-sub">京东/阿里双平台日维度自动汇总 · 风险提示前置 · 月度出货趋势一目了然</div>
+      <div class="accent-bar"></div>
+      <div class="shot-frame">
+        <div class="frame-tag">15天累计 203,430 出库盒 · 近30日GMV 274万</div>
+        <img src="shots/sales_summary.png" alt="维D销售追踪看板" />
+      </div>
+      <div class="shot-caption">
+        <div>
+          <b style="color:var(--ink);">数据源</b> 电商销售全平台汇总 · 飞书在线表 · 数据更新于2026-08-15
+        </div>
+        <div class="tags">
+          <span class="tag red">风险提示</span>
+          <span class="tag">平台份额对比</span>
+          <span class="tag">月度趋势</span>
+          <span class="tag">自动化归一</span>
+        </div>
+      </div>
+      <div class="footer"><span><strong>核心能力</strong> 京东46% vs 阿里54% 平台份额 · 风险日自动提示</span><span>周报/月报自动派生</span></div>
+    </section>
+
+    <!-- 9 电商业务进度看板（原8） -->
+    <section class="slide" data-i="9">
+      <div class="eyebrow">04 · 应用展示</div>
+      <div class="slide-title">电商业务进度看板 · 京东/阿里双平台</div>
+      <div class="slide-sub">品类完成率与周达成双维度可视化 · 风险品类红黄绿三色高亮</div>
+      <div class="accent-bar"></div>
+      <div class="shot-frame">
+        <div class="frame-tag">数据截止 2026年第31-32周 · 年达成率 60.5%</div>
+        <img src="shots/progress_dashboard.png" alt="电商业务进度看板" />
+      </div>
+      <div class="shot-caption">
+        <div>
+          <b style="color:var(--ink);">覆盖品类</b> 益盛 · 存量 · 二硫化硒 · 益血生 · 孵化品 · Q3周完成 ¥391万
+        </div>
+        <div class="tags">
+          <span class="tag red">红黄绿三色</span>
+          <span class="tag">同环比</span>
+          <span class="tag">本周贡献占比</span>
+          <span class="tag">Tab切换</span>
+        </div>
+      </div>
+      <div class="footer"><span><strong>核心能力</strong> 年度目标进度条 · Q3达成预警 · 同比/环比自动比对</span><span>京东 / 阿里两个Tab</span></div>
+    </section>
+
+    <!-- 10 易善复 + 院外零售（原9） -->
+    <section class="slide" data-i="10">
+      <div class="eyebrow">04 · 应用展示</div>
+      <div class="slide-title">易善复 · 销售数据 + 药品院外零售市场看板</div>
+      <div class="slide-sub">动销/纯销双口径拆解 · 院外零售市场全景监测与机会风险预警</div>
+      <div class="accent-bar"></div>
+      <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:3vh;">
+        <div style="display:flex; flex-direction:column;">
+          <div style="font-size:2vh; font-weight:700; color:var(--ink); margin-bottom:1.2vh;">① 品种动销与纯销数据分析看板</div>
+          <div class="shot-frame" style="flex:1;">
+            <div class="frame-tag">2026年1-7月 · 纯销 vs 动销</div>
+            <img src="shots/essentiale_dashboard.png" alt="易善复销售看板" />
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column;">
+          <div style="font-size:2vh; font-weight:700; color:var(--ink); margin-bottom:1.2vh;">② 药品院外零售市场月度追踪看板</div>
+          <div class="shot-frame" style="flex:1;">
+            <div class="frame-tag">CMH · 2026上半年H1盘点</div>
+            <img src="shots/pharma_retail.png" alt="药品院外零售市场看板" />
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span><strong>核心能力</strong> 动销→纯销→消费者三级漏斗 · 院外零售机会号 & 风险提示</span><span>双看板联动</span></div>
+    </section>
+
+    <!-- 11 价值分析（原10） -->
+    <section class="slide" data-i="11">
+      <div class="eyebrow">05 · 价值分析</div>
+      <div class="slide-title">从「工具」到「价值」的三层跃迁</div>
+      <div class="slide-sub">不止是看板好看,而是真的改写了运营决策的工作方式</div>
+      <div class="accent-bar"></div>
+
+      <div class="value-grid">
+        <div class="value-list">
+          <div class="v-item">
+            <div class="v-icon">⚡</div>
+            <div>
+              <h4>效率层 · 把人从重复劳动里解放出来</h4>
+              <p>数据专员日均节省2小时以上,日报/周报/月报全自动产出,大促期间人力无需扩编。</p>
+            </div>
+          </div>
+          <div class="v-item">
+            <div class="v-icon">◎</div>
+            <div>
+              <h4>决策层 · 让判断从「经验」走向「数据」</h4>
+              <p>红黄绿三色 + 同比环比 + TOP榜 + 风险诊断,老板3秒看到结论,一线秒级定位异常。</p>
+            </div>
+          </div>
+          <div class="v-item">
+            <div class="v-icon">⌘</div>
+            <div>
+              <h4>复制层 · 工具集可平移到其他品类/团队</h4>
+              <p>看板模板 + 提示词库 + 操作手册三件套,新成员上手周期从2周缩短至2天。</p>
+            </div>
+          </div>
+        </div>
+        <div class="quote">
+          <b>「看板不是终点,而是 AI 协同工作流的起点。」</b><br/><br/>
+          我们把原本散落在京东商智、阿里生意参谋、抖音罗盘、各类 Excel 里的数据,
+          通过飞书在线表格 + WorkBuddy 自动化管道,归一汇入可视化看板;
+          再由 AI 助理承担"看数据 → 写结论 → 推动作业"的中间环节,
+          让一线运营人员专注于真正需要创造力的判断与执行。<br/><br/>
+          <b style="color:var(--primary);">覆盖品类:</b> 呼吸 · 肠胃 · 皮肤 · 维矿 · 骨健康<br/>
+          <b style="color:var(--primary);">覆盖平台:</b> 京东 · 阿里 · 抖音 · 自有旗舰店
+        </div>
+      </div>
+      <div class="footer"><span><strong>核心交付</strong> 工具集 + 标准化操作手册 + 提示词模板库</span><span>团队:韩雨/张洁/卢尧/梁少莲</span></div>
+    </section>
+
+    <!-- 12 复盘+路线图合并（原11+原12合并为一页） -->
+    <section class="slide" data-i="12">
+      <div class="eyebrow">06 · 复盘与后续</div>
+      <div class="slide-title">复盘沉淀 + 后续路线图</div>
+      <div class="slide-sub">计划差距 · 风险 · 机会洞察 一个都不能少 · 2026下半年向方法论与工具集升级</div>
+      <div class="accent-bar"></div>
+
+      <!-- 上半：复盘三栏 -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2.4vh; flex:1;">
+        <div class="retro-card red">
+          <h3><span class="dot"></span>计划差距复盘</h3>
+          <ul>
+            <li><b>超出预期:</b> 看板迭代从「周」提速到「日」,澳诺投流看板每日12:00稳定自动推送。</li>
+            <li><b>超出预期:</b> 已落地6+看板,覆盖SKU投流/全平台追踪/品类进度/动销纯销/院外市场。</li>
+            <li><b>未达预期:</b> 竞品监控仍以人工浏览补充,实时预警系统尚在原型阶段。</li>
+            <li><b>未达预期:</b> AI内容生成未在详情页/直播脚本全合规跑通,仍需人工二审。</li>
+          </ul>
+        </div>
+        <div class="retro-card blue">
+          <h3><span class="dot"></span>风险复盘</h3>
+          <ul>
+            <li><b>已暴露 · 数据安全:</b> 销售/预算数据走私有化+合规云,无外发,目前可控。</li>
+            <li><b>已暴露 · 模型幻觉:</b> 通用模型对OTC医药合规理解不足,已通过提示词约束+人工二审缓解。</li>
+            <li><b>未解决 · 习惯转变:</b> 一线对 AI 工具有「怕出错」心理,需培训+激励机制持续推动。</li>
+            <li><b>未解决 · 跨平台口径:</b> 京东/阿里/抖音指标定义差异,自动归一规则仍需人工兜底。</li>
+          </ul>
+        </div>
+        <div class="retro-card green">
+          <h3><span class="dot"></span>机会洞察复盘</h3>
+          <ul>
+            <li><b>可复用打法:</b> 飞书表→自动化脚本→看板→机器人推送 端到端管道,可推广全集团。</li>
+            <li><b>新增长点:</b> 大促期间用看板实时盯盘,投放策略调整从「天级」缩短至「小时级」。</li>
+            <li><b>改进建议:</b> 沉淀「医药电商提示词库」,把单点经验变成团队资产。</li>
+            <li><b>后续动作:</b> 推广至骨健康/维矿品类与抖音兴趣电商,形成横向复制。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 下半：路线图三阶段横排 -->
+      <div style="margin-top:2vh; padding:1.6vh 2vh; background:var(--bg-soft); border-radius:1.4vh;">
+        <div style="display:flex; align-items:baseline; gap:1.2vh; margin-bottom:1.2vh;">
+          <div style="font-size:2vh; font-weight:700; color:var(--ink);">后续路线 · 从「单点工具」到「方法论与工具集」的复制推广</div>
+        </div>
+        <div style="display:flex; align-items:stretch; gap:0.6vh;">
+          <div style="flex:1; background:#fff; border:1px solid var(--line); border-radius:1vh; padding:1.2vh 1.4vh; border-left:.5vh solid var(--good);">
+            <div style="font-size:1.45vh; color:var(--good); font-weight:700;">① 第一阶段 · 已完成</div>
+            <div style="font-size:1.3vh; color:var(--muted); margin-bottom:.5vh;">2026.6 — 2026.7</div>
+            <div style="font-size:1.5vh; color:var(--ink-soft); line-height:1.55;">
+              澳诺看板每日12:00自动推送 · 多平台数据管道搭建 · 维D/进度/易善复陆续上线 · 基于反馈迭代筛选条件
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; color:var(--muted); font-size:2.2vh;">▶</div>
+          <div style="flex:1; background:#fff; border:1px solid var(--line); border-radius:1vh; padding:1.2vh 1.4vh; border-left:.5vh solid var(--warn);">
+            <div style="font-size:1.45vh; color:var(--warn); font-weight:700;">② 第二阶段 · 进行中</div>
+            <div style="font-size:1.3vh; color:var(--muted); margin-bottom:.5vh;">2026.8 — 2026.9</div>
+            <div style="font-size:1.5vh; color:var(--ink-soft); line-height:1.55;">
+              呼吸/肠胃2品类京东/天猫试点 · 验证数据自动采集准确率 · 竞品监控覆盖与时效性测试 · AI内容生成转化跟踪
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; color:var(--muted); font-size:2.2vh;">▶</div>
+          <div style="flex:1; background:#fff; border:1px solid var(--line); border-radius:1vh; padding:1.2vh 1.4vh; border-left:.5vh solid var(--accent);">
+            <div style="font-size:1.45vh; color:var(--accent); font-weight:700;">③ 第三阶段 · 待启动</div>
+            <div style="font-size:1.3vh; color:var(--muted); margin-bottom:.5vh;">2026.10 — 2026.11</div>
+            <div style="font-size:1.5vh; color:var(--ink-soft); line-height:1.55;">
+              输出《AI赋能电商运营操作手册》 · 沉淀提示词模板库(详情页/素材/脚本) · 推广至骨健康/维矿/抖音兴趣电商
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer"><span><strong>复盘原则</strong> 计划差距 + 风险 + 机会洞察 三块都要有</span><span>最终交付:工具集 + 操作手册 + 提示词库 + 试点报告</span></div>
+    </section>
+
+    <!-- 13 结束页 -->
+    <section class="slide end-slide" data-i="13">
+      <h2>谢谢聆听</h2>
+      <div class="line"></div>
+      <p>AI不是替代运营,而是把运营从「数据搬运工」解放为「决策指挥官」</p>
+      <p style="margin-top:3vh; opacity:.7; font-size:2vh;">华润三九 · 智能与数字化中心 · 周俊 · 2026.08</p>
+    </section>
+
+  </div>
+
+  <!-- 导航 -->
+  <div class="pagenum"><b id="cur">1</b> / 13</div>
+  <div class="hint" id="hint"><kbd>←</kbd> <kbd>→</kbd> 翻页 · <kbd>F</kbd> 全屏 · <kbd>ESC</kbd> 退出</div>
+  <div class="nav">
+    <button id="prev" title="上一页">‹</button>
+    <button id="next" title="下一页">›</button>
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let cur = 1;
+
+  // 生成导航点
+  const dots = document.getElementById('dots');
+  for (let i = 1; i <= total; i++) {
+    const d = document.createElement('span');
+    d.dataset.i = i;
+    d.addEventListener('click', () => go(i));
+    dots.appendChild(d);
+  }
+  const dotEls = dots.querySelectorAll('span');
+
+  function go(n) {
+    if (n < 1 || n > total) return;
+    slides.forEach(s => s.classList.remove('active'));
+    slides[n-1].classList.add('active');
+    cur = n;
+    document.getElementById('cur').textContent = n;
+    dotEls.forEach((d, idx) => d.classList.toggle('active', idx === n-1));
+  }
+
+  document.getElementById('prev').addEventListener('click', () => go(cur - 1));
+  document.getElementById('next').addEventListener('click', () => go(cur + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') go(1);
+    else if (e.key === 'End') go(total);
+    else if (e.key === 'f' || e.key === 'F') {
+      const el = document.documentElement;
+      if (!document.fullscreenElement) el.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+  });
+
+  // 点击左侧/右侧翻页
+  document.getElementById('deck').addEventListener('click', (e) => {
+    if (e.target.closest('.nav') || e.target.closest('.dots')) return;
+    const rect = document.getElementById('deck').getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    if (x < 0.3) go(cur - 1);
+    else if (x > 0.7) go(cur + 1);
+  });
+
+  // 初始化
+  go(1);
+</script>
+</body>
+</html>
