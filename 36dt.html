@@ -111,6 +111,11 @@ tr:hover td { background: #fafbfc; }
 .roi-bad  { color: #22A446; font-weight: 700; }
 .highlight-row td { background: #FFFBE6 !important; }
 
+.month-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.month-btn { background: #fff; border: 1px solid #d9d9d9; border-radius: 4px; padding: 4px 12px; font-size: 12px; color: #1890FF; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
+.month-btn:hover { border-color: #1890FF; background: #E6F7FF; }
+.month-btn.active { background: #1890FF; border-color: #1890FF; color: #fff; }
+
 .dim { color: #ccc; }
 
 .nav-bar { background: #fff; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
@@ -131,7 +136,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-08-24 09:52</span>
+    <span class="update-time">● 已更新 2026-08-24 11:20</span>
   </div>
 </div>
 
@@ -217,8 +222,8 @@ tr:hover td { background: #fafbfc; }
 
 <div class="data-table-wrap">
   <div class="panel-title">📋 每日投放明细</div>
-  <table><thead><tr><th>日期</th><th>总花费(¥)</th><th>转化数</th><th>转化成本(¥)</th><th>总GMV(¥)</th><th>订单数</th><th>总ROI</th><th>净成交金额(¥)</th><th>净ROI</th><th>成交客单价(¥)</th></tr></thead>
-  <tbody id="table-body"></tbody></table>
+  <div class="month-nav" id="month-nav"></div>
+  <table><thead><tr><th>日期</th><th>总花费(¥)</th><th>转化数</th><th>转化成本(¥)</th><th>总GMV(¥)</th><th>订单数</th><th>总ROI</th><th>净成交金额(¥)</th><th>净ROI</th><th>成交客单价(¥)</th></tr></thead></table>
 </div>
 
 </div>
@@ -3458,24 +3463,75 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 (function(){
-  var tbody = document.getElementById('table-body');
+  var table = document.querySelector('.data-table-wrap table');
+  var nav = document.getElementById('month-nav');
+
+  // 1) 按 YYYY-MM 分组，保持原始升序
+  var months = [];
+  var monthMap = {};
   rawData.forEach(function(d, i) {
-    var isActive = i >= activeStart;
-    var mainRoi = (d.netRoi !== null) ? d.netRoi : d.totalRoi;
-    var roiClass = mainRoi >= 1.5 ? 'roi-good' : (mainRoi >= 1.2 ? 'roi-warn' : 'roi-bad');
-    var tr = '<tr' + (isActive ? ' class="highlight-row"' : '') + '>';
-    tr += '<td>' + d.date + '</td>';
-    tr += '<td>' + (d.spend >= 1000 ? d.spend.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.spend.toFixed(2)) + '</td>';
-    tr += '<td>' + (d.conv !== null ? d.conv : '—') + '</td>';
-    tr += '<td>' + (d.convCost !== null ? d.convCost.toFixed(2) : '—') + '</td>';
-    tr += '<td>' + (d.gmv >= 1000 ? d.gmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.gmv.toFixed(2)) + '</td>';
-    tr += '<td>' + d.orders + '</td>';
-    tr += '<td class="' + roiClass + '">' + d.totalRoi.toFixed(2) + '</td>';
-    tr += '<td>' + (d.netGmv !== null ? (d.netGmv >= 1000 ? d.netGmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.netGmv.toFixed(2)) : '—') + '</td>';
-    tr += '<td class="' + roiClass + '">' + (d.netRoi !== null ? d.netRoi.toFixed(2) : '—') + '</td>';
-    tr += '<td>' + (d.asp !== null ? d.asp.toFixed(2) : '—') + '</td>';
-    tr += '</tr>';
-    tbody.innerHTML += tr;
+    var m = d.date.slice(0, 7);              // "2026-08"
+    if (!monthMap[m]) {
+      monthMap[m] = { key: m, rows: [] };
+      months.push(monthMap[m]);
+    }
+    monthMap[m].rows.push(i);                // 存原始索引，isActive 判断不受影响
+  });
+
+  // 2) 生成月份按钮栏（最新月默认 active）
+  var lastIdx = months.length - 1;
+  var btnHtml = '';
+  months.forEach(function(mo, mi) {
+    var cls = (mi === lastIdx) ? 'month-btn active' : 'month-btn';
+    btnHtml += '<button class="' + cls + '" data-month="' + mo.key + '">' +
+               mo.key + ' · ' + mo.rows.length + '天</button>';
+  });
+  nav.innerHTML = btnHtml;
+  if (months.length <= 1) nav.style.display = 'none';   // 单月或无数据时隐藏按钮栏
+
+  // 3) 生成每月 tbody（最新月展开，其余折叠）
+  var bodyHtml = '';
+  months.forEach(function(mo, mi) {
+    var isLatest = (mi === lastIdx);
+    var rowsHtml = '';
+    mo.rows.forEach(function(i) {
+      var d = rawData[i];
+      var isActive = i >= activeStart;
+      var mainRoi = (d.netRoi !== null) ? d.netRoi : d.totalRoi;
+      var roiClass = mainRoi >= 1.5 ? 'roi-good' : (mainRoi >= 1.2 ? 'roi-warn' : 'roi-bad');
+      var tr = '<tr' + (isActive ? ' class="highlight-row"' : '') + '>';
+      tr += '<td>' + d.date + '</td>';
+      tr += '<td>' + (d.spend >= 1000 ? d.spend.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.spend.toFixed(2)) + '</td>';
+      tr += '<td>' + (d.conv !== null ? d.conv : '—') + '</td>';
+      tr += '<td>' + (d.convCost !== null ? d.convCost.toFixed(2) : '—') + '</td>';
+      tr += '<td>' + (d.gmv >= 1000 ? d.gmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.gmv.toFixed(2)) + '</td>';
+      tr += '<td>' + d.orders + '</td>';
+      tr += '<td class="' + roiClass + '">' + d.totalRoi.toFixed(2) + '</td>';
+      tr += '<td>' + (d.netGmv !== null ? (d.netGmv >= 1000 ? d.netGmv.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0}) : d.netGmv.toFixed(2)) : '—') + '</td>';
+      tr += '<td class="' + roiClass + '">' + (d.netRoi !== null ? d.netRoi.toFixed(2) : '—') + '</td>';
+      tr += '<td>' + (d.asp !== null ? d.asp.toFixed(2) : '—') + '</td>';
+      tr += '</tr>';
+      rowsHtml += tr;
+    });
+    bodyHtml += '<tbody class="month-body" data-month="' + mo.key + '"' +
+                (isLatest ? '' : ' style="display:none"') + '>' + rowsHtml + '</tbody>';
+  });
+
+  // 4) 挂载（防御性移除旧容器）
+  var emptyBody = document.getElementById('table-body');
+  if (emptyBody) emptyBody.remove();
+  table.insertAdjacentHTML('beforeend', bodyHtml);
+
+  // 5) 按钮 toggle（事件委托，多选可同时展开）
+  nav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.month-btn');
+    if (!btn) return;
+    var key = btn.getAttribute('data-month');
+    var body = table.querySelector('tbody[data-month="' + key + '"]');
+    if (!body) return;
+    var isHidden = body.style.display === 'none';
+    body.style.display = isHidden ? '' : 'none';
+    btn.classList.toggle('active', isHidden);
   });
 })();
 
