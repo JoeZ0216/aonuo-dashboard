@@ -136,7 +136,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-10-08 13:24</span>
+    <span class="update-time">● 已更新 2026-10-08 13:41</span>
   </div>
 </div>
 
@@ -197,9 +197,9 @@ tr:hover td { background: #fafbfc; }
 </div>
 
 <div class="charts-row">
-  <div class="chart-panel"><div class="panel-title">🗓️ 7月旬周期 ROI 变化趋势（每10天）</div><div id="chart-period" style="height:300px;"></div></div>
+  <div class="chart-panel"><div class="panel-title">🗓️ 10月旬周期 ROI 变化趋势（每10天）</div><div id="chart-period" style="height:300px;"></div></div>
   <div class="chart-panel">
-    <div class="panel-title">📅 7月旬周期 ROI 对比明细</div>
+    <div class="panel-title">📅 10月旬周期 ROI 对比明细</div>
     <table style="width:100%;border-collapse:collapse;font-size:12px;">
       <thead><tr>
         <th style="text-align:left;">周期</th><th>日期区间</th><th>投放天数</th>
@@ -213,6 +213,29 @@ tr:hover td { background: #fafbfc; }
     </table>
     <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
       说明：周期ROI = 周期净GMV / 周期花费（花费加权）；环比涨跌幅 = 本旬净ROI 较上一旬变化百分比。涨红跌绿。36袋条袋无"净"概念时，净ROI列与净GMV列显示「—」。
+    </div>
+  </div>
+</div>
+
+
+<div class="charts-row">
+  <div class="chart-panel"><div class="panel-title">📈 月度平均净ROI 变动趋势（按月）</div><div id="chart-monthly" style="height:300px;"></div></div>
+  <div class="chart-panel">
+    <div class="panel-title">📅 月度 ROI 汇总明细</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr>
+        <th style="text-align:left;">月份</th><th>活跃天数</th><th>花费(¥)</th><th>净GMV(¥)</th>
+        <th>日均平均净ROI</th><th>加权净ROI</th><th>环比变化</th>
+      </tr></thead>
+      <tbody>
+<tr><td style="text-align:left;font-weight:600;">2026-07</td><td>29</td><td>¥895,430</td><td>¥1,441,684</td><td class="roi-good">1.55</td><td>1.61</td><td><span style="color:#aaa;">基准</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-08</td><td>31</td><td>¥2,273,735</td><td>¥3,701,567</td><td class="roi-good">1.62</td><td>1.63</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.07</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-09</td><td>30</td><td>¥2,466,919</td><td>¥4,021,899</td><td class="roi-good">1.64</td><td>1.63</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.01</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-10</td><td>7</td><td>¥401,534</td><td>¥622,267</td><td class="roi-good">1.55</td><td>1.55</td><td><span style="color:#22A446;font-weight:700;">▼ -0.08</span></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
+      说明：日均平均净ROI = 当月活跃天（花费>¥100）净ROI的简单平均，反映日常投放水平；加权净ROI = 当月净GMV(无净用总GMV) / 当月花费，反映花费效率；环比变化 = 本月日均均值 − 上月（绝对值）。涨红跌绿。
     </div>
   </div>
 </div>
@@ -1495,6 +1518,7 @@ const rawData = [
 const activeStart = 0;
 const accounts = [];
 const periodData = [{"label": "10月上旬", "range": "10-01~10-10", "days": 7, "spend": 401533.93, "netGmv": 622266.67, "gmv": 667728.53, "orders": 5350, "netRoi": 1.55, "totalRoi": 1.663, "avgNetRoi": 1.551, "netRoiChg": null, "totalRoiChg": null}, {"label": "10月中旬", "range": "10-11~10-20", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}, {"label": "10月下旬", "range": "10-21~10-31", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}];
+const monthRoiData = [{"month": "2026-07", "days": 29, "spend": 895430.38, "gmv": 1576439.73, "netGmv": 1441683.5, "avgRoi": 1.552, "weightedRoi": 1.61, "avgRoiChg": null}, {"month": "2026-08", "days": 31, "spend": 2273735.04, "gmv": 4007872.05, "netGmv": 3701567.33, "avgRoi": 1.625, "weightedRoi": 1.628, "avgRoiChg": 0.073}, {"month": "2026-09", "days": 30, "spend": 2466918.79, "gmv": 4328031.19, "netGmv": 4021899.11, "avgRoi": 1.635, "weightedRoi": 1.63, "avgRoiChg": 0.01}, {"month": "2026-10", "days": 7, "spend": 401533.93, "gmv": 667728.53, "netGmv": 622266.67, "avgRoi": 1.551, "weightedRoi": 1.55, "avgRoiChg": -0.084}];
 const hasNetData = true;
 
 
@@ -1669,6 +1693,44 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 (function(){
+  var dom = document.getElementById('chart-monthly');
+  if (!dom || typeof monthRoiData === 'undefined' || monthRoiData.length === 0) return;
+  var md = monthRoiData;
+  var labels = md.map(function(m){ return m.month; });
+  var avgArr = md.map(function(m){ return m.avgRoi !== null ? m.avgRoi : null; });
+  var wArr = md.map(function(m){ return m.weightedRoi !== null ? m.weightedRoi : null; });
+  var c = echarts.init(dom);
+  var seriesArr = [
+    { name: '日均平均ROI', type: 'bar', data: avgArr, barWidth: '38%',
+       itemStyle: { color: BLUE, borderRadius: [4,4,0,0] },
+       label: { show: true, position: 'top', fontSize: 12, fontWeight: 'bold',
+         formatter: function(pm){ return avgArr[pm.dataIndex] !== null ? avgArr[pm.dataIndex].toFixed(2) : '—'; } },
+       markLine: { silent: true, symbol: 'none', lineStyle: { color: GREEN, type: 'dashed', width: 1 },
+         data: [{ yAxis: 1.0, label: { formatter: 'ROI=1.0', fontSize: 10, color: GREEN } }] }
+    },
+    { name: '加权ROI', type: 'line', data: wArr, smooth: true, symbol: 'diamond', symbolSize: 8,
+       lineStyle: { color: RED, width: 2.5 }, itemStyle: { color: RED } }
+  ];
+  c.setOption({
+    tooltip: { trigger: 'axis', formatter: function(params){
+      var i = params[0].dataIndex; var m = md[i];
+      var chg = (m.avgRoiChg === null || m.avgRoiChg === undefined) ? '基准' : ((m.avgRoiChg >= 0 ? '▲ +' : '▼ ') + m.avgRoiChg.toFixed(2));
+      var chgColor = (m.avgRoiChg !== null && m.avgRoiChg !== undefined && m.avgRoiChg < 0) ? '#22A446' : '#CF3A36';
+      return m.month + '<br/>活跃 ' + m.days + ' 天<br/>花费 ¥' + m.spend.toLocaleString() +
+             '<br/>净GMV ¥' + (m.netGmv > 0 ? m.netGmv.toLocaleString() : '—') +
+             '<br/>日均平均ROI ' + (m.avgRoi !== null ? m.avgRoi.toFixed(2) : '—') +
+             '<br/>加权ROI ' + (m.weightedRoi !== null ? m.weightedRoi.toFixed(2) : '—') +
+             '<br/>环比 <span style="color:' + chgColor + ';font-weight:bold;">' + chg + '</span>';
+    } },
+    legend: { data: ['日均平均ROI','加权ROI'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 30, top: 40, bottom: 30 },
+    xAxis: { type: 'category', data: labels, axisLabel: {fontSize:12} },
+    yAxis: { type: 'value', name: 'ROI', min: 0 },
+    series: seriesArr
+  });
+})();
+
+(function(){
   var table = document.querySelector('.data-table-wrap table');
   var nav = document.getElementById('month-nav');
 
@@ -1742,7 +1804,7 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 window.addEventListener('resize', function() {
-  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative','chart-period'].forEach(function(id) {
+  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative','chart-period','chart-monthly'].forEach(function(id) {
     var dom = document.getElementById(id); if (dom) { var inst = echarts.getInstanceByDom(dom); if (inst) inst.resize(); }
   });
 });

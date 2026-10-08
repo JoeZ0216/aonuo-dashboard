@@ -136,7 +136,7 @@ tr:hover td { background: #fafbfc; }
   </div>
   <div class="header-right">
     <span>数据源: 飞书在线表格</span>
-    <span class="update-time">● 已更新 2026-10-08 13:24</span>
+    <span class="update-time">● 已更新 2026-10-08 13:41</span>
   </div>
 </div>
 
@@ -197,9 +197,9 @@ tr:hover td { background: #fafbfc; }
 </div>
 
 <div class="charts-row">
-  <div class="chart-panel"><div class="panel-title">🗓️ 7月旬周期 ROI 变化趋势（每10天）</div><div id="chart-period" style="height:300px;"></div></div>
+  <div class="chart-panel"><div class="panel-title">🗓️ 10月旬周期 ROI 变化趋势（每10天）</div><div id="chart-period" style="height:300px;"></div></div>
   <div class="chart-panel">
-    <div class="panel-title">📅 7月旬周期 ROI 对比明细</div>
+    <div class="panel-title">📅 10月旬周期 ROI 对比明细</div>
     <table style="width:100%;border-collapse:collapse;font-size:12px;">
       <thead><tr>
         <th style="text-align:left;">周期</th><th>日期区间</th><th>投放天数</th>
@@ -213,6 +213,35 @@ tr:hover td { background: #fafbfc; }
     </table>
     <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
       说明：周期ROI = 周期净GMV / 周期花费（花费加权）；环比涨跌幅 = 本旬净ROI 较上一旬变化百分比。涨红跌绿。36袋条袋无"净"概念时，净ROI列与净GMV列显示「—」。
+    </div>
+  </div>
+</div>
+
+
+<div class="charts-row">
+  <div class="chart-panel"><div class="panel-title">📈 月度平均净ROI 变动趋势（按月）</div><div id="chart-monthly" style="height:300px;"></div></div>
+  <div class="chart-panel">
+    <div class="panel-title">📅 月度 ROI 汇总明细</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr>
+        <th style="text-align:left;">月份</th><th>活跃天数</th><th>花费(¥)</th><th>净GMV(¥)</th>
+        <th>日均平均净ROI</th><th>加权净ROI</th><th>环比变化</th>
+      </tr></thead>
+      <tbody>
+<tr><td style="text-align:left;font-weight:600;">2026-01</td><td>31</td><td>¥2,817,451</td><td>¥3,651,540</td><td class="roi-warn">1.23</td><td>1.30</td><td><span style="color:#aaa;">基准</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-02</td><td>28</td><td>¥1,722,542</td><td>¥2,821,522</td><td class="roi-good">1.62</td><td>1.64</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.39</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-03</td><td>31</td><td>¥3,046,797</td><td>¥5,452,044</td><td class="roi-good">1.79</td><td>1.79</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.17</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-04</td><td>30</td><td>¥2,034,348</td><td>¥3,617,821</td><td class="roi-good">1.78</td><td>1.78</td><td><span style="color:#22A446;font-weight:700;">▼ -0.01</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-05</td><td>31</td><td>¥1,592,503</td><td>¥2,742,063</td><td class="roi-good">1.72</td><td>1.72</td><td><span style="color:#22A446;font-weight:700;">▼ -0.06</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-06</td><td>30</td><td>¥1,477,570</td><td>¥2,445,223</td><td class="roi-good">1.66</td><td>1.66</td><td><span style="color:#22A446;font-weight:700;">▼ -0.06</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-07</td><td>31</td><td>¥1,412,447</td><td>¥2,362,934</td><td class="roi-good">1.67</td><td>1.67</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.02</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-08</td><td>31</td><td>¥1,381,210</td><td>¥2,308,383</td><td class="roi-good">1.67</td><td>1.67</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.00</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-09</td><td>30</td><td>¥1,353,254</td><td>¥2,364,417</td><td class="roi-good">1.75</td><td>1.75</td><td><span style="color:#CF3A36;font-weight:700;">▲ +0.07</span></td></tr>
+<tr><td style="text-align:left;font-weight:600;">2026-10</td><td>7</td><td>¥252,002</td><td>¥435,273</td><td class="roi-good">1.73</td><td>1.73</td><td><span style="color:#22A446;font-weight:700;">▼ -0.02</span></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:#999;margin-top:8px;line-height:1.6;">
+      说明：日均平均净ROI = 当月活跃天（花费>¥100）净ROI的简单平均，反映日常投放水平；加权净ROI = 当月净GMV(无净用总GMV) / 当月花费，反映花费效率；环比变化 = 本月日均均值 − 上月（绝对值）。涨红跌绿。
     </div>
   </div>
 </div>
@@ -3874,6 +3903,7 @@ const rawData = [
 const activeStart = 0;
 const accounts = [];
 const periodData = [{"label": "10月上旬", "range": "10-01~10-10", "days": 7, "spend": 252002.4, "netGmv": 435272.6, "gmv": 435272.6, "orders": 3894, "netRoi": 1.727, "totalRoi": 1.727, "avgNetRoi": 1.729, "netRoiChg": null, "totalRoiChg": null}, {"label": "10月中旬", "range": "10-11~10-20", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}, {"label": "10月下旬", "range": "10-21~10-31", "days": 0, "spend": 0.0, "netGmv": 0.0, "gmv": 0.0, "orders": 0, "netRoi": 0, "totalRoi": 0, "avgNetRoi": 0, "netRoiChg": null, "totalRoiChg": null}];
+const monthRoiData = [{"month": "2026-01", "days": 31, "spend": 2817451.23, "gmv": 3651539.64, "netGmv": 3651539.64, "avgRoi": 1.226, "weightedRoi": 1.296, "avgRoiChg": null}, {"month": "2026-02", "days": 28, "spend": 1722542.16, "gmv": 2821521.6, "netGmv": 2821521.6, "avgRoi": 1.618, "weightedRoi": 1.638, "avgRoiChg": 0.392}, {"month": "2026-03", "days": 31, "spend": 3046797.02, "gmv": 5452044.44, "netGmv": 5452044.44, "avgRoi": 1.79, "weightedRoi": 1.789, "avgRoiChg": 0.172}, {"month": "2026-04", "days": 30, "spend": 2034348.24, "gmv": 3617821.13, "netGmv": 3617821.13, "avgRoi": 1.78, "weightedRoi": 1.778, "avgRoiChg": -0.01}, {"month": "2026-05", "days": 31, "spend": 1592503.41, "gmv": 2742062.68, "netGmv": 2742062.68, "avgRoi": 1.72, "weightedRoi": 1.722, "avgRoiChg": -0.06}, {"month": "2026-06", "days": 30, "spend": 1477570.02, "gmv": 2445223.37, "netGmv": 2445223.37, "avgRoi": 1.656, "weightedRoi": 1.655, "avgRoiChg": -0.064}, {"month": "2026-07", "days": 31, "spend": 1412446.75, "gmv": 2362933.89, "netGmv": 2362933.89, "avgRoi": 1.672, "weightedRoi": 1.673, "avgRoiChg": 0.016}, {"month": "2026-08", "days": 31, "spend": 1381210.1, "gmv": 2308382.76, "netGmv": 2308382.76, "avgRoi": 1.673, "weightedRoi": 1.671, "avgRoiChg": 0.001}, {"month": "2026-09", "days": 30, "spend": 1353254.36, "gmv": 2364417.4, "netGmv": 2364417.4, "avgRoi": 1.745, "weightedRoi": 1.747, "avgRoiChg": 0.072}, {"month": "2026-10", "days": 7, "spend": 252002.4, "gmv": 435272.6, "netGmv": 435272.6, "avgRoi": 1.729, "weightedRoi": 1.727, "avgRoiChg": -0.016}];
 const hasNetData = true;
 
 
@@ -4048,6 +4078,44 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 (function(){
+  var dom = document.getElementById('chart-monthly');
+  if (!dom || typeof monthRoiData === 'undefined' || monthRoiData.length === 0) return;
+  var md = monthRoiData;
+  var labels = md.map(function(m){ return m.month; });
+  var avgArr = md.map(function(m){ return m.avgRoi !== null ? m.avgRoi : null; });
+  var wArr = md.map(function(m){ return m.weightedRoi !== null ? m.weightedRoi : null; });
+  var c = echarts.init(dom);
+  var seriesArr = [
+    { name: '日均平均ROI', type: 'bar', data: avgArr, barWidth: '38%',
+       itemStyle: { color: BLUE, borderRadius: [4,4,0,0] },
+       label: { show: true, position: 'top', fontSize: 12, fontWeight: 'bold',
+         formatter: function(pm){ return avgArr[pm.dataIndex] !== null ? avgArr[pm.dataIndex].toFixed(2) : '—'; } },
+       markLine: { silent: true, symbol: 'none', lineStyle: { color: GREEN, type: 'dashed', width: 1 },
+         data: [{ yAxis: 1.0, label: { formatter: 'ROI=1.0', fontSize: 10, color: GREEN } }] }
+    },
+    { name: '加权ROI', type: 'line', data: wArr, smooth: true, symbol: 'diamond', symbolSize: 8,
+       lineStyle: { color: RED, width: 2.5 }, itemStyle: { color: RED } }
+  ];
+  c.setOption({
+    tooltip: { trigger: 'axis', formatter: function(params){
+      var i = params[0].dataIndex; var m = md[i];
+      var chg = (m.avgRoiChg === null || m.avgRoiChg === undefined) ? '基准' : ((m.avgRoiChg >= 0 ? '▲ +' : '▼ ') + m.avgRoiChg.toFixed(2));
+      var chgColor = (m.avgRoiChg !== null && m.avgRoiChg !== undefined && m.avgRoiChg < 0) ? '#22A446' : '#CF3A36';
+      return m.month + '<br/>活跃 ' + m.days + ' 天<br/>花费 ¥' + m.spend.toLocaleString() +
+             '<br/>净GMV ¥' + (m.netGmv > 0 ? m.netGmv.toLocaleString() : '—') +
+             '<br/>日均平均ROI ' + (m.avgRoi !== null ? m.avgRoi.toFixed(2) : '—') +
+             '<br/>加权ROI ' + (m.weightedRoi !== null ? m.weightedRoi.toFixed(2) : '—') +
+             '<br/>环比 <span style="color:' + chgColor + ';font-weight:bold;">' + chg + '</span>';
+    } },
+    legend: { data: ['日均平均ROI','加权ROI'], top: 0, textStyle: {fontSize:11} },
+    grid: { left: 50, right: 30, top: 40, bottom: 30 },
+    xAxis: { type: 'category', data: labels, axisLabel: {fontSize:12} },
+    yAxis: { type: 'value', name: 'ROI', min: 0 },
+    series: seriesArr
+  });
+})();
+
+(function(){
   var table = document.querySelector('.data-table-wrap table');
   var nav = document.getElementById('month-nav');
 
@@ -4121,7 +4189,7 @@ const RED = '#CF3A36', GREEN = '#22A446', ORANGE = '#FF6B35', BLUE = '#1890FF', 
 })();
 
 window.addEventListener('resize', function() {
-  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative','chart-period'].forEach(function(id) {
+  ['chart-spend-gmv','chart-roi','chart-cost-order','chart-cumulative','chart-period','chart-monthly'].forEach(function(id) {
     var dom = document.getElementById(id); if (dom) { var inst = echarts.getInstanceByDom(dom); if (inst) inst.resize(); }
   });
 });
